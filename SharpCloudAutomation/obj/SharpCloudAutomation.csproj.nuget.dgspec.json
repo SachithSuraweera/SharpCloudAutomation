@@ -44,6 +44,18 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Azure.Storage.Blobs": {
+              "target": "Package",
+              "version": "[12.15.0, )"
+            },
+            "ExtentReports": {
+              "target": "Package",
+              "version": "[4.1.0, )"
+            },
+            "Mailjet.Api": {
+              "target": "Package",
+              "version": "[3.0.0, )"
+            },
             "Microsoft.NET.Test.Sdk": {
               "target": "Package",
               "version": "[17.3.2, )"
@@ -59,6 +71,22 @@
             "NUnit3TestAdapter": {
               "target": "Package",
               "version": "[4.2.1, )"
+            },
+            "Selenium.Support": {
+              "target": "Package",
+              "version": "[4.8.1, )"
+            },
+            "Selenium.WebDriver": {
+              "target": "Package",
+              "version": "[4.8.1, )"
+            },
+            "System.Configuration.ConfigurationManager": {
+              "target": "Package",
+              "version": "[7.0.0, )"
+            },
+            "WebDriverManager": {
+              "target": "Package",
+              "version": "[2.16.2, )"
             },
             "coverlet.collector": {
               "target": "Package",
