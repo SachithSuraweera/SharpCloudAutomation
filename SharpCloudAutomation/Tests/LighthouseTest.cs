@@ -21,6 +21,7 @@ namespace SharpCloudAutomation.Tests
             string[] values = { "Performance","Accessibility","Seo" };
             string[] baseValues = { "performance","accessibility", "seo" };
 
+
             if (userLoginIsRequired == "True")
             {
                 LoginValidation loginTest = new LoginValidation();
