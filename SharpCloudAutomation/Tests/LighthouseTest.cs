@@ -19,7 +19,9 @@ namespace SharpCloudAutomation.Tests
         {
             LighthouseActualValues lighthouseActualValues;
             string userLoginIsRequired = GetJsonData().ExtractEnvironment("IsLogin");
-            string[] values = { "Performance", "Accessibility", "Seo" };
+            string[] values = { "Performance","Accessibility","Seo" };
+            string[] baseValues = { "performance","accessibility", "seo" };
+
 
             if (userLoginIsRequired == "True")
             {
@@ -33,7 +35,7 @@ namespace SharpCloudAutomation.Tests
             for (int i = 0; i < values.Length; i++)
             {
                 String typeOfValue = values[i];
-                string baseValue = GetJsonData().ExtractEnvironment("performance");
+                string baseValue = GetJsonData().ExtractEnvironment(baseValues[i]);
                 decimal decimalBaseValue = Convert.ToDecimal(baseValue);
                 var lighthouseValue = (decimal)lighthouseActualValues.GetType().GetProperty(typeOfValue).GetValue(lighthouseActualValues, null);
                 Console.WriteLine("Actual value " + lighthouseValue);
