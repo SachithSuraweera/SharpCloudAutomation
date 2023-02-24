@@ -1,4 +1,5 @@
 ﻿using AngleSharp.Dom;
+using AventStack.ExtentReports;
 using SharpCloudAutomation.PageObjects;
 using SharpCloudAutomation.Utilities;
 using System;
@@ -38,6 +39,10 @@ namespace SharpCloudAutomation.Tests
                 Console.WriteLine("Actual value " + lighthouseValue);
                 Console.WriteLine("Base value " + baseValue);
                 Assert.IsTrue(lighthouseValue >= decimalBaseValue);
+                ExtentTest dasboardNode = CreateNode("Lighthouse values");
+                dasboardNode.Log(Status.Info, "Lighthouse Base value "+baseValue);
+                dasboardNode.Log(Status.Info, "Lighthouse Actual value " + lighthouseValue);
+
             }
 
         }
