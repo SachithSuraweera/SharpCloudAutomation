@@ -19,7 +19,7 @@ namespace SharpCloudAutomation.Utilities
 
         public String ExtractEnvironment(String tokenName)
         {
-            String loginJsonString = File.ReadAllText("TestData/Environments.json");
+            String loginJsonString = File.ReadAllText("TestData/TestData_LighthouseBaseValuesWithUserLevels.json");
 
             var jsonObject = JToken.Parse(loginJsonString);
             return jsonObject.SelectToken(tokenName).Value<string>();
