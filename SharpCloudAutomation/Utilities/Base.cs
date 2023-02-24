@@ -5,6 +5,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Safari;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -13,6 +14,8 @@ using System.Text;
 using System.Threading.Tasks;
 using WebDriverManager.DriverConfigs.Impl;
 
+
+
 namespace SharpCloudAutomation.Utilities
 {
     public class Base
@@ -20,8 +23,8 @@ namespace SharpCloudAutomation.Utilities
         public static ThreadLocal<ExtentTest> test = new ThreadLocal<ExtentTest>();
         public ThreadLocal<IWebDriver> driver = new ThreadLocal<IWebDriver>();
         Reports reports = new Reports();
-        public static string browser = TestContext.Parameters["browser"];
-        public static string env = TestContext.Parameters["env"];
+        public static string browser = ConfigurationManager.AppSettings["browser"];
+        public static string env = ConfigurationManager.AppSettings["env"];
         public static string isHeadless = ConfigurationManager.AppSettings["headless"];
         public static IJavaScriptExecutor js;
 
@@ -46,7 +49,7 @@ namespace SharpCloudAutomation.Utilities
         {
             if (env == null)
             {
-                if (ConfigurationManager.AppSettings["env"] == "Staging")
+                if (ConfigurationManager.AppSettings["env"] == "AutoInstance")
                 {
                     test.Value = reports.Setup().CreateTest(TestContext.CurrentContext.Test.Name);
                     if (browser == null)
@@ -57,7 +60,7 @@ namespace SharpCloudAutomation.Utilities
 
                     GetDriver().Manage().Timeouts().ImplicitWait = (TimeSpan.FromSeconds(20));
                     GetDriver().Manage().Window.Maximize();
-                    GetDriver().Url = ConfigurationManager.AppSettings["StagingURL"];
+                    GetDriver().Url = ConfigurationManager.AppSettings["AutoInstanceURL"];
                     ExtentTest node = CreateNode("Environment Selection");
                     node.Log(Status.Pass, "Navigated to Staging URL successfully");
                 }
@@ -65,7 +68,7 @@ namespace SharpCloudAutomation.Utilities
 
             else
             {
-                if (env == "Staging")
+                if (env == "AutoInstance")
                 {
                     test.Value = reports.Setup().CreateTest(TestContext.CurrentContext.Test.Name);
                     if (browser == null)
@@ -76,12 +79,12 @@ namespace SharpCloudAutomation.Utilities
 
                     GetDriver().Manage().Timeouts().ImplicitWait = (TimeSpan.FromSeconds(20));
                     GetDriver().Manage().Window.Maximize();
-                    GetDriver().Url = ConfigurationManager.AppSettings["StagingURL"];
+                    GetDriver().Url = ConfigurationManager.AppSettings["AutoInstanceURL"];
                     ExtentTest node = CreateNode("Environment Selection");
                     node.Log(Status.Pass, "Navigated to Staging URL successfully");
                 }
 
-                if (env == "Test")
+                if (env == "Beta")
                 {
                     test.Value = reports.Setup().CreateTest(TestContext.CurrentContext.Test.Name);
                     if (browser == null)
@@ -92,7 +95,7 @@ namespace SharpCloudAutomation.Utilities
 
                     GetDriver().Manage().Timeouts().ImplicitWait = (TimeSpan.FromSeconds(20));
                     GetDriver().Manage().Window.Maximize();
-                    GetDriver().Url = ConfigurationManager.AppSettings["ProductionURL"];
+                    GetDriver().Url = ConfigurationManager.AppSettings["BetaInstanceURL"];
                     ExtentTest node = CreateNode("Environment Selection");
                     node.Log(Status.Pass, "Navigated to Production URL successfully");
                 }
@@ -169,6 +172,28 @@ namespace SharpCloudAutomation.Utilities
                     }
 
                     break;
+
+                /*case "Safari":
+                    if (isHeadless == "Yes")
+                    {
+                        SafariOptions options = new SafariOptions();
+                        options.AddArgument("--headless");
+                        options.AddArguments("window-size=1920,1080");
+                        new WebDriverManager.DriverManager().SetUpDriver(new SafariConfig());
+                        driver.Value = new SafariDriver(options);
+                        ExtentTest node = CreateNode("Browser Selection");
+                        node.Log(Status.Pass, "Safari browser started");
+                    }
+
+                    if (isHeadless == "No")
+                    {
+                        new WebDriverManager.DriverManager().SetUpDriver(new SafariDriverService());
+                        driver.Value = new SafariDriver();
+                        ExtentTest node = CreateNode("Browser Selection");
+                        node.Log(Status.Pass, "Safari browser started");
+                    }
+
+                    break;*/
             }
         }
 
