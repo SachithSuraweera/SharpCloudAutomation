@@ -9,9 +9,9 @@ namespace SharpCloudAutomation.Utilities
 {
     public class JsonReader
     {
-        public String ExtractStagingData(String tokenName)
+        public String ExtractInstanceDataJson(String tokenName)
         {
-            String loginJsonString = File.ReadAllText("TestData/TestData_Staging.json");
+            String loginJsonString = File.ReadAllText("TestData/TestData_Instance.json");
 
             var jsonObject = JToken.Parse(loginJsonString);
             return jsonObject.SelectToken(tokenName).Value<string>();
