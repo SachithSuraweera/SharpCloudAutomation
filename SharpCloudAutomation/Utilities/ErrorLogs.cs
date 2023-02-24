@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium.Firefox;
 using System.Configuration;
+using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SharpCloudAutomation.Utilities
 {
-    internal class ErrorLogs
+    internal class ErrorLogs : Base
     {
         public void AddBorwserLogs()
         {
@@ -196,10 +197,7 @@ namespace SharpCloudAutomation.Utilities
                     {
                         Console.WriteLine("No logs tracked");
                     }
-
-
                     Console.WriteLine($"\nTotal Number of browser error count for Edge is: {logEntries.Count}");
-
                 }
             }
         }
