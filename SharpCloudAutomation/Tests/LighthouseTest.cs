@@ -15,7 +15,7 @@ namespace SharpCloudAutomation.Tests
     public class LighthouseTest : Base
     {
         [Test]
-        public void CompareLightHouse()
+        public void CompareLightHouseValues()
         {
             LighthouseActualValues lighthouseActualValues;
             string userLoginIsRequired = GetJsonData().ExtractEnvironment("IsLogin");
@@ -41,7 +41,7 @@ namespace SharpCloudAutomation.Tests
                 Console.WriteLine("Actual value " + lighthouseValue);
                 Console.WriteLine("Base value " + baseValue);
                 Assert.IsTrue(lighthouseValue >= decimalBaseValue);
-                ExtentTest dasboardNode = CreateNode("Lighthouse values");
+                ExtentTest dasboardNode = CreateNode("Lighthouse "+typeOfValue+ " values");
                 dasboardNode.Log(Status.Info, "Lighthouse Base value "+baseValue);
                 dasboardNode.Log(Status.Info, "Lighthouse Actual value " + lighthouseValue);
 
