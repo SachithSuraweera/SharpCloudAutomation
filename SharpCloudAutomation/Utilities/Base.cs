@@ -81,7 +81,8 @@ namespace SharpCloudAutomation.Utilities
                     GetDriver().Manage().Window.Maximize();
                     GetDriver().Url = ConfigurationManager.AppSettings["AutoInstanceURL"];
                     ExtentTest node = CreateNode("Environment Selection");
-                    node.Log(Status.Pass, "Navigated to Staging URL successfully");
+                    node.Log(Status.Info, "Auto Instance Environment");
+                    node.Log(Status.Pass, "Navigated to Auto Instance URL successfully");
                 }
 
                 if (env == "Beta")
@@ -97,7 +98,8 @@ namespace SharpCloudAutomation.Utilities
                     GetDriver().Manage().Window.Maximize();
                     GetDriver().Url = ConfigurationManager.AppSettings["BetaInstanceURL"];
                     ExtentTest node = CreateNode("Environment Selection");
-                    node.Log(Status.Pass, "Navigated to Production URL successfully");
+                    node.Log(Status.Info, "Beta Environment");
+                    node.Log(Status.Pass, "Navigated to Beta URL successfully");
                 }
             }
 
