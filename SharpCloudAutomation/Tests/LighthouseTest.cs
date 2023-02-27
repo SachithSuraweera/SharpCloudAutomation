@@ -30,6 +30,7 @@ namespace SharpCloudAutomation.Tests
             }
 
             string storyUrl = GetJsonData().ExtractEnvironment("storyUrl");
+            Thread.Sleep(5000);
             GetDriver().Navigate().GoToUrl(storyUrl);
             lighthouseActualValues = new LighthouseActualValues();
             for (int i = 0; i < values.Length; i++)
