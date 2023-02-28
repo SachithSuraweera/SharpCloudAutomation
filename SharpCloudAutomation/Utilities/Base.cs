@@ -1,20 +1,11 @@
 ﻿using AventStack.ExtentReports;
-using Newtonsoft.Json;
 using NUnit.Framework.Interfaces;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.Safari;
-using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebDriverManager.DriverConfigs.Impl;
-
-
 
 namespace SharpCloudAutomation.Utilities
 {
@@ -43,7 +34,6 @@ namespace SharpCloudAutomation.Utilities
             return node;
         }
 
-
         [SetUp]
         public void StartBrowser()
         {
@@ -65,7 +55,6 @@ namespace SharpCloudAutomation.Utilities
                     node.Log(Status.Pass, "Navigated to Staging URL successfully");
                 }
             }
-
             else
             {
                 if (env == "AutoInstance")
@@ -102,7 +91,6 @@ namespace SharpCloudAutomation.Utilities
                     node.Log(Status.Pass, "Navigated to Beta URL successfully");
                 }
             }
-
         }
 
         public void InitializeBrowser(string browserName)
@@ -172,30 +160,7 @@ namespace SharpCloudAutomation.Utilities
                         ExtentTest node = CreateNode("Browser Selection");
                         node.Log(Status.Pass, "Edge browser started");
                     }
-
                     break;
-
-                /*case "Safari":
-                    if (isHeadless == "Yes")
-                    {
-                        SafariOptions options = new SafariOptions();
-                        options.AddArgument("--headless");
-                        options.AddArguments("window-size=1920,1080");
-                        new WebDriverManager.DriverManager().SetUpDriver(new SafariConfig());
-                        driver.Value = new SafariDriver(options);
-                        ExtentTest node = CreateNode("Browser Selection");
-                        node.Log(Status.Pass, "Safari browser started");
-                    }
-
-                    if (isHeadless == "No")
-                    {
-                        new WebDriverManager.DriverManager().SetUpDriver(new SafariDriverService());
-                        driver.Value = new SafariDriver();
-                        ExtentTest node = CreateNode("Browser Selection");
-                        node.Log(Status.Pass, "Safari browser started");
-                    }
-
-                    break;*/
             }
         }
 

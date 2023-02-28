@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharpCloudAutomation.Tests
+namespace SharpCloudAutomation.Tests.LoginTestCase
 {
     public class LoginValidation : Base
     {
@@ -20,9 +20,11 @@ namespace SharpCloudAutomation.Tests
             Assert.IsTrue(loginPage.getGoBtn().Displayed);
             loginPage.getUserName().SendKeys(GetJsonData().ExtractInstanceDataJson("username"));
             loginPage.getPassword().SendKeys(GetJsonData().ExtractInstanceDataJson("password"));
-            
+            ErrorLogs errLog = new ErrorLogs(GetDriver());
+            errLog.AddBorwserLogs();
 
-            
+
+
         }
     }
 }

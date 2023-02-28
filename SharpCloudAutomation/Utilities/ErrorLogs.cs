@@ -9,8 +9,12 @@ using System.Threading.Tasks;
 
 namespace SharpCloudAutomation.Utilities
 {
-    internal class ErrorLogs : Base
+    public class ErrorLogs : Base
     {
+        IWebDriver driver; public ErrorLogs(IWebDriver driver)
+        {
+            this.driver = driver;
+        }
         public void AddBorwserLogs()
         {
            var driverName = ConfigurationManager.AppSettings["browser"];
@@ -20,7 +24,7 @@ namespace SharpCloudAutomation.Utilities
             {
                 FirefoxOptions options = new FirefoxOptions();
                 Thread.Sleep(5000);
-                ILogs logs = GetDriver().Manage().Logs;
+                ILogs logs = driver.Manage().Logs;
                 var logEntries = logs.GetLog(LogType.Browser);
                 if (logEntries.Count != 0)
                 {
@@ -39,7 +43,7 @@ namespace SharpCloudAutomation.Utilities
             else if (driverName.Contains("Chrome"))
             {
                 Thread.Sleep(7000);
-                ILogs logs = GetDriver().Manage().Logs;
+                ILogs logs = driver.Manage().Logs;
                 var logEntries = logs.GetLog(LogType.Browser);
                 if (logEntries.Count != 0)
                 {
