@@ -1,10 +1,13 @@
 ﻿using AngleSharp.Dom;
 using AventStack.ExtentReports;
+using OpenQA.Selenium;
 using SharpCloudAutomation.PageObjects;
 using SharpCloudAutomation.Tests.LoginTestCase;
 using SharpCloudAutomation.Utilities;
+using SharpCompress.Compressors.Xz;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -12,44 +15,55 @@ using System.Threading.Tasks;
 
 namespace SharpCloudAutomation.Tests.LighthouseTestCase
 {
-
     public class LighthouseTest : Base
     {
         [Test]
-        public void CompareLightHouseValues()
+        public void CompareLightHousePerformanceValues()
         {
             LighthouseActualValues lighthouseActualValues;
-            string userLoginIsRequired = GetJsonData().ExtractEnvironment("IsLogin");
-            string[] values = { "Performance", "Accessibility", "Seo" };
-            string[] baseValues = { "performance", "accessibility", "seo" };
 
+            var scenarios = new JsonReader().GetScenarioes();
 
-            if (userLoginIsRequired == "True")
+            foreach (var sc in scenarios ) 
             {
-                LoginValidation loginTest = new LoginValidation();
-                loginTest.loginToTheSystem();
+                if(sc.IsLogin)
+                {
+                    if(ConfigurationManager.AppSettings["env"] == "AutoInstance")
+                    {
+                        GetDriver().Navigate().GoToUrl(ConfigurationManager.AppSettings["AutoInstanceURL"]);
+                    }
+                    else if(ConfigurationManager.AppSettings["env"] == "Beta")
+                    {
+                        GetDriver().Navigate().GoToUrl(ConfigurationManager.AppSettings["BetaInstanceURL"]);
+                    }
+                    LoginPage loginPage = new LoginPage(GetDriver());
+                    GetDriver().Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(100);
+
+                    Assert.IsTrue(loginPage.getGoBtn().Displayed);
+                    loginPage.getUserName().SendKeys(sc.Username);
+                    loginPage.getPassword().SendKeys(sc.Password);
+                }
+                
+                
+                Thread.Sleep(5000);
+                GetDriver().Navigate().GoToUrl(sc.StoryUrl);
+                lighthouseActualValues = new LighthouseActualValues(sc.StoryUrl);
+                ExtentTest performanceNode = CreateNode("Lighthouse performance values :" + sc.Scenario);
+                performanceNode.Log(Status.Info, "Lighthouse Base value " + sc.Performance);
+                performanceNode.Log(Status.Info, "Lighthouse Actual value " + lighthouseActualValues.Performance);
+                Assert.IsTrue(lighthouseActualValues.Performance >= sc.Performance);
+                
+                
+                Assert.IsTrue(lighthouseActualValues.Accessibility >= sc.Accessibility);
+                ExtentTest accessibilityNode = CreateNode("Lighthouse accessibility values :" + sc.Scenario);
+                accessibilityNode.Log(Status.Info, "Lighthouse Base value " + sc.Accessibility);
+                accessibilityNode.Log(Status.Info, "Lighthouse Actual value " + lighthouseActualValues.Accessibility);
+
+                Assert.IsTrue(lighthouseActualValues.Seo >= sc.Seo);
+                ExtentTest seoNode = CreateNode("Lighthouse seo values :" + sc.Scenario);
+                seoNode.Log(Status.Info, "Lighthouse Base value " + sc.Seo);
+                seoNode.Log(Status.Info, "Lighthouse Actual value " + lighthouseActualValues.Seo);
             }
-
-            string storyUrl = GetJsonData().ExtractEnvironment("storyUrl");
-            Thread.Sleep(5000);
-            GetDriver().Navigate().GoToUrl(storyUrl);
-            lighthouseActualValues = new LighthouseActualValues();
-            for (int i = 0; i < values.Length; i++)
-            {
-                string typeOfValue = values[i];
-                string baseValue = GetJsonData().ExtractEnvironment(baseValues[i]);
-                decimal decimalBaseValue = Convert.ToDecimal(baseValue);
-                var lighthouseValue = (decimal)lighthouseActualValues.GetType().GetProperty(typeOfValue).GetValue(lighthouseActualValues, null);
-                Console.WriteLine("Actual value " + lighthouseValue);
-                Console.WriteLine("Base value " + baseValue);
-                Assert.IsTrue(lighthouseValue >= decimalBaseValue);
-                ExtentTest dasboardNode = CreateNode("Lighthouse " + typeOfValue + " values");
-                dasboardNode.Log(Status.Info, "Lighthouse Base value " + baseValue);
-                dasboardNode.Log(Status.Info, "Lighthouse Actual value " + lighthouseValue);
-
-            }
-
         }
-
     }
 }

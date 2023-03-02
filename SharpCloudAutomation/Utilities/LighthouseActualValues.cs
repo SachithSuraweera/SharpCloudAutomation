@@ -13,9 +13,8 @@ namespace SharpCloudAutomation.Utilities
         public decimal Accessibility { get; set; }
         public decimal Seo { get; set; }
 
-        public LighthouseActualValues()
+        public LighthouseActualValues(string storyUrl)
         {
-            string storyUrl = GetJsonData().ExtractEnvironment("storyUrl");
             var lh = new Lighthouse();
             var res = lh.Run(storyUrl).Result;
             Assert.IsNotNull(res);
