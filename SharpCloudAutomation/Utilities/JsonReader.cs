@@ -1,10 +1,5 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SharpCloudAutomation.Utilities
 {
@@ -31,8 +26,6 @@ namespace SharpCloudAutomation.Utilities
             string loginJsonString = File.ReadAllText("TestData/TestData_LighthouseBaseValuesWithUserLevels.json");
 
             List<LightHouseBaseValue> lightHouseBasevalues = JsonConvert.DeserializeObject<List<LightHouseBaseValue>>(loginJsonString);
-
-
             return lightHouseBasevalues;
         }
     }
