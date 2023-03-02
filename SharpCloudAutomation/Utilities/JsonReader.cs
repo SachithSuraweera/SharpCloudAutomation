@@ -18,12 +18,12 @@ namespace SharpCloudAutomation.Utilities
             return jsonObject.SelectToken(tokenName).Value<string>();
         }
 
-        public String ExtractEnvironment(String tokenName)
+        public List<CalculatedStoryList> GetCalculatedStoryList()
         {
-            String loginJsonString = File.ReadAllText("TestData/TestData_LighthouseBaseValuesWithUserLevels.json");
+            string calulatedStoryJsonString = File.ReadAllText("TestData/TestData_CalculationRelatedStory.json");
 
-            var jsonObject = JToken.Parse(loginJsonString);
-            return jsonObject.SelectToken(tokenName).Value<string>();
+            List<CalculatedStoryList> calculatedStoryList = JsonConvert.DeserializeObject<List<CalculatedStoryList>>(calulatedStoryJsonString);
+            return calculatedStoryList;
         }
 
         public List<LightHouseBaseValue> GetScenarioes()
