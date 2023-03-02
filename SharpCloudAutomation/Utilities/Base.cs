@@ -1,9 +1,13 @@
 ﻿using AventStack.ExtentReports;
+using Microsoft.Extensions.Options;
 using NUnit.Framework.Interfaces;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Remote;
+using OpenQA.Selenium.Safari;
+using OpenQA.Selenium.Support.UI;
 using System.Configuration;
 using WebDriverManager.DriverConfigs.Impl;
 
@@ -159,6 +163,26 @@ namespace SharpCloudAutomation.Utilities
                         driver.Value = new EdgeDriver();
                         ExtentTest node = CreateNode("Browser Selection");
                         node.Log(Status.Pass, "Edge browser started");
+                    }
+                    break;
+
+                case "Safari":
+                    if (isHeadless == "No")
+                    {
+                        Dictionary<string, object> browserStackOptions = new Dictionary<string, object>();
+                        browserStackOptions.Add("userName", "sachithsuraweera_UewjJZ");
+                        browserStackOptions.Add("accessKey", "d5KTJYhpUcdqFFUyfHZB");
+                        browserStackOptions.Add("os", "OS X");
+                        browserStackOptions.Add("osVersion", "Monterey");
+                        browserStackOptions.Add("browserVersion", "15.0");
+                        browserStackOptions.Add("projectName", " CharpCloudAutomation");
+                        browserStackOptions.Add("local", "false");
+                        browserStackOptions.Add("seleniumVersion", "4.7.2");
+                        browserStackOptions.Add("browserName", "Safari");
+                        SafariOptions options = new SafariOptions();
+                        options.AddAdditionalOption("bstack:options", browserStackOptions);
+                        driver.Value = new RemoteWebDriver(new Uri("https://hub-cloud.browserstack.com/wd/hub/"), options);
+                        WebDriverWait wait = new WebDriverWait(GetDriver(), TimeSpan.FromSeconds(10));
                     }
                     break;
             }
