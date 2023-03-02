@@ -1,0 +1,32 @@
+[
+  {
+    "id": "GET_ITEM_VALUE_CALCULATED_VALUES_EMBEDDED",
+    "name": "Get-Item-Value-Calculated-Values-embedded",
+    "storyUrl": "https://auto.sharpcloudteam.com/html/#/story/04254994-20ef-45d8-ad8d-9ab75774765f"
+  },
+  {
+    "id": "WHERE_CALCULATED_VALUE_EMBEDDED",
+    "name": "Where Calculated Value -embedded",
+    "storyUrl": "https://auto.sharpcloudteam.com/html/#/story/5f473df6-44d4-4dba-8d2b-41a50a4851a8"
+  },
+ {
+    "id": "CALCULATED_VALUES_TEST_CASES_FUNCTIONS",
+    "name": "Calculated-Values-Test-Cases-FUNCTIONS",
+    "storyUrl": "https://auto.sharpcloudteam.com/html/#/story/02adf411-f8f9-4cfb-a4d4-f9967d695759"
+  },
+   {
+    "id": "CALCULATED_UNION_TEST",
+    "name": "CALCULATED UNION Test",
+    "storyUrl": "https://auto.sharpcloudteam.com/html/#/story/bc311343-19ba-49f3-b70a-0f33800c26fa"
+  },
+     {
+    "id": "CALCULATED_VALUES_TEST_CASES_PROPERTIES",
+    "name": "Calculated Values Test Cases - PROPERTIES",
+    "storyUrl": "https://auto.sharpcloudteam.com/html/#/story/2dd0d14d-ef6c-460f-98c2-b9dd740c5553"
+  },
+       {
+    "id": "CALCULATED_VALUES_TEST_CASES_ATTRIBUTES",
+    "name": "Calculated Values Test Cases -Attributes",
+    "storyUrl": "https://auto.sharpcloudteam.com/html/#/story/d81ba8f2-b4a6-42fb-9f77-9595d08c8916"
+  }
+]
