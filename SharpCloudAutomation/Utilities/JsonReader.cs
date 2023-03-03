@@ -7,23 +7,29 @@ namespace SharpCloudAutomation.Utilities
     {
         public String ExtractInstanceDataJson(String tokenName)
         {
-            String loginJsonString = File.ReadAllText("TestData/TestData_Instance.json");
+            string workingDirectory = Environment.CurrentDirectory;
+            string startupapth = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
+            String loginJsonString = File.ReadAllText(startupapth +"\\TestData\\TestData_Instance.json");
 
             var jsonObject = JToken.Parse(loginJsonString);
             return jsonObject.SelectToken(tokenName).Value<string>();
         }
 
-        public List<CalculatedStoryList> GetCalculatedStoryList()
+        public List<LightHouseBaseValue> GetCalculatedStoryList()
         {
-            string calulatedStoryJsonString = File.ReadAllText("TestData/TestData_CalculationRelatedStory.json");
+            string workingDirectory = Environment.CurrentDirectory;
+            string startupapth = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
+            string BlankStoryJsonString = File.ReadAllText(startupapth + "\\TestData\\TestData_CalculationRelatedStory.json");
 
-            List<CalculatedStoryList> calculatedStoryList = JsonConvert.DeserializeObject<List<CalculatedStoryList>>(calulatedStoryJsonString);
-            return calculatedStoryList;
+            List<LightHouseBaseValue> lightHouseBasevalues = JsonConvert.DeserializeObject<List<LightHouseBaseValue>>(BlankStoryJsonString);
+            return lightHouseBasevalues;
         }
 
         public List<LightHouseBaseValue> GetScenarioes()
         {
-            string BlankStoryJsonString = File.ReadAllText("TestData/TestData_LighthouseBaseValuesWithUserLevels.json");
+            string workingDirectory = Environment.CurrentDirectory;
+            string startupapth = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
+            string BlankStoryJsonString = File.ReadAllText(startupapth +"\\TestData\\TestData_LighthouseBaseValuesWithUserLevels.json");
 
             List<LightHouseBaseValue> lightHouseBasevalues = JsonConvert.DeserializeObject<List<LightHouseBaseValue>>(BlankStoryJsonString);
             return lightHouseBasevalues;
