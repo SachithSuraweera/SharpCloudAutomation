@@ -1,9 +1,4 @@
 ﻿using lighthouse.net;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SharpCloudAutomation.Utilities
 {
@@ -12,7 +7,6 @@ namespace SharpCloudAutomation.Utilities
         public decimal Performance { get; set; }
         public decimal Accessibility { get; set; }
         public decimal Seo { get; set; }
-
         public LighthouseActualValues(string storyUrl)
         {
             var lh = new Lighthouse();
@@ -22,6 +16,5 @@ namespace SharpCloudAutomation.Utilities
             Accessibility = (decimal)(res.Accessibility != null ? res.Accessibility * 100 : 0);
             Seo = (decimal)(res.Seo != null ? res.Seo * 100 : 0);
         }
-
     }
 }
