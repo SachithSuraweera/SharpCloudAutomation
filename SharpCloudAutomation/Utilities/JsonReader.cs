@@ -23,9 +23,9 @@ namespace SharpCloudAutomation.Utilities
 
         public List<LightHouseBaseValue> GetScenarioes()
         {
-            string loginJsonString = File.ReadAllText("TestData/TestData_LighthouseBaseValuesWithUserLevels.json");
+            string BlankStoryJsonString = File.ReadAllText("TestData/TestData_LighthouseBaseValuesWithUserLevels.json");
 
-            List<LightHouseBaseValue> lightHouseBasevalues = JsonConvert.DeserializeObject<List<LightHouseBaseValue>>(loginJsonString);
+            List<LightHouseBaseValue> lightHouseBasevalues = JsonConvert.DeserializeObject<List<LightHouseBaseValue>>(BlankStoryJsonString);
             return lightHouseBasevalues;
         }
     }
