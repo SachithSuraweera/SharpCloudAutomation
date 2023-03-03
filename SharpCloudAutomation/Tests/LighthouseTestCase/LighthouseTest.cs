@@ -5,9 +5,11 @@ using SharpCloudAutomation.PageObjects;
 using SharpCloudAutomation.Tests.LoginTestCase;
 using SharpCloudAutomation.Utilities;
 using SharpCompress.Compressors.Xz;
+using SoftAssertion;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Drawing.Text;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -18,9 +20,11 @@ namespace SharpCloudAutomation.Tests.LighthouseTestCase
     public class LighthouseTest : Base
     {
         [Test]
-        public void CompareLightHousePerformanceValues()
+        public void CompareLightHouseValues()
         {
             LighthouseActualValues lighthouseActualValues;
+
+            SoftAssert softAssert = new SoftAssert();
 
             var scenarios = new JsonReader().GetScenarioes();
 
@@ -37,33 +41,27 @@ namespace SharpCloudAutomation.Tests.LighthouseTestCase
                         GetDriver().Navigate().GoToUrl(ConfigurationManager.AppSettings["BetaInstanceURL"]);
                     }
                     LoginPage loginPage = new LoginPage(GetDriver());
-                    GetDriver().Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(100);
-
-                    Assert.IsTrue(loginPage.getGoBtn().Displayed);
-                    loginPage.getUserName().SendKeys(sc.Username);
-                    loginPage.getPassword().SendKeys(sc.Password);
+                    loginPage.validLogin(GetJsonData().ExtractInstanceDataJson("username"), GetJsonData().ExtractInstanceDataJson("password"));
                 }
-                
-                
                 Thread.Sleep(5000);
                 GetDriver().Navigate().GoToUrl(sc.StoryUrl);
                 lighthouseActualValues = new LighthouseActualValues(sc.StoryUrl);
                 ExtentTest performanceNode = CreateNode("Lighthouse performance values :" + sc.Scenario);
                 performanceNode.Log(Status.Info, "Lighthouse Base value " + sc.Performance);
                 performanceNode.Log(Status.Info, "Lighthouse Actual value " + lighthouseActualValues.Performance);
-                Assert.IsTrue(lighthouseActualValues.Performance >= sc.Performance);
-                
-                
-                Assert.IsTrue(lighthouseActualValues.Accessibility >= sc.Accessibility);
+                softAssert.IsTrue(lighthouseActualValues.Performance >= sc.Performance);
+
                 ExtentTest accessibilityNode = CreateNode("Lighthouse accessibility values :" + sc.Scenario);
                 accessibilityNode.Log(Status.Info, "Lighthouse Base value " + sc.Accessibility);
                 accessibilityNode.Log(Status.Info, "Lighthouse Actual value " + lighthouseActualValues.Accessibility);
+                softAssert.IsTrue(lighthouseActualValues.Accessibility >= sc.Accessibility);
 
-                Assert.IsTrue(lighthouseActualValues.Seo >= sc.Seo);
                 ExtentTest seoNode = CreateNode("Lighthouse seo values :" + sc.Scenario);
                 seoNode.Log(Status.Info, "Lighthouse Base value " + sc.Seo);
                 seoNode.Log(Status.Info, "Lighthouse Actual value " + lighthouseActualValues.Seo);
+                softAssert.IsTrue(lighthouseActualValues.Seo >= sc.Seo);
             }
+            softAssert.VerifyAll();
         }
     }
 }

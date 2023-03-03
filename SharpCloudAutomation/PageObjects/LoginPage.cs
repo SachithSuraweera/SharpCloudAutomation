@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
+using SharpCloudAutomation.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +34,13 @@ namespace SharpCloudAutomation.PageObjects
         private IWebElement goBtn;
 
         public IWebElement getGoBtn() { return goBtn;}
+
+        public void validLogin(string user, string password)
+        {
+            getUserName().SendKeys(user);
+            getPassword().SendKeys(password);
+            getGoBtn().Click();
+        }
 
     }
 }
