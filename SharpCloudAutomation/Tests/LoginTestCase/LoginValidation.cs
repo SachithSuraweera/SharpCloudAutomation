@@ -1,11 +1,5 @@
-﻿using AventStack.ExtentReports;
-using SharpCloudAutomation.PageObjects;
+﻿using SharpCloudAutomation.PageObjects;
 using SharpCloudAutomation.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SharpCloudAutomation.Tests.LoginTestCase
 {
@@ -22,9 +16,6 @@ namespace SharpCloudAutomation.Tests.LoginTestCase
             loginPage.getPassword().SendKeys(GetJsonData().ExtractInstanceDataJson("password"));
             ErrorLogs errLog = new ErrorLogs(GetDriver());
             errLog.AddBorwserLogs();
-
-
-
         }
     }
 }
