@@ -57,12 +57,14 @@ namespace LighthouseDotnet
             }
             else
             {
+                Console.WriteLine("Windows: searching for node exe");
                 var whereCmd = new WhereCmd();
                 whereCmd.EnableDebugging = request.EnableLogging;
                 nodePath = await whereCmd.GetNodePath().ConfigureAwait(false);
+                Console.WriteLine("Windows: found node exe in " + nodePath);
             }
 
-            if (String.IsNullOrEmpty(nodePath) || !File.Exists(nodePath)) throw new Exception("Couldn't find NodeJs. Please, install NodeJs and make sure than PATH variable defined.");
+            // if (String.IsNullOrEmpty(nodePath) || !File.Exists(nodePath)) throw new Exception("Couldn't find NodeJs. Please, install NodeJs and make sure than PATH variable defined.");
 
             var npm = new Npm(nodePath)
             {
