@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.PageObjects;
 using SharpCloudAutomation.Utilities;
 using System;
@@ -37,6 +38,9 @@ namespace SharpCloudAutomation.PageObjects
 
         public void validLogin(string user, string password)
         {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
+
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//input[@placeholder='Uzername']")));
             getUserName().SendKeys(user);
             getPassword().SendKeys(password);
             getGoBtn().Click();
