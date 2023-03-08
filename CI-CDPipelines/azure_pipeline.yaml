@@ -58,6 +58,7 @@ stages:
               node -v
               dotnet --version
               npm -v
+              echo %PATH%
             displayName: Check the version
 
           - task: DotNetCoreCLI@2
