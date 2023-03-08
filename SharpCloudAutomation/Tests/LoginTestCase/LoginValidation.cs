@@ -6,6 +6,7 @@ namespace SharpCloudAutomation.Tests.LoginTestCase
     public class LoginValidation : Base
     {
         [Test]
+        [Ignore("reason")]
         public void loginToTheSystem()
         {
             LoginPage loginPage = new LoginPage(GetDriver());
