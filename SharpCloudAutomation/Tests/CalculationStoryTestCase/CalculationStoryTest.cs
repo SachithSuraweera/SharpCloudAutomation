@@ -8,7 +8,7 @@ using OpenQA.Selenium.Support.UI;
 
 namespace SharpCloudAutomation.Tests.CalculationStoryTestCase
 {
-    internal class CalculationStoryTest : Base
+    public class CalculationStoryTest : Base
     {
         [Test]
         public void storyTableViewResultColumnCheck()
@@ -38,20 +38,18 @@ namespace SharpCloudAutomation.Tests.CalculationStoryTestCase
                     {
                         view.Click();
                         wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.InvisibilityOfElementLocated(By.ClassName("loader")));
-                        Thread.Sleep(1000);
                         string viewName = calculatedStoryPage.getViewName().Text;
                         IList<IWebElement> tableColmCount = calculatedStoryPage.getTableColmCount();
                         IList<IWebElement> rowsCount = calculatedStoryPage.getRowsCount();
                        
                         for (int i = 1; i <= rowsCount.Count; i++)
                         {
+                            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.InvisibilityOfElementLocated(By.ClassName("loader")));
                             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td[" + tableColmCount.Count + "]")));
                             string nameColm = GetDriver().FindElement(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td[1]")).Text;
                             string resultColm = GetDriver().FindElement(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td["+ tableColmCount.Count +"]")).Text;
-                            TestContext.Progress.WriteLine(resultColm);
                             if (resultColm == "FAIL" || resultColm == "Fail")
                             {
-                                TestContext.Progress.WriteLine(viewName);
                                 if (viewName == "")
                                 {
                                     arrayList.Add(calculatedStoryPage.getRoadMapName().Text + ": " + nameColm);
