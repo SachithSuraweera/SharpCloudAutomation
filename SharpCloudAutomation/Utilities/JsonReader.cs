@@ -37,7 +37,9 @@ namespace SharpCloudAutomation.Utilities
 
         public List<UserLevelsValue> GetUsersList()
         {
-            string UserLevelStoryJsonString = File.ReadAllText("TestData/TestData_UserLevels.json");
+            string workingDirectory = Environment.CurrentDirectory;
+            string startupapth = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
+            string UserLevelStoryJsonString = File.ReadAllText(startupapth+"\\TestData\\TestData_UserLevels.json");
 
             List<UserLevelsValue> UserLevelsValues = JsonConvert.DeserializeObject<List<UserLevelsValue>>(UserLevelStoryJsonString);
             return UserLevelsValues;

@@ -1,0 +1,107 @@
+### Creating a YAML Pipeline for .NET test Projects
+### Running Selenium UI Tests in an Azure DevOps Pipeline
+trigger:
+ branches:
+   include:
+     - release-qa
+ paths:
+   include:
+     - SharpCloudAutomation
+     - azure_pipeline.yaml
+
+stages:
+  - stage: "Build"
+    displayName: "Build the test project"
+    jobs:
+      - job: "Build"
+        displayName: "Build job"
+        continueOnError: false
+        pool:
+          vmImage: windows-latest
+
+        variables:
+          - group: SharpCloud-test-automation
+
+        steps:
+          - script: echo Hello, world!
+            displayName: "Run a one-line script"
+            
+          - task: UseDotNet@2
+            displayName: 'Use .NET SDK'
+            inputs:
+              version: 6.0.x
+            
+          - task: NodeTool@0
+            inputs:
+              versionSpec: "14.17.3"
+            displayName: "Install Node.js"
+
+          - script: |
+              npm install
+              npm i lighthouse@6.14.13 -g
+            displayName: "install light_houes"
+
+          - task: DotNetCoreCLI@2
+            displayName: 'Restore project dependencies'
+            inputs:
+              command: 'restore'
+              projects: '**/*.csproj'
+                
+          - task: DotNetCoreCLI@2
+            displayName: 'Build the project - $(buildConfiguration)'
+            inputs:
+              command: 'build'
+              arguments: '--configuration $(BuildConfiguration)'
+              projects: '**/*.csproj'
+          
+          - script: |
+              node -v
+              dotnet --version
+              npm -v
+              echo $env:PATH
+            displayName: Check the version
+
+          - task: DotNetCoreCLI@2
+            displayName: 'Test the project'
+            inputs:
+              command: 'test'
+              arguments: '--configuration $(BuildConfiguration) --no-build'
+              projects: '**/*.csproj'
+          - task: CopyFiles@2
+            inputs:
+              SourceFolder: '$(Build.SourcesDirectory)'
+              Contents: '**/*.html'
+              TargetFolder: '$(build.artifactstagingdirectory)'
+
+          - task: PublishBuildArtifacts@1
+            displayName: 'Publish Artifact'
+            inputs: 
+              PathtoPublish: '$(build.artifactstagingdirectory)'
+              condition: succeededOrFailed()
+              
+              
+  - stage: 'Deploy'
+    displayName: 'Deploy the Test reports'
+    dependsOn: Build
+    jobs:
+      - deployment: Deploy
+        pool:
+          vmImage: Windows-latest
+        environment: SharpCloud-Test_Env
+        variables:
+        - group: SharpCloud-test-automation
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+              - download: current
+                artifact: drop
+
+              - task: AzureFileCopy@5
+                inputs:
+                  SourcePath: '$(Pipeline.Workspace)/drop'
+                  azureSubscription: 'SharpCloud-Testing Project'
+                  Destination: 'AzureBlob'
+                  storage: 'sharpcloudprojecttest'
+                  ContainerName: 'testreports'
+                  additionalArgumentsForBlobCopy: --recursive=true
