@@ -15,14 +15,14 @@ namespace SharpCloudAutomation.Utilities
             return jsonObject.SelectToken(tokenName).Value<string>();
         }
 
-        public List<LightHouseBaseValue> GetCalculatedStoryList()
+        public List<CalculatedStoryList> GetCalculatedStoryList()
         {
             string workingDirectory = Environment.CurrentDirectory;
             string startupapth = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
-            string BlankStoryJsonString = File.ReadAllText(startupapth + "\\TestData\\TestData_CalculationRelatedStory.json");
-
-            List<LightHouseBaseValue> lightHouseBasevalues = JsonConvert.DeserializeObject<List<LightHouseBaseValue>>(BlankStoryJsonString);
-            return lightHouseBasevalues;
+            //string BlankStoryJsonString = File.ReadAllText(startupapth + "\\TestData\\TestData_CalculationRelatedStory.json");
+            string BlankStoryJsonString = File.ReadAllText(startupapth + "\\TestData\\testFile.json");
+            List<CalculatedStoryList> calculatedStoryvalues = JsonConvert.DeserializeObject<List<CalculatedStoryList>>(BlankStoryJsonString);
+            return calculatedStoryvalues;
         }
 
         public List<LightHouseBaseValue> GetScenarioes()

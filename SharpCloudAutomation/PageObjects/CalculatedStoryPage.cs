@@ -12,7 +12,6 @@ namespace SharpCloudAutomation.PageObjects
             PageFactory.InitElements(driver, this);
         }
 
-        //[FindsBy(How = How.XPath, Using = ("//div[contains(@class, 'view-chooser-item') and not(@id='viewnew-view')]"))]
         [FindsBy(How = How.CssSelector, Using = (".view-chooser-item.ng-star-inserted"))]
         public IList<IWebElement> viewChooserItems;
 
@@ -20,7 +19,6 @@ namespace SharpCloudAutomation.PageObjects
         {
             return viewChooserItems;
         }
-        //[FindsBy(How = How.XPath, Using = ("//*[@id='table - view']"))]
         [FindsBy(How = How.XPath, Using = ("//table[@id='table-view']"))]
         private IWebElement getTable;
 
@@ -40,5 +38,17 @@ namespace SharpCloudAutomation.PageObjects
         private IList<IWebElement> rowsCount;
 
         public IList <IWebElement> getRowsCount() {  return rowsCount; }
+
+        [FindsBy(How = How.CssSelector, Using = ("#roadmapName"))]
+        private IWebElement roadMapName;
+
+        public IWebElement getRoadMapName() { return roadMapName; }
+
+        [FindsBy(How = How.CssSelector, Using = ("div[id='dashboardWelcome'] h1"))]
+        private IWebElement dashboardTitle;
+
+        public IWebElement getDashboardTitle() {  return dashboardTitle; }
+
+
     }
 }
