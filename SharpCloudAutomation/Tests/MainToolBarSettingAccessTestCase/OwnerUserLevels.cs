@@ -10,7 +10,6 @@ namespace SharpCloudAutomation.Tests.MainToolBarSettingAccessTestCase
     public class OwnerUserLevels : Base
     {
         [Test]
-        [Ignore("reason")]
         public void CompareMainToolBarFeatures()
         {  
             MainToolBarPage mtoolBarPage = new MainToolBarPage(GetDriver());

@@ -11,7 +11,6 @@ namespace SharpCloudAutomation.Tests.CalculationStoryTestCase
     internal class CalculationStoryTest : Base
     {
         [Test]
-        [Ignore("reason")]
         public void storyTableViewResultColumnCheck()
         {
             GetDriver().Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
