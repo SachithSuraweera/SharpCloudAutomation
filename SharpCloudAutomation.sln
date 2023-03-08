@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpCloudAutomation", "SharpCloudAutomation\SharpCloudAutomation.csproj", "{87715785-99EE-4FC3-BE3A-347AF1E910E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpCloudAutomation", "SharpCloudAutomation\SharpCloudAutomation.csproj", "{87715785-99EE-4FC3-BE3A-347AF1E910E0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LighthouseDotnet", "LighthouseDotnet\LighthouseDotnet.csproj", "{F172E83E-025E-4198-8CE6-DCAF148786BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{87715785-99EE-4FC3-BE3A-347AF1E910E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87715785-99EE-4FC3-BE3A-347AF1E910E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87715785-99EE-4FC3-BE3A-347AF1E910E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F172E83E-025E-4198-8CE6-DCAF148786BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F172E83E-025E-4198-8CE6-DCAF148786BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F172E83E-025E-4198-8CE6-DCAF148786BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F172E83E-025E-4198-8CE6-DCAF148786BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

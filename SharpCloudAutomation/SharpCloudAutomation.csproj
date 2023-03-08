@@ -15,7 +15,6 @@
     <PackageReference Include="DotNetSeleniumExtras.PageObjects.Core" Version="4.3.0" />
     <PackageReference Include="DotNetSeleniumExtras.WaitHelpers" Version="3.11.0" />
     <PackageReference Include="ExtentReports" Version="4.1.0" />
-    <PackageReference Include="LighthouseDotnet" Version="15.0.0" />
     <PackageReference Include="Mailjet.Api" Version="3.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
     <PackageReference Include="NUnit" Version="3.13.3" />
@@ -41,6 +40,10 @@
 	
 	<ItemGroup>
 	  <Folder Include="Output\" />
+	</ItemGroup>
+	
+	<ItemGroup>
+	  <ProjectReference Include="..\LighthouseDotnet\LighthouseDotnet.csproj" />
 	</ItemGroup>
 	<Target Name="CopyCustomContent" AfterTargets="AfterBuild">
 		<Copy SourceFiles="App.config" DestinationFiles="$(OutDir)\testhost.dll.config"></Copy>
