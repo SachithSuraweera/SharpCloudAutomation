@@ -25,7 +25,7 @@ namespace SharpCloudAutomation.Utilities
                     {
                         Directory.CreateDirectory(TodaysFolder);
                     }
-                    string date = String.Format("{0}_{1:yyyy_MM_dd_HH_mm_ss}", "index", DateTime.Now);
+                    string date = String.Format("{0}_{1:yyyy_MM_dd_HH_mm}", "index", DateTime.Now);
                     string reportPath = $"{TodaysFolder}//{date}-{browserName}.html";
                     var htmlReporter = new ExtentV3HtmlReporter(reportPath);
                     htmlReporter.Config.Theme = Theme.Dark;
@@ -53,7 +53,7 @@ namespace SharpCloudAutomation.Utilities
                     {
                         Directory.CreateDirectory(TodaysFolder);
                     }
-                    string date = String.Format("{0}_{1:yyyy_MM_dd_HH_mm_ss}", "index", DateTime.Now);
+                    string date = String.Format("{0}_{1:yyyy_MM_dd_HH_mm}", "index", DateTime.Now);
                     string reportPath = $"{TodaysFolder}//{date}-{browserName}.html";
                     var htmlReporter = new ExtentV3HtmlReporter(reportPath);
                     htmlReporter.Config.Theme = Theme.Dark;

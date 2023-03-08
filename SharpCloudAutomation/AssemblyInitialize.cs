@@ -16,8 +16,8 @@ namespace SharpCloudAutomation
         [OneTimeTearDown]
         public void UploadBlobtoAzure()
         {
-            //blobs.UploadBlob();
-            //Email.RunEmail();
+            blobs.UploadBlob();
+            Email.RunEmail();
         }
     }
 }

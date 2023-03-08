@@ -12,6 +12,7 @@ namespace SharpCloudAutomation.Utilities
 {
     public class Email
     {
+        Blobs blobs = new Blobs();
         public static void RunEmail()
         {
             RunAsync().Wait();
@@ -48,7 +49,7 @@ namespace SharpCloudAutomation.Utilities
                   }},
                  {"Subject", $"Airudi Automation Execution Report {DateTime.Now}"},
                  {"TextPart", "Hi, Please find the attached automation report"},
-                 {"HTMLPart", $"<h3>Hi,<br /><br /> Please click on the link to download the automation report <a href=\"{Blobs.GetURL()}\">Airudi Automation Report</a>!</h3><br />Thank you!"},
+                 {"HTMLPart", $"<h3>Hi,<br /><br /> Please click on the link to download the automation report <a href=\"{Blobs.GetURL()}\">SharpCloud Automation Report</a>!</h3><br />Thank you!"},
                  }
                    });
             MailjetResponse response = await client.PostAsync(request);
@@ -64,13 +65,6 @@ namespace SharpCloudAutomation.Utilities
                 Console.WriteLine(response.GetData());
                 Console.WriteLine(string.Format("ErrorMessage: {0}\n", response.GetErrorMessage()));
             }
-        }
-
-        static string Convert64()
-        {
-            byte[] AsBytes = File.ReadAllBytes(@"C:\Airudi Automation\AutomationUI\Output\index.html");
-            String AsBase64String = Convert.ToBase64String(AsBytes);
-            return AsBase64String;
         }
     }
 }
