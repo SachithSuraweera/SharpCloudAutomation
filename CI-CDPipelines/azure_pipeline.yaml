@@ -37,7 +37,6 @@ stages:
             displayName: "Install Node.js"
 
           - script: |
-              npm install
               npm i lighthouse@10.0.2 -g
             displayName: "install light_houes"
 
