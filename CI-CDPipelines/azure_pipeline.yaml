@@ -33,7 +33,7 @@ stages:
             
           - task: NodeTool@0
             inputs:
-              versionSpec: "14.17.3"
+              versionSpec: "18.7.0"
             displayName: "Install Node.js"
 
           - script: |
@@ -55,18 +55,16 @@ stages:
               projects: '**/*.csproj'
           
           - script: |
-              node -v
-              dotnet --version
-              npm -v
-              echo $env:PATH
-            displayName: Check the version
+              cd $(Build.SourcesDirectory)/SharpCloudAutomation
+              dotnet test --configuration $(BuildConfiguration) --no-build
+            displayName: TEST
 
-          - task: DotNetCoreCLI@2
-            displayName: 'Test the project'
-            inputs:
-              command: 'test'
-              arguments: '--configuration $(BuildConfiguration) --no-build'
-              projects: '**/*.csproj'
+          # - task: DotNetCoreCLI@2
+          #   displayName: 'Test the project'
+          #   inputs:
+          #     command: 'test'
+          #     arguments: '--configuration $(BuildConfiguration) --no-build'
+          #     projects: '**/*.csproj'
           - task: CopyFiles@2
             inputs:
               SourceFolder: '$(Build.SourcesDirectory)'
