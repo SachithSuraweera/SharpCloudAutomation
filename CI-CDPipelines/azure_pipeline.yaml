@@ -17,7 +17,7 @@ stages:
         displayName: "Build job"
         continueOnError: false
         pool:
-          vmImage: ubuntu-latest
+          vmImage: windows-latest
 
         variables:
           - group: SharpCloud-test-automation
@@ -37,7 +37,6 @@ stages:
             displayName: "Install Node.js"
 
           - script: |
-              sudo apt-get -yqq install chromium-chromedriver
               npm i lighthouse@10.0.2 -g
             displayName: "install light_houes"
 
