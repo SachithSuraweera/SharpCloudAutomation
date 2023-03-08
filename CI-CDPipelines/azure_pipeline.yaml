@@ -31,10 +31,10 @@ stages:
             inputs:
               version: 6.0.x
             
-          - task: NodeTool@0
-            inputs:
-              versionSpec: "18.7.0"
-            displayName: "Install Node.js"
+          # - task: NodeTool@0
+          #   inputs:
+          #     versionSpec: "18.7.0"
+          #   displayName: "Install Node.js"
 
           - script: |
               npm i lighthouse@10.0.2 -g
