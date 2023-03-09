@@ -1,6 +1,5 @@
 ﻿using SharpCloudAutomation.PageObjects;
 using SharpCloudAutomation.Utilities;
-using SharpCloudAutomation.Tests.LoginTestCase;
 using OpenQA.Selenium;
 using System.Collections;
 using AventStack.ExtentReports;
@@ -27,12 +26,12 @@ namespace SharpCloudAutomation.Tests.CalculationStoryTestCase
             foreach (var story in stories)
             {
                 GetDriver().Navigate().GoToUrl(story.StoryUrl);
-                
+
                 wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.InvisibilityOfElementLocated(By.ClassName("loader")));
-                
+
                 IList<IWebElement> viewChooserItems = calculatedStoryPage.getView();
                 viewChooserItems = viewChooserItems.Where(viewChooserItem => !viewChooserItem.Text.ToString().Contains("add_new")).ToList();
-                
+
                 foreach (IWebElement view in viewChooserItems)
                 {
                     {
@@ -41,13 +40,14 @@ namespace SharpCloudAutomation.Tests.CalculationStoryTestCase
                         string viewName = calculatedStoryPage.getViewName().Text;
                         IList<IWebElement> tableColmCount = calculatedStoryPage.getTableColmCount();
                         IList<IWebElement> rowsCount = calculatedStoryPage.getRowsCount();
-                       
+
                         for (int i = 1; i <= rowsCount.Count; i++)
                         {
                             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.InvisibilityOfElementLocated(By.ClassName("loader")));
-                            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td[" + tableColmCount.Count + "]")));
+                            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td[1]")));
                             string nameColm = GetDriver().FindElement(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td[1]")).Text;
-                            string resultColm = GetDriver().FindElement(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td["+ tableColmCount.Count +"]")).Text;
+                            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td[" + tableColmCount.Count + "]")));
+                            string resultColm = GetDriver().FindElement(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td[" + tableColmCount.Count + "]")).Text;
                             if (resultColm == "FAIL" || resultColm == "Fail")
                             {
                                 if (viewName == "")
@@ -56,7 +56,7 @@ namespace SharpCloudAutomation.Tests.CalculationStoryTestCase
                                 }
                                 else
                                 {
-                                    arrayList.Add(calculatedStoryPage.getRoadMapName().Text +": "+viewName + ": " + nameColm);
+                                    arrayList.Add(calculatedStoryPage.getRoadMapName().Text + ": " + viewName + ": " + nameColm);
                                 }
                             }
                         }
@@ -64,7 +64,7 @@ namespace SharpCloudAutomation.Tests.CalculationStoryTestCase
                 }
             }
             ExtentTest storyNode = CreateNode("Calculation Related failed stories");
-            for (int i = 0; i<arrayList.Count; i++)
+            for (int i = 0; i < arrayList.Count; i++)
             {
                 storyNode.Log(Status.Info, arrayList[i].ToString());
             }
