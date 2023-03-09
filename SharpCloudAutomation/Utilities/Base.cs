@@ -14,9 +14,9 @@ namespace SharpCloudAutomation.Utilities
 {
     public class Base
     {
-        public static ThreadLocal<ExtentTest> test = new ThreadLocal<ExtentTest>();
-        public ThreadLocal<IWebDriver> driver = new ThreadLocal<IWebDriver>();
-        Reports reports = new Reports();
+        public static ThreadLocal<ExtentTest> test = new();
+        public ThreadLocal<IWebDriver> driver = new();
+        Reports reports = new();
         public static string browser = ConfigurationManager.AppSettings["browser"];
         public static string env = ConfigurationManager.AppSettings["env"];
         public static string isHeadless = ConfigurationManager.AppSettings["headless"];
@@ -45,10 +45,7 @@ namespace SharpCloudAutomation.Utilities
                 if (ConfigurationManager.AppSettings["env"] == "AutoInstance")
                 {
                     test.Value = reports.Setup().CreateTest(TestContext.CurrentContext.Test.Name);
-                    if (browser == null)
-                    {
-                        browser = ConfigurationManager.AppSettings["browser"];
-                    }
+                    browser ??= ConfigurationManager.AppSettings["browser"];
                     InitializeBrowser(browser);
 
                     GetDriver().Manage().Timeouts().ImplicitWait = (TimeSpan.FromSeconds(20));
@@ -63,10 +60,7 @@ namespace SharpCloudAutomation.Utilities
                 if (env == "AutoInstance")
                 {
                     test.Value = reports.Setup().CreateTest(TestContext.CurrentContext.Test.Name);
-                    if (browser == null)
-                    {
-                        browser = ConfigurationManager.AppSettings["browser"];
-                    }
+                    browser ??= ConfigurationManager.AppSettings["browser"];
                     InitializeBrowser(browser);
 
                     GetDriver().Manage().Timeouts().ImplicitWait = (TimeSpan.FromSeconds(20));
@@ -80,10 +74,7 @@ namespace SharpCloudAutomation.Utilities
                 if (env == "Beta")
                 {
                     test.Value = reports.Setup().CreateTest(TestContext.CurrentContext.Test.Name);
-                    if (browser == null)
-                    {
-                        browser = ConfigurationManager.AppSettings["browser"];
-                    }
+                    browser ??= ConfigurationManager.AppSettings["browser"];
                     InitializeBrowser(browser);
 
                     GetDriver().Manage().Timeouts().ImplicitWait = (TimeSpan.FromSeconds(20));
@@ -103,7 +94,7 @@ namespace SharpCloudAutomation.Utilities
                 case "Firefox":
                     if (isHeadless == "Yes")
                     {
-                        FirefoxOptions options = new FirefoxOptions();
+                        FirefoxOptions options = new();
                         options.AddArgument("--headless");
                         options.AddArguments("window-size=1920,1080");
                         new WebDriverManager.DriverManager().SetUpDriver(new FirefoxConfig());
@@ -123,7 +114,7 @@ namespace SharpCloudAutomation.Utilities
                 case "Chrome":
                     if (isHeadless == "Yes")
                     {
-                        ChromeOptions options = new ChromeOptions();
+                        ChromeOptions options = new();
                         options.AddArgument("--headless");
                         options.AddArguments("window-size=1920,1080");
                         options.AddArguments("use-fake-ui-for-media-stream");
@@ -134,7 +125,7 @@ namespace SharpCloudAutomation.Utilities
                     }
                     if (isHeadless == "No")
                     {
-                        ChromeOptions options = new ChromeOptions();
+                        ChromeOptions options = new();
                         options.AddArguments("use-fake-ui-for-media-stream");
                         new WebDriverManager.DriverManager().SetUpDriver(new ChromeConfig());
                         driver.Value = new ChromeDriver(options);
@@ -147,7 +138,7 @@ namespace SharpCloudAutomation.Utilities
                 case "Edge":
                     if (isHeadless == "Yes")
                     {
-                        EdgeOptions options = new EdgeOptions();
+                        EdgeOptions options = new();
                         options.AddArgument("--headless");
                         options.AddArguments("window-size=1920,1080");
                         new WebDriverManager.DriverManager().SetUpDriver(new EdgeConfig());
@@ -168,7 +159,7 @@ namespace SharpCloudAutomation.Utilities
                 case "Safari":
                     if (isHeadless == "No")
                     {
-                        Dictionary<string, object> browserStackOptions = new Dictionary<string, object>();
+                        Dictionary<string, object> browserStackOptions = new();
                         browserStackOptions.Add("userName", "sachithsuraweera_UewjJZ");
                         browserStackOptions.Add("accessKey", "d5KTJYhpUcdqFFUyfHZB");
                         browserStackOptions.Add("os", "OS X");
@@ -178,10 +169,10 @@ namespace SharpCloudAutomation.Utilities
                         browserStackOptions.Add("local", "false");
                         browserStackOptions.Add("seleniumVersion", "4.7.2");
                         browserStackOptions.Add("browserName", "Safari");
-                        SafariOptions options = new SafariOptions();
+                        SafariOptions options = new();
                         options.AddAdditionalOption("bstack:options", browserStackOptions);
                         driver.Value = new RemoteWebDriver(new Uri("https://hub-cloud.browserstack.com/wd/hub/"), options);
-                        WebDriverWait wait = new WebDriverWait(GetDriver(), TimeSpan.FromSeconds(10));
+                        WebDriverWait wait = new(GetDriver(), TimeSpan.FromSeconds(10));
                     }
                     break;
             }

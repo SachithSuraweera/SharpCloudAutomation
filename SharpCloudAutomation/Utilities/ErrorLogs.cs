@@ -7,7 +7,7 @@ namespace SharpCloudAutomation.Utilities
 {
     public class ErrorLogs : Base
     {
-        IWebDriver driver;
+        readonly IWebDriver driver;
 
         public ErrorLogs(IWebDriver driver)
         {
@@ -20,7 +20,7 @@ namespace SharpCloudAutomation.Utilities
             //FIREFOX BROWSER
             if (driverName.Contains("Firefox"))
             {
-                FirefoxOptions options = new FirefoxOptions();
+                FirefoxOptions options = new();
                 Thread.Sleep(5000);
                 ILogs logs = driver.Manage().Logs;
                 var logEntries = logs.GetLog(LogType.Browser);
