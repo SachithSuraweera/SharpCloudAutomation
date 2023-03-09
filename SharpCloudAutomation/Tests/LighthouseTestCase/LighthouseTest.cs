@@ -1,19 +1,9 @@
-﻿using AngleSharp.Dom;
-using AventStack.ExtentReports;
-using OpenQA.Selenium;
+﻿using AventStack.ExtentReports;
 using SharpCloudAutomation.PageObjects;
-using SharpCloudAutomation.Tests.LoginTestCase;
 using SharpCloudAutomation.Utilities;
-using SharpCompress.Compressors.Xz;
 using SoftAssertion;
-using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Drawing.Text;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace SharpCloudAutomation.Tests.LighthouseTestCase
 {
