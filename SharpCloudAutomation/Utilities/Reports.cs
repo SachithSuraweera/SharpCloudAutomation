@@ -8,6 +8,7 @@ namespace SharpCloudAutomation.Utilities
     public class Reports
     {
         public static ExtentReports extent;
+        public static string date;
 
         public ExtentReports Setup()
         {
@@ -25,7 +26,7 @@ namespace SharpCloudAutomation.Utilities
                     {
                         Directory.CreateDirectory(TodaysFolder);
                     }
-                    string date = String.Format("{0}_{1:yyyy_MM_dd_HH_mm}", "index", DateTime.Now);
+                    date = String.Format("{0}_{1:yyyy_MM_dd_HH_mm}", "index", DateTime.Now);
                     string reportPath = $"{TodaysFolder}//{date}-{browserName}.html";
                     var htmlReporter = new ExtentV3HtmlReporter(reportPath);
                     htmlReporter.Config.Theme = Theme.Dark;
@@ -53,7 +54,7 @@ namespace SharpCloudAutomation.Utilities
                     {
                         Directory.CreateDirectory(TodaysFolder);
                     }
-                    string date = String.Format("{0}_{1:yyyy_MM_dd_HH_mm}", "index", DateTime.Now);
+                    date = String.Format("{0}_{1:yyyy_MM_dd_HH_mm}", "index", DateTime.Now);
                     string reportPath = $"{TodaysFolder}//{date}-{browserName}.html";
                     var htmlReporter = new ExtentV3HtmlReporter(reportPath);
                     htmlReporter.Config.Theme = Theme.Dark;
@@ -66,6 +67,10 @@ namespace SharpCloudAutomation.Utilities
                 }
             }
             return extent;
+        }
+        public string getDateandTime()
+        {
+            return date;
         }
         public void EndReport()
         {
