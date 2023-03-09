@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\SharpCloudAutomation\\SharpCloud\\SharpCloudAutomation\\SharpCloudAutomation\\SharpCloudAutomation.csproj": {}
+    "C:\\SharpCloudAutomation\\SharpCloudAutomation\\SharpCloudAutomation\\SharpCloudAutomation.csproj": {}
   },
   "projects": {
-    "C:\\SharpCloudAutomation\\SharpCloud\\SharpCloudAutomation\\SharpCloudAutomation\\SharpCloudAutomation.csproj": {
+    "C:\\SharpCloudAutomation\\SharpCloudAutomation\\SharpCloudAutomation\\SharpCloudAutomation.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\SharpCloudAutomation\\SharpCloud\\SharpCloudAutomation\\SharpCloudAutomation\\SharpCloudAutomation.csproj",
+        "projectUniqueName": "C:\\SharpCloudAutomation\\SharpCloudAutomation\\SharpCloudAutomation\\SharpCloudAutomation.csproj",
         "projectName": "SharpCloudAutomation",
-        "projectPath": "C:\\SharpCloudAutomation\\SharpCloud\\SharpCloudAutomation\\SharpCloudAutomation\\SharpCloudAutomation.csproj",
-        "packagesPath": "C:\\Users\\SachithSuraweeraBIST\\.nuget\\packages\\",
-        "outputPath": "C:\\SharpCloudAutomation\\SharpCloud\\SharpCloudAutomation\\SharpCloudAutomation\\obj\\",
+        "projectPath": "C:\\SharpCloudAutomation\\SharpCloudAutomation\\SharpCloudAutomation\\SharpCloudAutomation.csproj",
+        "packagesPath": "C:\\Users\\YasasviJayasenaBISTE\\.nuget\\packages\\",
+        "outputPath": "C:\\SharpCloudAutomation\\SharpCloudAutomation\\SharpCloudAutomation\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\SachithSuraweeraBIST\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\YasasviJayasenaBISTE\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,6 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -47,6 +48,22 @@
             "Azure.Storage.Blobs": {
               "target": "Package",
               "version": "[12.15.0, )"
+            },
+            "BrowserStackLocal": {
+              "target": "Package",
+              "version": "[2.3.0, )"
+            },
+            "DotNetSeleniumExtras.PageObjects": {
+              "target": "Package",
+              "version": "[3.11.0, )"
+            },
+            "DotNetSeleniumExtras.PageObjects.Core": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "DotNetSeleniumExtras.WaitHelpers": {
+              "target": "Package",
+              "version": "[3.11.0, )"
             },
             "ExtentReports": {
               "target": "Package",
@@ -80,6 +97,14 @@
               "target": "Package",
               "version": "[4.8.1, )"
             },
+            "Selenium.WebDriver.ChromeDriver": {
+              "target": "Package",
+              "version": "[110.0.5481.3000, )"
+            },
+            "SoftAssertion": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
             "System.Configuration.ConfigurationManager": {
               "target": "Package",
               "version": "[7.0.0, )"
@@ -91,6 +116,10 @@
             "coverlet.collector": {
               "target": "Package",
               "version": "[3.1.2, )"
+            },
+            "lighthouse.net": {
+              "target": "Package",
+              "version": "[1.0.6, )"
             }
           },
           "imports": [
@@ -109,7 +138,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.200\\RuntimeIdentifierGraph.json"
         }
       }
     }

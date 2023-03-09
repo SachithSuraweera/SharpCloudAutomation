@@ -11,15 +11,15 @@ namespace SharpCloudAutomation.Tests.CalculationStoryTestCase
     internal class CalculationStoryTest : Base
     {
         [Test]
-        public void storyTableViewResultColumnCheck()
+        public void StoryTableViewResultColumnCheck()
         {
             GetDriver().Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-            WebDriverWait wait = new WebDriverWait(GetDriver(), TimeSpan.FromSeconds(15));
-            ArrayList arrayList = new ArrayList();
+            WebDriverWait wait = new(GetDriver(), TimeSpan.FromSeconds(15));
+            ArrayList arrayList = new();
 
-            LoginPage loginPage = new LoginPage(GetDriver());
-            CalculatedStoryPage calculatedStoryPage = new CalculatedStoryPage(GetDriver());
-            loginPage.validLogin(GetJsonData().ExtractInstanceDataJson("username"), GetJsonData().ExtractInstanceDataJson("password"));
+            LoginPage loginPage = new(GetDriver());
+            CalculatedStoryPage calculatedStoryPage = new(GetDriver());
+            loginPage.ValidLogin(GetJsonData().ExtractInstanceDataJson("username"), GetJsonData().ExtractInstanceDataJson("password"));
 
             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.CssSelector("div[id='dashboardWelcome'] h1")));
 
@@ -30,7 +30,7 @@ namespace SharpCloudAutomation.Tests.CalculationStoryTestCase
                 
                 wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.InvisibilityOfElementLocated(By.ClassName("loader")));
                 
-                IList<IWebElement> viewChooserItems = calculatedStoryPage.getView();
+                IList<IWebElement> viewChooserItems = calculatedStoryPage.GetView();
                 viewChooserItems = viewChooserItems.Where(viewChooserItem => !viewChooserItem.Text.ToString().Contains("add_new")).ToList();
                 
                 foreach (IWebElement view in viewChooserItems)
@@ -39,9 +39,9 @@ namespace SharpCloudAutomation.Tests.CalculationStoryTestCase
                         view.Click();
                         wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.InvisibilityOfElementLocated(By.ClassName("loader")));
                         Thread.Sleep(1000);
-                        string viewName = calculatedStoryPage.getViewName().Text;
-                        IList<IWebElement> tableColmCount = calculatedStoryPage.getTableColmCount();
-                        IList<IWebElement> rowsCount = calculatedStoryPage.getRowsCount();
+                        string viewName = calculatedStoryPage.GetViewName().Text;
+                        IList<IWebElement> tableColmCount = calculatedStoryPage.GetTableColmCount();
+                        IList<IWebElement> rowsCount = calculatedStoryPage.GetRowsCount();
                        
                         for (int i = 1; i <= rowsCount.Count; i++)
                         {
@@ -54,11 +54,11 @@ namespace SharpCloudAutomation.Tests.CalculationStoryTestCase
                                 TestContext.Progress.WriteLine(viewName);
                                 if (viewName == "")
                                 {
-                                    arrayList.Add(calculatedStoryPage.getRoadMapName().Text + ": " + nameColm);
+                                    arrayList.Add(calculatedStoryPage.GetRoadMapName().Text + ": " + nameColm);
                                 }
                                 else
                                 {
-                                    arrayList.Add(calculatedStoryPage.getRoadMapName().Text +": "+viewName + ": " + nameColm);
+                                    arrayList.Add(calculatedStoryPage.GetRoadMapName().Text +": "+viewName + ": " + nameColm);
                                 }
                             }
                         }

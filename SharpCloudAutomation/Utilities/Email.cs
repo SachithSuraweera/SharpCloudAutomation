@@ -12,17 +12,14 @@ namespace SharpCloudAutomation.Utilities
 {
     public class Email
     {
-        Blobs blobs = new Blobs();
+        readonly Blobs blobs = new();
         public static void RunEmail()
         {
             RunAsync().Wait();
         }
         static async Task RunAsync()
         {
-            MailjetClient client = new MailjetClient(ConfigurationManager.AppSettings["Email_API_Key"], ConfigurationManager.AppSettings["Email_Secret"])
-            {
-                //Version = ApiVersion.V3_1,
-            };
+            MailjetClient client = new(ConfigurationManager.AppSettings["Email_API_Key"], ConfigurationManager.AppSettings["Email_Secret"]);
             MailjetRequest request = new MailjetRequest
             {
                 Resource = SendV31.Resource,
@@ -47,9 +44,9 @@ namespace SharpCloudAutomation.Utilities
                    {"Name", "Client"}
                    }
                   }},
-                 {"Subject", $"Airudi Automation Execution Report {DateTime.Now}"},
-                 {"TextPart", "Hi, Please find the attached automation report"},
-                 {"HTMLPart", $"<h3>Hi,<br /><br /> Please click on the link to download the automation report <a href=\"{Blobs.GetURL()}\">SharpCloud Automation Report</a>!</h3><br />Thank you!"},
+                 {"Subject", $"SharpCloud Automation Execution Report {DateTime.Now}"},
+                 {"TextPart", "Hi, Please find the attached automation report for nightly execution"},
+                 {"HTMLPart", $"<h3>Hi,<br /><br /> Please click on the link to download the automation report <a href=\"{Blobs.GetURL()}\" style=\"color:green;\">SharpCloud Automation Report</a>!</h3><br />Thank you!"},
                  }
                    });
             MailjetResponse response = await client.PostAsync(request);

@@ -1,45 +1,29 @@
 ﻿using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
-using SharpCloudAutomation.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SharpCloudAutomation.PageObjects
 {
     public class LoginPage
     {
-        private IWebDriver driver;
         public LoginPage(IWebDriver driver) 
         {
-            this.driver = driver;
             PageFactory.InitElements(driver, this);
         }
 
         [FindsBy(How = How.XPath, Using = ("//input[@placeholder='Uzername']"))]
-        private IWebElement username;
-
-        public IWebElement getUserName()
-        {
-            return username;
-        }
+        public IWebElement UsernameText { get; set; }
+        
         [FindsBy(How = How.XPath, Using = ("//input[@placeholder='Commence Hacking']"))]
-        private IWebElement password;
-
-        public IWebElement getPassword() { return password; }
+        public IWebElement PasswordText { get; set; }
 
         [FindsBy(How = How.XPath, Using = ("//button[text()='GO!']"))]
-        private IWebElement goBtn;
+        public IWebElement GoButton { get; set; }
 
-        public IWebElement getGoBtn() { return goBtn;}
-
-        public void validLogin(string user, string password)
+        public void ValidLogin(string user, string password)
         {
-            getUserName().SendKeys(user);
-            getPassword().SendKeys(password);
-            getGoBtn().Click();
+            GoButton.SendKeys(user);
+            GoButton.SendKeys(password);
+            GoButton.Click();
         }
 
     }

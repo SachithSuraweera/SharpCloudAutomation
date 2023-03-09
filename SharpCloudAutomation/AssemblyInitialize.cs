@@ -11,7 +11,7 @@ namespace SharpCloudAutomation
     [SetUpFixture]
     public class AssemblyInitialize
     {
-        Blobs blobs = new Blobs();
+        Blobs blobs = new();
 
         [OneTimeTearDown]
         public void UploadBlobtoAzure()

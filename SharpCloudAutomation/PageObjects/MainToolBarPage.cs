@@ -1,139 +1,65 @@
 ﻿using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SharpCloudAutomation.PageObjects
 {
     public class MainToolBarPage
     {
-        private IWebDriver driver;
         public MainToolBarPage(IWebDriver driver)
         {
-            this.driver = driver;
             PageFactory.InitElements(driver, this);
         }
 
         [FindsBy(How = How.XPath, Using = ("//div[@id='storyToolbar']"))]
-        private IWebElement mtoolBar;
-        public IWebElement getMtoolBar()
-        {
-            return mtoolBar;
-        }
+        public IWebElement MtoolBar { get; set; }
 
         [FindsBy(How = How.XPath, Using = ("//div[@id='undoDropdown']"))]
-        private IWebElement undoIcon;
-        public IWebElement getUndoIcon()
-        {
-            return undoIcon;
-        }
+        public IWebElement UndoIcon { get; set; }        
 
         [FindsBy(How = How.XPath, Using = ("//div[@id='dropdownMenu' and @outsideifnot='dropdownMenu, undoDropdown']//li"))]
-        public IList<IWebElement> undoDropdown;
-        public IList<IWebElement> getUndoDropDown()
-        {
-            return undoDropdown;
-        }
+        public IList<IWebElement> UndoDropdown { get; set; }        
 
         [FindsBy(How = How.XPath, Using = ("//span[@aria-label='Undo menu' and @role='button']"))]
-        public IWebElement undoDropdownIcon;
-        public IWebElement getUndoDropDownIcon()
-        {
-            return undoDropdownIcon;
-        }
+        public IWebElement UndoDropdownIcon { get; set; }     
 
         [FindsBy(How = How.XPath, Using = ("//div[@tooltip='Story Setup']"))]
-        private IWebElement storyIcon;
-        public IWebElement getStoryIcon()
-        {
-            return storyIcon;
-        }
+        public IWebElement StoryIcon { get; set; }       
 
         [FindsBy(How = How.XPath, Using = ("//div[@id='dropdownMenu' and @outsideifnot='dropdownMenu, storySetupDropdown']//li"))]
-        public IList<IWebElement> storyDropdown;
-        public IList<IWebElement> getStoryDropDown()
-        {
-            return storyDropdown;
-        }
+        public IList<IWebElement> StoryDropdown { get; set; } 
 
         [FindsBy(How = How.XPath, Using = ("//div[@tooltip='Data Setup']"))]
-        private IWebElement dataIcon;
-        public IWebElement DataIcon()
-        {
-            return dataIcon;
-        }
+        public IWebElement DataIcon { get; set; }
 
         [FindsBy(How = How.XPath, Using = ("//div[@id='dropdownMenu' and @outsideifnot='dropdownMenu, dataSetupDropdown']//li"))]
-        private IWebElement dataDropdown;
-        public IWebElement DataDropdown()
-        {
-            return dataDropdown;
-        }
+        public IList<IWebElement> DataDropdown { get; set; }     
 
         [FindsBy(How = How.XPath, Using = ("//span[text()='View']"))]
-        private IWebElement viewIcon;
-        public IWebElement ViewIcon()
-        {
-            return viewIcon;
-        }
-
+        public IWebElement ViewIcon { get; set; }
+      
         [FindsBy(How = How.XPath, Using = ("//button[text()='Reset View']"))]
-        private IWebElement resetIcon;
-        public IWebElement ResetIcon()
-        {
-            return resetIcon;
-        }
-
+        public IWebElement ResetIcon { get; set; }
+        
         [FindsBy(How = How.XPath, Using = ("//button[text()='Save View']"))]
-        private IWebElement saveIcon;
-        public IWebElement SaveIcon()
-        {
-            return saveIcon;
-        }
+        public IWebElement SaveIcon { get; set; }      
 
-        [FindsBy(How = How.XPath, Using = ("//div[@id='viewSetupDropdown']//li"))]
-        private IWebElement viewSetupDropdown;
-        public IWebElement ViewSetupDropdown()
-        {
-            return viewSetupDropdown;
-        }
-
+        [FindsBy(How = How.XPath, Using = ("//div[@id='dropdownMenu' and @outsideifnot='dropdownMenu, viewSetupDropdown']//li"))]
+        public IList<IWebElement> ViewSetupDropdown { get; set; }
+   
         [FindsBy(How = How.XPath, Using = ("//div[@id='relationshipsToggle']"))]
-        private IWebElement relationshipIcon;
-        public IWebElement RelationshipIcon()
-        {
-            return relationshipIcon;
-        }
-
-        [FindsBy(How = How.XPath, Using = ("//div[@id='relationshipsToggle']//li"))]
-        private IWebElement relationshipDropDown;
-        public IWebElement RelationshipDropDown()
-        {
-            return relationshipDropDown;
-        }
-
+        public IWebElement RelationshipIcon { get; set; }
+    
+        [FindsBy(How = How.XPath, Using = ("//div[@id='dropdownMenu' and @outsideifnot='dropdownMenu, relationshipsToggle']//li"))]
+        public IList<IWebElement> RelationshipDropDown { get; set; }
+        
         [FindsBy(How = How.XPath, Using = ("//span[text()='Unlock']"))]
-        private IWebElement unlockIcon;
-        public IWebElement UnlockIcon()
-        {
-            return unlockIcon;
-        }
-
+        public IWebElement UnlockIcon { get; set; }
+        
         [FindsBy(How = How.XPath, Using = ("//img[@alt='Search']"))]
-        private IWebElement searchIcon;
-        public IWebElement SearchIcon()
-        {
-            return searchIcon;
-        }
-
+        public IWebElement SearchIcon { get; set; }
+        
         [FindsBy(How = How.XPath, Using = ("//img[@alt='Fullscreen story button']"))]
-        private IWebElement fullScreenIcon;
-        public IWebElement FullScreenIcon()
-        {
-            return fullScreenIcon;
-        }
+        public IWebElement FullScreenIcon { get; set; }
+        
     }
 }
