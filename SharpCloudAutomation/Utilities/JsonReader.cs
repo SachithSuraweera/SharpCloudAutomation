@@ -35,14 +35,5 @@ namespace SharpCloudAutomation.Utilities
             return lightHouseBasevalues;
         }
 
-        public List<UserLevelsValue> GetUsersList()
-        {
-            string workingDirectory = Environment.CurrentDirectory;
-            string startupapth = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
-            string UserLevelStoryJsonString = File.ReadAllText(startupapth+"\\TestData\\TestData_UserLevels.json");
-
-            List<UserLevelsValue> UserLevelsValues = JsonConvert.DeserializeObject<List<UserLevelsValue>>(UserLevelStoryJsonString);
-            return UserLevelsValues;
-        }
     }
 }
