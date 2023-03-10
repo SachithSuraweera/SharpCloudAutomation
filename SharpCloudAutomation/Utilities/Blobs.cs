@@ -10,7 +10,6 @@ namespace SharpCloudAutomation.Utilities
             string TodaysDate = DateTime.Now.ToString("yyyy-MM-dd");
             return TodaysDate;
         }
-
         public string FileName()
         {
             Reports reports = new();
@@ -18,7 +17,6 @@ namespace SharpCloudAutomation.Utilities
             string name = $"{fileName}-{ConfigurationManager.AppSettings["browser"]}";
             Console.WriteLine(name);
             return name;
-
         }
         public void UploadBlob()
         {
@@ -28,7 +26,6 @@ namespace SharpCloudAutomation.Utilities
             BlobClient blobClient = new(connectionString: connectionString, blobContainerName: $"testreports/drop/SharpCloudAutomation/Output/{GetTodayDate()}", blobName: $"{FileName()}.html");
             blobClient.Upload(filePath, true);
         }
-
         public static string GetURL()
         {
             Reports reports = new();
