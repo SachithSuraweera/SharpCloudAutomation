@@ -5,10 +5,7 @@ namespace SharpCloudAutomation.PageObjects
 {
     public class MainToolBarPage
     {
-        public MainToolBarPage(IWebDriver driver)
-        {
-            PageFactory.InitElements(driver, this);
-        }
+        public MainToolBarPage(IWebDriver driver) => PageFactory.InitElements(driver, this);
 
         [FindsBy(How = How.XPath, Using = ("//div[@id='storyToolbar']"))]
         public IWebElement MtoolBar { get; set; }

@@ -31,7 +31,7 @@ namespace SharpCloudAutomation.Utilities
             Reports reports = new();
             var mainURL = ConfigurationManager.AppSettings["Blob_URL"];
             string date = reports.Gettime();
-            string blobURL = $"{mainURL}\\{GetTodayDate()}\\{date}.html";
+            string blobURL = $"{mainURL}\\{GetTodayDate()}\\{date}-{ConfigurationManager.AppSettings["browser"]}.html";
             return blobURL;
         }
     }

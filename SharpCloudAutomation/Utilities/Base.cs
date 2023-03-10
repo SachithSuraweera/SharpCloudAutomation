@@ -20,7 +20,7 @@ namespace SharpCloudAutomation.Utilities
         public static string browser = ConfigurationManager.AppSettings["browser"];
         public static string env = ConfigurationManager.AppSettings["env"];
         public static string isHeadless = ConfigurationManager.AppSettings["headless"];
-        public static IJavaScriptExecutor js;
+        public static IJavaScriptExecutor? js;
 
         public IWebDriver GetDriver()
         {
