@@ -1,6 +1,5 @@
 ﻿using SharpCloudAutomation.PageObjects;
 using SharpCloudAutomation.Utilities;
-using SharpCloudAutomation.Tests.LoginTestCase;
 using OpenQA.Selenium;
 using System.Collections;
 using AventStack.ExtentReports;
@@ -8,13 +7,13 @@ using OpenQA.Selenium.Support.UI;
 
 namespace SharpCloudAutomation.Tests.CalculationStoryTestCase
 {
-    internal class CalculationStoryTest : Base
+    public class CalculationStoryTest : Base
     {
         [Test]
         public void StoryTableViewResultColumnCheck()
         {
             GetDriver().Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-            WebDriverWait wait = new(GetDriver(), TimeSpan.FromSeconds(15));
+            WebDriverWait wait = new(GetDriver(), TimeSpan.FromSeconds(60));
             ArrayList arrayList = new();
 
             LoginPage loginPage = new(GetDriver());
@@ -30,35 +29,59 @@ namespace SharpCloudAutomation.Tests.CalculationStoryTestCase
                 
                 wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.InvisibilityOfElementLocated(By.ClassName("loader")));
                 
-                IList<IWebElement> viewChooserItems = calculatedStoryPage.GetView();
+                IList<IWebElement> viewChooserItems = calculatedStoryPage.ViewItems;
                 viewChooserItems = viewChooserItems.Where(viewChooserItem => !viewChooserItem.Text.ToString().Contains("add_new")).ToList();
                 
                 foreach (IWebElement view in viewChooserItems)
                 {
                     {
-                        view.Click();
+                        wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id("viewTitleContainer")));
+                        wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(view));
+                        try
+                        {
+                            view.Click();
+                        }
+                        catch (StaleElementReferenceException)
+                        {
+                            view.Click();
+                        }
                         wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.InvisibilityOfElementLocated(By.ClassName("loader")));
-                        Thread.Sleep(1000);
-                        string viewName = calculatedStoryPage.GetViewName().Text;
-                        IList<IWebElement> tableColmCount = calculatedStoryPage.GetTableColmCount();
-                        IList<IWebElement> rowsCount = calculatedStoryPage.GetRowsCount();
+                        string viewName = calculatedStoryPage.ViewTitleName.Text;
+                        IList<IWebElement> tableColmCount = calculatedStoryPage.TableColumnCount;
+                        IList<IWebElement> rowsCount = calculatedStoryPage.TableRowsCount;
                        
                         for (int i = 1; i <= rowsCount.Count; i++)
                         {
                             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td[" + tableColmCount.Count + "]")));
-                            string nameColm = GetDriver().FindElement(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td[1]")).Text;
-                            string resultColm = GetDriver().FindElement(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td["+ tableColmCount.Count +"]")).Text;
-                            TestContext.Progress.WriteLine(resultColm);
-                            if (resultColm == "FAIL" || resultColm == "Fail")
+                            string nameColumn;
+                            try
+                            {
+                                nameColumn = GetDriver().FindElement(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td[1]")).Text;
+                            }
+                            catch (StaleElementReferenceException)
+                            {
+                                nameColumn = GetDriver().FindElement(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td[1]")).Text;
+                            }
+                            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td[" + tableColmCount.Count + "]")));
+                            string resultColumn;
+                            try
+                            {
+                                resultColumn = GetDriver().FindElement(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td[" + tableColmCount.Count + "]")).Text;
+                            }
+                            catch (StaleElementReferenceException)
+                            {
+                                resultColumn = GetDriver().FindElement(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td[" + tableColmCount.Count + "]")).Text;
+                            }
+                            if (resultColumn == "FAIL" || resultColumn == "Fail")
                             {
                                 TestContext.Progress.WriteLine(viewName);
                                 if (viewName == "")
                                 {
-                                    arrayList.Add(calculatedStoryPage.GetRoadMapName().Text + ": " + nameColm);
+                                    arrayList.Add(calculatedStoryPage.RoadMapName.Text + ": " + nameColumn);
                                 }
                                 else
                                 {
-                                    arrayList.Add(calculatedStoryPage.GetRoadMapName().Text +": "+viewName + ": " + nameColm);
+                                    arrayList.Add(calculatedStoryPage.RoadMapName.Text +": "+viewName + ": " + nameColumn);
                                 }
                             }
                         }

@@ -20,7 +20,7 @@ namespace SharpCloudAutomation.Utilities
         }
         public void UploadBlob()
         {
-            string filePath = $"C:\\SharpCloudAutomation\\SharpCloudAutomation\\SharpCloudAutomation\\Output\\{GetTodayDate()}\\{FileName()}.html";
+            string filePath = $"{GetFolderInDirectory()}\\{GetTodayDate()}\\{FileName()}.html";
             var connectionString = ConfigurationManager.AppSettings["BlobConnectionString"];
 
             BlobClient blobClient = new(connectionString: connectionString, blobContainerName: $"testreports/drop/SharpCloudAutomation/Output/{GetTodayDate()}", blobName: $"{FileName()}.html");
@@ -33,6 +33,14 @@ namespace SharpCloudAutomation.Utilities
             string date = reports.Gettime();
             string blobURL = $"{mainURL}\\{GetTodayDate()}\\{date}-{ConfigurationManager.AppSettings["browser"]}.html";
             return blobURL;
+        }
+
+        public static string GetFolderInDirectory()
+        {
+            string workingDirectory = Environment.CurrentDirectory;
+            string parentDirectory = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
+            string outputFolderPath = parentDirectory + "\\Output";
+            return outputFolderPath;
         }
     }
 }
