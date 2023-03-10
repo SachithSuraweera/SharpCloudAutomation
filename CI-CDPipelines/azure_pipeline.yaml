@@ -37,7 +37,7 @@ stages:
           #   displayName: "Install Node.js"
 
           - script: |
-              npm i lighthouse@10.0.6 -g
+              npm i lighthouse@1.0.6 -g
             displayName: "install light_houes"
 
           - task: DotNetCoreCLI@2
