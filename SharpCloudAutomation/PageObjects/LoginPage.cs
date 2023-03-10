@@ -21,8 +21,8 @@ namespace SharpCloudAutomation.PageObjects
 
         public void ValidLogin(string user, string password)
         {
-            GoButton.SendKeys(user);
-            GoButton.SendKeys(password);
+            UsernameText.SendKeys(user);
+            PasswordText.SendKeys(password);
             GoButton.Click();
         }
 
