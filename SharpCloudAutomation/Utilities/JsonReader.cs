@@ -5,35 +5,31 @@ namespace SharpCloudAutomation.Utilities
 {
     public class JsonReader
     {
-        public String ExtractInstanceDataJson(String tokenName)
-        {
-            string workingDirectory = Environment.CurrentDirectory;
-            string startupapth = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
-            String loginJsonString = File.ReadAllText(startupapth +"\\TestData\\TestData_Instance.json");
+        private readonly string _workingDirectory;
+        private readonly string _startupPath;
 
+        public JsonReader() {
+            _workingDirectory = Environment.CurrentDirectory;
+            _startupPath = Directory.GetParent(_workingDirectory).Parent.Parent.FullName;
+        }
+
+        public string? ExtractInstanceDataJson(String tokenName)
+        {
+            string loginJsonString = File.ReadAllText(_startupPath + "\\TestData\\TestData_Instance.json");
             var jsonObject = JToken.Parse(loginJsonString);
-            return jsonObject.SelectToken(tokenName).Value<string>();
+            return jsonObject?.SelectToken(tokenName)?.Value<string>();
         }
 
-        public List<CalculatedStoryList> GetCalculatedStoryList()
-        {
-            string workingDirectory = Environment.CurrentDirectory;
-            string startupapth = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
-            //string BlankStoryJsonString = File.ReadAllText(startupapth + "\\TestData\\TestData_CalculationRelatedStory.json");
-            string BlankStoryJsonString = File.ReadAllText(startupapth + "\\TestData\\testFile.json");
-            List<CalculatedStoryList> calculatedStoryvalues = JsonConvert.DeserializeObject<List<CalculatedStoryList>>(BlankStoryJsonString);
-            return calculatedStoryvalues;
+        public List<CalculatedStoryList>? GetCalculatedStoryList()
+        {           
+            string BlankStoryJsonString = File.ReadAllText(_startupPath + "\\TestData\\testFile.json");
+            return JsonConvert.DeserializeObject<List<CalculatedStoryList>>(BlankStoryJsonString);
         }
 
-        public List<LightHouseBaseValue> GetScenarioes()
-        {
-            string workingDirectory = Environment.CurrentDirectory;
-            string startupapth = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
-            string BlankStoryJsonString = File.ReadAllText(startupapth +"\\TestData\\TestData_LighthouseBaseValuesWithUserLevels.json");
-
-            List<LightHouseBaseValue> lightHouseBasevalues = JsonConvert.DeserializeObject<List<LightHouseBaseValue>>(BlankStoryJsonString);
-            return lightHouseBasevalues;
+        public List<LightHouseBaseValue>? GetScenarios()
+        {           
+            string BlankStoryJsonString = File.ReadAllText(_startupPath + "\\TestData\\TestData_LighthouseBaseValuesWithUserLevels.json");
+            return JsonConvert.DeserializeObject<List<LightHouseBaseValue>>(BlankStoryJsonString);
         }
-
     }
 }

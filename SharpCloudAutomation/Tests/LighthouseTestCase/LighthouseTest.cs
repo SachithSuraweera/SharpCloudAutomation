@@ -15,10 +15,9 @@ namespace SharpCloudAutomation.Tests.LighthouseTestCase
         {
             LighthouseActualValues lighthouseActualValues;
 
-            SoftAssert softAssert = new();
+            var softAssert = new SoftAssert();
+            var scenarios = new JsonReader().GetScenarios();
             WebDriverWait wait = new(GetDriver(), TimeSpan.FromSeconds(60));
-
-            var scenarios = new JsonReader().GetScenarioes();
 
             foreach (var sc in scenarios)
             {
@@ -32,15 +31,18 @@ namespace SharpCloudAutomation.Tests.LighthouseTestCase
                     {
                         GetDriver().Navigate().GoToUrl(ConfigurationManager.AppSettings["BetaInstanceURL"]);
                     }
+
                     LoginPage loginPage = new(GetDriver());
-                    loginPage.ValidLogin(GetJsonData().ExtractInstanceDataJson("username"), GetJsonData().ExtractInstanceDataJson("password"));
+                    loginPage.ValidLogin(GetJsonData().ExtractInstanceDataJson("username") ?? "", GetJsonData().ExtractInstanceDataJson("password") ?? "");
                     wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.InvisibilityOfElementLocated(By.ClassName("loader")));
                 }
+
                 GetDriver().Navigate().GoToUrl(sc.StoryUrl);
-                lighthouseActualValues = new LighthouseActualValues(sc.StoryUrl);
-                ExtentTest performanceNode = CreateNode("Lighthouse performance values : " + sc.Scenario);
-                performanceNode.Log(Status.Info, "Lighthouse Base value : " + sc.Performance);
-                performanceNode.Log(Status.Info, "Lighthouse Actual value : " + lighthouseActualValues.Performance);
+                lighthouseActualValues = new LighthouseActualValues(sc.StoryUrl ?? "");
+
+                ExtentTest performanceNode = CreateNode("Lighthouse performance values :" + sc.Scenario);
+                performanceNode.Log(Status.Info, "Lighthouse Base value " + sc.Performance);
+                performanceNode.Log(Status.Info, "Lighthouse Actual value " + lighthouseActualValues.Performance);
                 softAssert.IsTrue(lighthouseActualValues.Performance >= sc.Performance);
             }
             softAssert.VerifyAll();
@@ -54,7 +56,7 @@ namespace SharpCloudAutomation.Tests.LighthouseTestCase
             SoftAssert softAssert = new();
             WebDriverWait wait = new(GetDriver(), TimeSpan.FromSeconds(60));
 
-            var scenarios = new JsonReader().GetScenarioes();
+            var scenarios = new JsonReader().GetScenarios();
 
             foreach (var sc in scenarios)
             {
@@ -69,11 +71,11 @@ namespace SharpCloudAutomation.Tests.LighthouseTestCase
                         GetDriver().Navigate().GoToUrl(ConfigurationManager.AppSettings["BetaInstanceURL"]);
                     }
                     LoginPage loginPage = new(GetDriver());
-                    loginPage.ValidLogin(GetJsonData().ExtractInstanceDataJson("username"), GetJsonData().ExtractInstanceDataJson("password"));
+                    loginPage.ValidLogin(GetJsonData().ExtractInstanceDataJson("username") ?? "", GetJsonData().ExtractInstanceDataJson("password") ?? "");
                     wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.InvisibilityOfElementLocated(By.ClassName("loader")));
                 }
                 GetDriver().Navigate().GoToUrl(sc.StoryUrl);
-                lighthouseActualValues = new LighthouseActualValues(sc.StoryUrl);
+                lighthouseActualValues = new LighthouseActualValues(sc.StoryUrl ?? "");
                 ExtentTest accessibilityNode = CreateNode("Lighthouse accessibility values : " + sc.Scenario);
                 accessibilityNode.Log(Status.Info, "Lighthouse Base value : " + sc.Accessibility);
                 accessibilityNode.Log(Status.Info, "Lighthouse Actual value : " + lighthouseActualValues.Accessibility);
@@ -90,7 +92,7 @@ namespace SharpCloudAutomation.Tests.LighthouseTestCase
             SoftAssert softAssert = new();
             WebDriverWait wait = new(GetDriver(), TimeSpan.FromSeconds(60));
 
-            var scenarios = new JsonReader().GetScenarioes();
+            var scenarios = new JsonReader().GetScenarios();
 
             foreach (var sc in scenarios)
             {
@@ -104,12 +106,14 @@ namespace SharpCloudAutomation.Tests.LighthouseTestCase
                     {
                         GetDriver().Navigate().GoToUrl(ConfigurationManager.AppSettings["BetaInstanceURL"]);
                     }
+
                     LoginPage loginPage = new(GetDriver());
-                    loginPage.ValidLogin(GetJsonData().ExtractInstanceDataJson("username"), GetJsonData().ExtractInstanceDataJson("password"));
+                    loginPage.ValidLogin(GetJsonData().ExtractInstanceDataJson("username") ?? "", GetJsonData().ExtractInstanceDataJson("password") ?? "");
                     wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.InvisibilityOfElementLocated(By.ClassName("loader")));
                 }
+
                 GetDriver().Navigate().GoToUrl(sc.StoryUrl);
-                lighthouseActualValues = new LighthouseActualValues(sc.StoryUrl);
+                lighthouseActualValues = new LighthouseActualValues(sc.StoryUrl ?? "");
                 ExtentTest seoNode = CreateNode("Lighthouse seo values : " + sc.Scenario);
                 seoNode.Log(Status.Info, "Lighthouse Base value : " + sc.Seo);
                 seoNode.Log(Status.Info, "Lighthouse Actual value : " + lighthouseActualValues.Seo);

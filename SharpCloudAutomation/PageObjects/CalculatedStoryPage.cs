@@ -11,18 +11,24 @@ namespace SharpCloudAutomation.PageObjects
         }
 
         [FindsBy(How = How.CssSelector, Using = (".view-chooser-item.ng-star-inserted"))]
-        public IList<IWebElement> ViewItems { get; set; }
+        public IList<IWebElement> ChooserItems { get; set; }
+
+        [FindsBy(How = How.XPath, Using = ("//table[@id='table-view']"))]
+        public IWebElement TableView { get; set; }
 
         [FindsBy(How = How.Id, Using = ("viewTitleContainer"))]
-        public IWebElement ViewTitleName { get; set; }
+        public IWebElement ViewName { get; set; }
 
         [FindsBy(How = How.XPath, Using = ("//table[@id='table-view']/thead/tr/th"))]
-        public IList<IWebElement> TableColumnCount { get; set; }
+        public IList<IWebElement> TableColumns;
 
         [FindsBy(How = How.XPath, Using = ("//table[@id='table-view']/tbody/tr"))]
-        public IList<IWebElement> TableRowsCount { get; set; }
+        public IList<IWebElement> TableRows;
 
         [FindsBy(How = How.CssSelector, Using = ("#roadmapName"))]
-        public IWebElement RoadMapName { get; set; }
+        public IWebElement RoadMapName;
+
+        [FindsBy(How = How.CssSelector, Using = ("div[id='dashboardWelcome'] h1"))]
+        public IWebElement DashboardTitle;
     }
 }

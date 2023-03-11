@@ -5,17 +5,18 @@ namespace SharpCloudAutomation.Utilities
 {
     public class Blobs
     {
-         public static string GetTodayDate()
+        public static string GetTodayDate()
         {
-            string TodaysDate = DateTime.Now.ToString("yyyy-MM-dd");
-            return TodaysDate;
+            return DateTime.Now.ToString("yyyy-MM-dd");
         }
+
         public static string? GetFileName()
         {
             Reports reports = new();
-            string fileName = reports.Gettime();
+            string fileName = reports.GetTime() ?? "";
             string name = $"{fileName}-{ConfigurationManager.AppSettings["browser"]}";
             Console.WriteLine(name);
+
             return name;
         }
 
@@ -31,7 +32,8 @@ namespace SharpCloudAutomation.Utilities
         {
             Reports reports = new();
             string? mainURL = ConfigurationManager.AppSettings["Blob_URL"];
-            string date = reports.Gettime();
+            string date = reports.GetTime() ?? "";
+
             return $"{mainURL}\\{GetTodayDate()}\\{date}-{ConfigurationManager.AppSettings["browser"]}.html";
         }
 
@@ -39,6 +41,7 @@ namespace SharpCloudAutomation.Utilities
         {
             string workingDirectory = Environment.CurrentDirectory;
             string? parentDirectory = Directory.GetParent(workingDirectory)?.Parent?.Parent?.FullName;
+
             return parentDirectory + "\\Output";
         }
     }
