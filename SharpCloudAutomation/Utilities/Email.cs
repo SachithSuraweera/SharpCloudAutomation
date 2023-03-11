@@ -46,7 +46,7 @@ namespace SharpCloudAutomation.Utilities
                   }},
                  {"Subject", $"SharpCloud Automation Execution Report {DateTime.Now}"},
                  {"TextPart", "Hi, Please find the attached automation report for nightly execution"},
-                 {"HTMLPart", $"<h3>Hi,<br /><br /> Please click on the link to download the automation report <a href=\"{Blobs.GetURL()}\" style=\"color:green;\">SharpCloud Automation Report</a>!</h3><br />Thank you!"},
+                 {"HTMLPart", $"<p>Hi All,<br /><br /> Please click on the below link to download the automation report. <br /><br /><a href=\"{Blobs.GetURL()}\" style=\"color:green;\">SharpCloud Automation Report</a></p><br />Thank you!"},
                  }
                    });
             MailjetResponse response = await client.PostAsync(request);

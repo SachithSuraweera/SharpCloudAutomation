@@ -7,7 +7,7 @@ namespace SharpCloudAutomation.Utilities
 {
     public class ErrorLogs : Base
     {
-        readonly IWebDriver driver;
+        new readonly IWebDriver driver;
 
         public ErrorLogs(IWebDriver driver)
         {
