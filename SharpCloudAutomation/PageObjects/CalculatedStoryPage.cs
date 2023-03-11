@@ -24,6 +24,5 @@ namespace SharpCloudAutomation.PageObjects
 
         [FindsBy(How = How.CssSelector, Using = ("#roadmapName"))]
         public IWebElement RoadMapName { get; set; }
-
     }
 }

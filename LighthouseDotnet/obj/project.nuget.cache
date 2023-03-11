@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "dgSpecHash": "ti8N70aD5FtCVHUV5xYw03G3DA0hTIcvS+c2ZRknFEAXyhIHgbREzOIJoOV6VD8pwS6c25igQHPeQfmGt/hXow==",
+  "success": true,
+  "projectFilePath": "C:\\QAAutomation\\SharpCloudAutomation\\LighthouseDotnet\\LighthouseDotnet.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\SachithSuraweeraBIST\\.nuget\\packages\\newtonsoft.json\\13.0.2\\newtonsoft.json.13.0.2.nupkg.sha512",
+    "C:\\Users\\SachithSuraweeraBIST\\.nuget\\packages\\nlog\\5.1.2\\nlog.5.1.2.nupkg.sha512",
+    "C:\\Users\\SachithSuraweeraBIST\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\5.0.0\\microsoft.windowsdesktop.app.ref.5.0.0.nupkg.sha512",
+    "C:\\Users\\SachithSuraweeraBIST\\.nuget\\packages\\microsoft.netcore.app.ref\\5.0.0\\microsoft.netcore.app.ref.5.0.0.nupkg.sha512",
+    "C:\\Users\\SachithSuraweeraBIST\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\5.0.0\\microsoft.aspnetcore.app.ref.5.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

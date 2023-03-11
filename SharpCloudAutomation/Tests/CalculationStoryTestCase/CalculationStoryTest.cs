@@ -7,7 +7,7 @@ using OpenQA.Selenium.Support.UI;
 
 namespace SharpCloudAutomation.Tests.CalculationStoryTestCase
 {
-    internal class CalculationStoryTest : Base
+    public class CalculationStoryTest : Base
     {
         [Test]
         public void StoryTableViewResultColumnCheck()
@@ -37,11 +37,11 @@ namespace SharpCloudAutomation.Tests.CalculationStoryTestCase
                     {
                         wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id("viewTitleContainer")));
                         wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(view));
-                        try 
+                        try
                         {
                             view.Click();
                         }
-                        catch (StaleElementReferenceException) 
+                        catch (StaleElementReferenceException)
                         {
                             view.Click();
                         }
@@ -63,12 +63,22 @@ namespace SharpCloudAutomation.Tests.CalculationStoryTestCase
                                 nameColumn = GetDriver().FindElement(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td[1]")).Text;
                             }
                             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td[" + tableColmCount.Count + "]")));
+                            string nameColumn;
+                            try
+                            {
+                                nameColumn = GetDriver().FindElement(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td[1]")).Text;
+                            }
+                            catch (StaleElementReferenceException)
+                            {
+                                nameColumn = GetDriver().FindElement(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td[1]")).Text;
+                            }
+                            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td[" + tableColmCount.Count + "]")));
                             string resultColumn;
                             try
                             {
                                 resultColumn = GetDriver().FindElement(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td[" + tableColmCount.Count + "]")).Text;
                             }
-                            catch(StaleElementReferenceException) 
+                            catch (StaleElementReferenceException)
                             {
                                 resultColumn = GetDriver().FindElement(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td[" + tableColmCount.Count + "]")).Text;
                             }

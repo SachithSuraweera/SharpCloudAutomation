@@ -6,7 +6,6 @@ using SharpCloudAutomation.Utilities;
 using SoftAssertion;
 using System.Configuration;
 
-
 namespace SharpCloudAutomation.Tests.LighthouseTestCase
 {
     public class LighthouseTest : Base

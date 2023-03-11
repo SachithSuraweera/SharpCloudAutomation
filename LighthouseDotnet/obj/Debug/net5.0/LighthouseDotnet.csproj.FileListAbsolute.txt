@@ -1,0 +1,10 @@
+C:\QAAutomation\SharpCloudAutomation\LighthouseDotnet\bin\Debug\net5.0\LighthouseDotnet.deps.json
+C:\QAAutomation\SharpCloudAutomation\LighthouseDotnet\bin\Debug\net5.0\LighthouseDotnet.dll
+C:\QAAutomation\SharpCloudAutomation\LighthouseDotnet\obj\Debug\net5.0\LighthouseDotnet.csproj.AssemblyReference.cache
+C:\QAAutomation\SharpCloudAutomation\LighthouseDotnet\obj\Debug\net5.0\LighthouseDotnet.GeneratedMSBuildEditorConfig.editorconfig
+C:\QAAutomation\SharpCloudAutomation\LighthouseDotnet\obj\Debug\net5.0\LighthouseDotnet.AssemblyInfoInputs.cache
+C:\QAAutomation\SharpCloudAutomation\LighthouseDotnet\obj\Debug\net5.0\LighthouseDotnet.AssemblyInfo.cs
+C:\QAAutomation\SharpCloudAutomation\LighthouseDotnet\obj\Debug\net5.0\LighthouseDotnet.csproj.CoreCompileInputs.cache
+C:\QAAutomation\SharpCloudAutomation\LighthouseDotnet\obj\Debug\net5.0\LighthouseDotnet.dll
+C:\QAAutomation\SharpCloudAutomation\LighthouseDotnet\obj\Debug\net5.0\refint\LighthouseDotnet.dll
+C:\QAAutomation\SharpCloudAutomation\LighthouseDotnet\obj\Debug\net5.0\ref\LighthouseDotnet.dll
