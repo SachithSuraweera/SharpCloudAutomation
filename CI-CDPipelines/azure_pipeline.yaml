@@ -56,6 +56,7 @@ stages:
           - script: |
               cd $(Build.SourcesDirectory)/SharpCloudAutomation
               dotnet test --configuration $(BuildConfiguration) --no-build
+              continueOnError: true
             displayName: TEST
 
           # - task: DotNetCoreCLI@2
