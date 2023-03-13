@@ -25,25 +25,30 @@ namespace SharpCloudAutomation.Utilities
                  {"From", new JObject {
                   {"Email", $"{ConfigurationManager.AppSettings["From_Email"]}"},
                   {"Name", "Automation Report"}
-                  }},
-                 {"To", new JArray {
-                  new JObject {
-                   {"Email", $"{ConfigurationManager.AppSettings["To_Email"]}"},
-                   {"Name", "Client"}
+                  }
+                 },
+                 {"To", new JArray 
+                  {
+                  new JObject 
+                   {
+                    {"Email", $"{ConfigurationManager.AppSettings["To_Email"]}"},
+                    {"Name", "Client"}
                    },
-                  new JObject {
-                   {"Email", $"{ConfigurationManager.AppSettings["To_Email_1"]}"},
-                   {"Name", "Client"}
+                  new JObject 
+                   {
+                    {"Email", $"{ConfigurationManager.AppSettings["To_Email_1"]}"},
+                    {"Name", "Client"}
                    },
-                  new JObject {
-                   {"Email", $"{ConfigurationManager.AppSettings["To_Email_2"]}"},
-                   {"Name", "Client"}
+                  new JObject 
+                   {
+                    {"Email", $"{ConfigurationManager.AppSettings["To_Email_2"]}"},
+                    {"Name", "Client"}
                    }
                    }
                  },
                  {"Subject", $"SharpCloud Automation Execution Report {DateTime.Now}"},
                  {"TextPart", "Hi, Please find the attached automation report for nightly execution"},
-                 {"HTMLPart", $"<h3>Hi,<br /><br /> Please click on the link to download the automation report <a href=\"{Blobs.GetURL()}\" style=\"color:green;\">SharpCloud Automation Report</a>!</h3><br />Thank you!"},
+                 {"HTMLPart", $"<p>Hi All,<br /><br /> Please click on the below link to download the automation report. <br /><br /><a href=\"{Blobs.GetURL()}\" style=\"color:green;\">SharpCloud Automation Report</a></p><br />Thank you!"},
                  }
                    });
 
