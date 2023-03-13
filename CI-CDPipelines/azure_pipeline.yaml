@@ -78,7 +78,7 @@ stages:
             inputs: 
               PathtoPublish: '$(build.artifactstagingdirectory)'
               condition: succeededOrFailed()
-              condition: always()
+              # condition: always()
               
               
   - stage: 'Deploy'
