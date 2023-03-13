@@ -1,4 +1,4 @@
-﻿using lighthouse.net;
+﻿using LighthouseDotnet;
 
 namespace SharpCloudAutomation.Utilities
 {
