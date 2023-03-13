@@ -36,7 +36,7 @@ namespace SharpCloudAutomation.Tests.LighthouseTestCase
                     loginPage.ValidLogin(GetJsonData().ExtractInstanceDataJson("username") ?? "", GetJsonData().ExtractInstanceDataJson("password") ?? "");
                     wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.InvisibilityOfElementLocated(By.ClassName("loader")));
                 }
-
+                Thread.Sleep(5000);
                 GetDriver().Navigate().GoToUrl(sc.StoryUrl);
                 lighthouseActualValues = new LighthouseActualValues(sc.StoryUrl ?? "");
 
@@ -74,6 +74,7 @@ namespace SharpCloudAutomation.Tests.LighthouseTestCase
                     loginPage.ValidLogin(GetJsonData().ExtractInstanceDataJson("username") ?? "", GetJsonData().ExtractInstanceDataJson("password") ?? "");
                     wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.InvisibilityOfElementLocated(By.ClassName("loader")));
                 }
+                Thread.Sleep(5000);
                 GetDriver().Navigate().GoToUrl(sc.StoryUrl);
                 lighthouseActualValues = new LighthouseActualValues(sc.StoryUrl ?? "");
                 ExtentTest accessibilityNode = CreateNode("Lighthouse accessibility values : " + sc.Scenario);
@@ -111,7 +112,7 @@ namespace SharpCloudAutomation.Tests.LighthouseTestCase
                     loginPage.ValidLogin(GetJsonData().ExtractInstanceDataJson("username") ?? "", GetJsonData().ExtractInstanceDataJson("password") ?? "");
                     wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.InvisibilityOfElementLocated(By.ClassName("loader")));
                 }
-
+                Thread.Sleep(5000);
                 GetDriver().Navigate().GoToUrl(sc.StoryUrl);
                 lighthouseActualValues = new LighthouseActualValues(sc.StoryUrl ?? "");
                 ExtentTest seoNode = CreateNode("Lighthouse seo values : " + sc.Scenario);

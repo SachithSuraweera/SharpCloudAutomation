@@ -22,7 +22,7 @@ namespace SharpCloudAutomation.Utilities
 
         public List<CalculatedStoryList>? GetCalculatedStoryList()
         {           
-            string BlankStoryJsonString = File.ReadAllText(_startupPath + "\\TestData\\testFile.json");
+            string BlankStoryJsonString = File.ReadAllText(_startupPath + "\\TestData\\TestData_CalculationRelatedStory.json");
             return JsonConvert.DeserializeObject<List<CalculatedStoryList>>(BlankStoryJsonString);
         }
 
