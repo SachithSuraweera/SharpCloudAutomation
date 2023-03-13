@@ -73,16 +73,16 @@ stages:
               Contents: '**/*.html'
               TargetFolder: '$(build.artifactstagingdirectory)'
               continueOnError: true
-              condition: succeededOrFailed()
               # condition: always()
+            condition: succeededOrFailed()
 
           - task: PublishBuildArtifacts@1
             displayName: 'Publish Artifact'
             inputs: 
               PathtoPublish: '$(build.artifactstagingdirectory)'
-              condition: succeededOrFailed()
               continueOnError: true
               # condition: always()
+            condition: succeededOrFailed()
               
               
   - stage: 'Deploy'
