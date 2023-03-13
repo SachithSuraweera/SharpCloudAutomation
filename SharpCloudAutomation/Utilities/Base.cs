@@ -126,12 +126,12 @@ namespace SharpCloudAutomation.Utilities
                     {
                         Dictionary<string, object> browserStackOptions = new()
                         {
-                            { "userName", "sachithsuraweera_UewjJZ" },
-                            { "accessKey", "d5KTJYhpUcdqFFUyfHZB" },
+                            { "userName", "aloka_6B71TW" },
+                            { "accessKey", "ia5cPxyjeDYbp62qpq3s" },
                             { "os", "OS X" },
                             { "osVersion", "Monterey" },
                             { "browserVersion", "15.0" },
-                            { "projectName", " CharpCloudAutomation" },
+                            { "projectName", " SharpCloudAutomation" },
                             { "local", "false" },
                             { "seleniumVersion", "4.7.2" },
                             { "browserName", "Safari" }
