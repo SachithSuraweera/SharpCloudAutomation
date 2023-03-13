@@ -16,7 +16,6 @@ stages:
       - job: "Build"
         displayName: "Build job"
         continueOnError: true
-        always:
         pool:
           vmImage: windows-latest
 
