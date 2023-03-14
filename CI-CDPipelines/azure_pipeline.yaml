@@ -7,14 +7,14 @@ schedules:
       include:
         - main
 
-trigger:
- branches:
-   include:
-     - main
- paths:
-   include:
-     - SharpCloudAutomation
-     - azure_pipeline.yaml
+# trigger:
+#  branches:
+#    include:
+#      - main
+#  paths:
+#    include:
+#      - SharpCloudAutomation
+#      - azure_pipeline.yaml
 
 stages:
   - stage: "Build"
