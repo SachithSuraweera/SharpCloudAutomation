@@ -3,7 +3,7 @@
 trigger:
  branches:
    include:
-     - release-qa
+     - main
  paths:
    include:
      - SharpCloudAutomation
