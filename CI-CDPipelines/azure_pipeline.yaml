@@ -9,8 +9,8 @@ schedules:
   always: true
 
 #To run on a schedule PR and CI triggers must be disabled.
-# pr: none
-# trigger: none
+pr: none
+trigger: none
 
 # trigger:
 #  branches:
