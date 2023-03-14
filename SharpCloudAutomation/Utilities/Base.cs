@@ -1,4 +1,6 @@
 ﻿using AventStack.ExtentReports;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using NUnit.Framework.Interfaces;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -14,6 +16,7 @@ namespace SharpCloudAutomation.Utilities
 {
     public class Base
     {
+        public IConfiguration configuration;
         public static string env;
         public static string browser = ConfigurationManager.AppSettings["browser"];
         public static string isHeadless = ConfigurationManager.AppSettings["headless"];
@@ -70,6 +73,9 @@ namespace SharpCloudAutomation.Utilities
                 node.Log(Status.Info, "Beta Environment");
                 node.Log(Status.Pass, "Navigated to Beta URL successfully");
             }
+
+            AddConfiguarions();
+
         }
 
         public void InitializeBrowser(string browserName)
@@ -184,5 +190,24 @@ namespace SharpCloudAutomation.Utilities
             GetDriver().Quit();
             reports.EndReport();
         }
+
+        public void AddConfiguarions()
+        {
+            var config = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetParent(AppContext.BaseDirectory).FullName)
+            .AddJsonFile("appsettings.json")
+            .AddEnvironmentVariables() .Build();
+
+            Config.EmailAPIKey = config["Email_API_Key"];
+            Config.BlobConnectionString = config["BlobConnectionString"];
+            Config.Email_Secret = config["Email_Secret"];
+        }
+    }
+
+    public static class Config
+    {
+        public static string EmailAPIKey { get; set; }
+        public static string BlobConnectionString { get; set; }
+        public static string Email_Secret { get; set; }
     }
 }

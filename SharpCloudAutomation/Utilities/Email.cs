@@ -14,7 +14,7 @@ namespace SharpCloudAutomation.Utilities
 
         static async Task RunAsync()
         {
-            MailjetClient client = new(ConfigurationManager.AppSettings["Email_API_Key"], ConfigurationManager.AppSettings["Email_Secret"]);
+            MailjetClient client = new(Config.EmailAPIKey, Config.Email_Secret);
 
             MailjetRequest request = new MailjetRequest
             {

@@ -23,7 +23,7 @@ namespace SharpCloudAutomation.Utilities
         public void UploadBlob()
         {
             string filePath = $"{GetFolderInDirectory()}\\{GetTodayDate()}\\{GetFileName()}.html";
-            string? connectionString = ConfigurationManager.AppSettings["BlobConnectionString"];
+            string? connectionString = Config.BlobConnectionString;
             BlobClient blobClient = new(connectionString: connectionString, blobContainerName: $"testreports/drop/SharpCloudAutomation/Output/{GetTodayDate()}", blobName: $"{GetFileName()}.html");
             blobClient.Upload(filePath, true);
         }
@@ -34,7 +34,7 @@ namespace SharpCloudAutomation.Utilities
             string? mainURL = ConfigurationManager.AppSettings["Blob_URL"];
             string date = reports.GetTime() ?? "";
 
-            return $"{mainURL}\\{GetTodayDate()}\\{date}-{ConfigurationManager.AppSettings["browser"]}.html";
+            return $"{mainURL}{GetTodayDate()}\\{date}-{ConfigurationManager.AppSettings["browser"]}.html";
         }
 
         public static string GetFolderInDirectory()
