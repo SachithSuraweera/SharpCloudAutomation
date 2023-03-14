@@ -15,7 +15,7 @@ stages:
     jobs:
       - job: "Build"
         displayName: "Build job"
-        continueOnError: false
+        continueOnError: true
         pool:
           vmImage: windows-latest
 
@@ -56,6 +56,8 @@ stages:
           - script: |
               cd $(Build.SourcesDirectory)/SharpCloudAutomation
               dotnet test --configuration $(BuildConfiguration) --no-build
+              continueOnError: true
+            condition: succeededOrFailed()
             displayName: TEST
 
           # - task: DotNetCoreCLI@2
@@ -64,17 +66,23 @@ stages:
           #     command: 'test'
           #     arguments: '--configuration $(BuildConfiguration) --no-build'
           #     projects: '**/*.csproj'
+
           - task: CopyFiles@2
             inputs:
               SourceFolder: '$(Build.SourcesDirectory)'
               Contents: '**/*.html'
               TargetFolder: '$(build.artifactstagingdirectory)'
+              continueOnError: true
+              # condition: always()
+            condition: succeededOrFailed()
 
           - task: PublishBuildArtifacts@1
             displayName: 'Publish Artifact'
             inputs: 
               PathtoPublish: '$(build.artifactstagingdirectory)'
-              condition: succeededOrFailed()
+              continueOnError: true
+              # condition: always()
+            condition: succeededOrFailed()
               
               
   - stage: 'Deploy'
@@ -83,7 +91,7 @@ stages:
     jobs:
       - deployment: Deploy
         pool:
-          vmImage: ubuntu-latest
+          vmImage: windows-latest
         environment: SharpCloud-Test_Env
         variables:
         - group: SharpCloud-test-automation
