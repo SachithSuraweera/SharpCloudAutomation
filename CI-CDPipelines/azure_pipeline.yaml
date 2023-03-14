@@ -6,7 +6,7 @@ schedules:
     branches:
       include:
         - main
-    always: true
+      always: true
 
 #To run on a schedule PR and CI triggers must be disabled.
 pr: none
