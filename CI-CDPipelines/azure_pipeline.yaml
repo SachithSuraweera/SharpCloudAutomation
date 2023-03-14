@@ -1,7 +1,7 @@
 ### Creating a YAML Pipeline for .NET test Projects
 ### Running Selenium UI Tests in an Azure DevOps Pipeline
 schedules:
-- cron: "06 17 * * *"
+- cron: "00 04 * * *"
   displayName: 'Run At 00.00 on every-day-of-month'
   branches:
     include:
