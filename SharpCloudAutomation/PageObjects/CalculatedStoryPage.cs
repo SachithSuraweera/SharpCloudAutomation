@@ -5,50 +5,30 @@ namespace SharpCloudAutomation.PageObjects
 {
     internal class CalculatedStoryPage
     {
-        private IWebDriver driver;
         public CalculatedStoryPage(IWebDriver driver)
         {
-            this.driver = driver;
             PageFactory.InitElements(driver, this);
         }
 
         [FindsBy(How = How.CssSelector, Using = (".view-chooser-item.ng-star-inserted"))]
-        public IList<IWebElement> viewChooserItems;
+        public IList<IWebElement> ChooserItems { get; set; }
 
-        public IList<IWebElement> getView()
-        {
-            return viewChooserItems;
-        }
         [FindsBy(How = How.XPath, Using = ("//table[@id='table-view']"))]
-        private IWebElement getTable;
-
-        public IWebElement getTableView() { return getTable; }
+        public IWebElement TableView { get; set; }
 
         [FindsBy(How = How.Id, Using = ("viewTitleContainer"))]
-        private IWebElement viewName;
-
-        public IWebElement getViewName() {  return viewName; }
+        public IWebElement ViewName { get; set; }
 
         [FindsBy(How = How.XPath, Using = ("//table[@id='table-view']/thead/tr/th"))]
-        private IList<IWebElement> tableColmCount;
-
-        public IList<IWebElement> getTableColmCount() { return tableColmCount; }
+        public IList<IWebElement> TableColumns;
 
         [FindsBy(How = How.XPath, Using = ("//table[@id='table-view']/tbody/tr"))]
-        private IList<IWebElement> rowsCount;
-
-        public IList <IWebElement> getRowsCount() {  return rowsCount; }
+        public IList<IWebElement> TableRows;
 
         [FindsBy(How = How.CssSelector, Using = ("#roadmapName"))]
-        private IWebElement roadMapName;
-
-        public IWebElement getRoadMapName() { return roadMapName; }
+        public IWebElement RoadMapName;
 
         [FindsBy(How = How.CssSelector, Using = ("div[id='dashboardWelcome'] h1"))]
-        private IWebElement dashboardTitle;
-
-        public IWebElement getDashboardTitle() {  return dashboardTitle; }
-
-
+        public IWebElement DashboardTitle;
     }
 }

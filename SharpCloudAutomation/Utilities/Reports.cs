@@ -1,80 +1,54 @@
-﻿using AventStack.ExtentReports.Reporter.Configuration;
+﻿using AventStack.ExtentReports;
 using AventStack.ExtentReports.Reporter;
-using AventStack.ExtentReports;
+using AventStack.ExtentReports.Reporter.Configuration;
 using System.Configuration;
 
 namespace SharpCloudAutomation.Utilities
 {
     public class Reports
     {
-        public static ExtentReports extent;
-        public static string date;
+        private static ExtentReports? _extent;
+        private static string? _date;
 
         public ExtentReports Setup()
         {
-            if (Base.browser == null && Base.env == null)
+            if (_extent == null)
             {
-                if (extent == null)
-                {
-                    string workingDirectory = Environment.CurrentDirectory;
-                    string parentDirectory = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
-                    string browserName = ConfigurationManager.AppSettings["browser"];
-                    string TodaysDate = DateTime.Now.ToString("yyyy-MM-dd");
-                    string TodaysFolder = (parentDirectory + "//Output//" + TodaysDate);
+                string workingDirectory = Environment.CurrentDirectory;
+                string? parentDirectory = Directory.GetParent(workingDirectory)?.Parent?.Parent?.FullName;
+                string? browserName = ConfigurationManager.AppSettings["browser"];
+                string todaysDate = DateTime.Now.ToString("yyyy-MM-dd");
+                string todaysFolder = (parentDirectory + "//Output//" + todaysDate);
 
-                    if (!Directory.Exists(TodaysFolder))
-                    {
-                        Directory.CreateDirectory(TodaysFolder);
-                    }
-                    date = String.Format("{0}_{1:yyyy_MM_dd_HH_mm}", "index", DateTime.Now);
-                    string reportPath = $"{TodaysFolder}//{date}-{browserName}.html";
-                    var htmlReporter = new ExtentV3HtmlReporter(reportPath);
-                    htmlReporter.Config.Theme = Theme.Dark;
-                    extent = new ExtentReports();
-                    extent.AttachReporter(htmlReporter);
-                    extent.AddSystemInfo("Project Name", "SharpCloudAutomation");
-                    extent.AddSystemInfo("Environment", Base.env);
-                    extent.AddSystemInfo("OS", Environment.OSVersion.VersionString);
-                    extent.AddSystemInfo("Browser", Base.browser);
+                if (!Directory.Exists(todaysFolder))
+                {
+                    Directory.CreateDirectory(todaysFolder);
                 }
 
-            }
+                _date = String.Format("{0}_{1:yyyy_MM_dd_HH_mm}", "index", DateTime.Now);
 
-            else
-            {
-                if (extent == null)
-                {
-                    string workingDirectory = Environment.CurrentDirectory;
-                    string parentDirectory = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
-                    string browserName = ConfigurationManager.AppSettings["browser"];
-                    string TodaysDate = DateTime.Now.ToString("yyyy-MM-dd");
-                    string TodaysFolder = (parentDirectory + "//Output//" + TodaysDate);
+                string reportPath = $"{todaysFolder}//{_date}-{browserName}.html";
+                var htmlReporter = new ExtentV3HtmlReporter(reportPath);
+                htmlReporter.Config.Theme = Theme.Dark;
 
-                    if (!Directory.Exists(TodaysFolder))
-                    {
-                        Directory.CreateDirectory(TodaysFolder);
-                    }
-                    date = String.Format("{0}_{1:yyyy_MM_dd_HH_mm}", "index", DateTime.Now);
-                    string reportPath = $"{TodaysFolder}//{date}-{browserName}.html";
-                    var htmlReporter = new ExtentV3HtmlReporter(reportPath);
-                    htmlReporter.Config.Theme = Theme.Dark;
-                    extent = new ExtentReports();
-                    extent.AttachReporter(htmlReporter);
-                    extent.AddSystemInfo("Project Name", "SharpCloudAutomation");
-                    extent.AddSystemInfo("Environment", Base.env);
-                    extent.AddSystemInfo("OS", Environment.OSVersion.VersionString);
-                    extent.AddSystemInfo("Browser", Base.browser);
-                }
+                _extent = new ExtentReports();
+                _extent.AttachReporter(htmlReporter);
+                _extent.AddSystemInfo("Project Name", "SharpCloudAutomation");
+                _extent.AddSystemInfo("Environment", Base.env);
+                _extent.AddSystemInfo("OS", Environment.OSVersion.VersionString);
+                _extent.AddSystemInfo("Browser", Base.browser);
             }
-            return extent;
+            return _extent;
         }
-        public string getDateandTime()
-        {
-            return date;
-        }
+
         public void EndReport()
         {
-            extent.Flush();
+            _extent?.Flush();
+        }
+
+        public string? GetTime()
+        {
+            return _date;
         }
     }
 }

@@ -1,68 +1,84 @@
-﻿using SharpCloudAutomation.PageObjects;
+using SharpCloudAutomation.PageObjects;
 using SharpCloudAutomation.Utilities;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using System.Collections;
 using AventStack.ExtentReports;
-using OpenQA.Selenium.Support.UI;
 
 namespace SharpCloudAutomation.Tests.CalculationStoryTestCase
 {
     public class CalculationStoryTest : Base
     {
         [Test]
-        public void storyTableViewResultColumnCheck()
+        public void StoryTableViewResultColumnCheck()
         {
             GetDriver().Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-            WebDriverWait wait = new WebDriverWait(GetDriver(), TimeSpan.FromSeconds(15));
-            ArrayList arrayList = new ArrayList();
+            WebDriverWait wait = new(GetDriver(), TimeSpan.FromSeconds(60));
+            ArrayList arrayList = new();
+            LoginPage loginPage = new(GetDriver());
+            CalculatedStoryPage calculatedStoryPage = new(GetDriver());
 
-            LoginPage loginPage = new LoginPage(GetDriver());
-            CalculatedStoryPage calculatedStoryPage = new CalculatedStoryPage(GetDriver());
-            loginPage.validLogin(GetJsonData().ExtractInstanceDataJson("username"), GetJsonData().ExtractInstanceDataJson("password"));
-
+            loginPage.ValidLogin(GetJsonData().ExtractInstanceDataJson("username") ?? "", GetJsonData().ExtractInstanceDataJson("password") ?? "");
             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.CssSelector("div[id='dashboardWelcome'] h1")));
 
             var stories = new JsonReader().GetCalculatedStoryList();
+
             foreach (var story in stories)
             {
                 GetDriver().Navigate().GoToUrl(story.StoryUrl);
 
                 wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.InvisibilityOfElementLocated(By.ClassName("loader")));
 
-                IList<IWebElement> viewChooserItems = calculatedStoryPage.getView();
-                viewChooserItems = viewChooserItems.Where(viewChooserItem => !viewChooserItem.Text.ToString().Contains("add_new")).ToList();
+                var viewChooserItems = calculatedStoryPage.ChooserItems.Where(viewChooserItem => !viewChooserItem.Text.ToString().Contains("add_new")).ToList();
 
                 foreach (IWebElement view in viewChooserItems)
                 {
-                    {
-                        view.Click();
-                        wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.InvisibilityOfElementLocated(By.ClassName("loader")));
-                        string viewName = calculatedStoryPage.getViewName().Text;
-                        IList<IWebElement> tableColmCount = calculatedStoryPage.getTableColmCount();
-                        IList<IWebElement> rowsCount = calculatedStoryPage.getRowsCount();
+                    view.Click();
+                    wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.InvisibilityOfElementLocated(By.ClassName("loader")));
 
-                        for (int i = 1; i <= rowsCount.Count; i++)
+                    Thread.Sleep(1000);
+
+                    string roadMap = calculatedStoryPage.RoadMapName.Text;
+                    string viewName = calculatedStoryPage.ViewName.Text;
+
+                    for (int i = 1; i <= calculatedStoryPage.TableRows.Count; i++)
+                    {
+                        wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td[" + calculatedStoryPage.TableColumns.Count + "]")));
+                        string nameColumn;
+                        try
                         {
-                            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.InvisibilityOfElementLocated(By.ClassName("loader")));
-                            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td[1]")));
-                            string nameColm = GetDriver().FindElement(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td[1]")).Text;
-                            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td[" + tableColmCount.Count + "]")));
-                            string resultColm = GetDriver().FindElement(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td[" + tableColmCount.Count + "]")).Text;
-                            if (resultColm == "FAIL" || resultColm == "Fail")
+                            nameColumn = GetDriver().FindElement(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td[1]")).Text;
+                        }
+                        catch (StaleElementReferenceException)
+                        {
+                            nameColumn = GetDriver().FindElement(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td[1]")).Text;
+                        }
+                        wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td[" + calculatedStoryPage.TableColumns.Count + "]")));
+                        string resultColumn;
+                        try
+                        {
+                            resultColumn = GetDriver().FindElement(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td[" + calculatedStoryPage.TableColumns.Count + "]")).Text;
+                        }
+                        catch (StaleElementReferenceException)
+                        {
+                            resultColumn = GetDriver().FindElement(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td[" + calculatedStoryPage.TableColumns.Count + "]")).Text;
+                        }
+                        if (resultColumn == "FAIL" || resultColumn == "Fail")
+                        {
+                            TestContext.Progress.WriteLine(viewName);
+                            if (viewName == "")
                             {
-                                if (viewName == "")
-                                {
-                                    arrayList.Add(calculatedStoryPage.getRoadMapName().Text + ": " + nameColm);
-                                }
-                                else
-                                {
-                                    arrayList.Add(calculatedStoryPage.getRoadMapName().Text + ": " + viewName + ": " + nameColm);
-                                }
+                                arrayList.Add(calculatedStoryPage.RoadMapName.Text + ": " + nameColumn);
+                            }
+                            else
+                            {
+                                arrayList.Add(calculatedStoryPage.RoadMapName.Text + ": " + viewName + ": " + nameColumn);
                             }
                         }
                     }
                 }
             }
+
             ExtentTest storyNode = CreateNode("Calculation Related failed stories");
             for (int i = 0; i < arrayList.Count; i++)
             {

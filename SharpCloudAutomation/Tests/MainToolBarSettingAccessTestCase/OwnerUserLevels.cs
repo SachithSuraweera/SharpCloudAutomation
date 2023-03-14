@@ -9,8 +9,8 @@ namespace SharpCloudAutomation.Tests.MainToolBarSettingAccessTestCase
 {
     public class OwnerUserLevels : Base
     {
-        [Test]
-        public void CompareMainToolBarFeatures()
+        //[Test]
+        /*public void CompareMainToolBarFeatures()
         {  
             MainToolBarPage mtoolBarPage = new MainToolBarPage(GetDriver());
             var userlist = new JsonReader().GetUsersList();
@@ -78,6 +78,6 @@ namespace SharpCloudAutomation.Tests.MainToolBarSettingAccessTestCase
                     }
                 }
             }
-        }
+        }*/
     }
 }

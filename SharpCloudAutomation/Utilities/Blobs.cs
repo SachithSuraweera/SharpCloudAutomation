@@ -1,58 +1,48 @@
 ﻿using Azure.Storage.Blobs;
-using Microsoft.VisualStudio.TestPlatform.Utilities;
-using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SharpCloudAutomation.Utilities
 {
     public class Blobs
     {
-        private string blobDate;
-
-        public static string getTodayDate()
+        public static string GetTodayDate()
         {
-            string TodaysDate = DateTime.Now.ToString("yyyy-MM-dd");
-            return TodaysDate;
+            return DateTime.Now.ToString("yyyy-MM-dd");
         }
 
-        public string fileName()
+        public static string? GetFileName()
         {
-            Reports reports = new Reports();
-            string fileName = reports.getDateandTime();
+            Reports reports = new();
+            string fileName = reports.GetTime() ?? "";
             string name = $"{fileName}-{ConfigurationManager.AppSettings["browser"]}";
             Console.WriteLine(name);
-            return name;
 
+            return name;
         }
+
         public void UploadBlob()
         {
-            //string filePath = $"C:\\SharpCloudAutomation\\SharpCloudAutomation\\SharpCloudAutomation\\Output\\{getTodayDate()}\\{fileName()}.html";
-            string filePath = $"{getFolderInDirectory()}\\{getTodayDate()}\\{fileName()}.html";
-            var connectionString = ConfigurationManager.AppSettings["BlobConnectionString"];
-
-            BlobClient blobClient = new BlobClient(connectionString: connectionString, blobContainerName: $"testreports/drop/SharpCloudAutomation/Output/{getTodayDate()}", blobName: $"{fileName()}.html");
+            string filePath = $"{GetFolderInDirectory()}\\{GetTodayDate()}\\{GetFileName()}.html";
+            string? connectionString = ConfigurationManager.AppSettings["BlobConnectionString"];
+            BlobClient blobClient = new(connectionString: connectionString, blobContainerName: $"testreports/drop/SharpCloudAutomation/Output/{GetTodayDate()}", blobName: $"{GetFileName()}.html");
             blobClient.Upload(filePath, true);
         }
 
         public static string GetURL()
         {
-            Reports reports = new Reports();
-            var mainURL = ConfigurationManager.AppSettings["Blob_URL"];
-            string date = reports.getDateandTime();
-            string blobURL = $"{mainURL}\\{getTodayDate()}\\{date}.html";
-            return blobURL;
+            Reports reports = new();
+            string? mainURL = ConfigurationManager.AppSettings["Blob_URL"];
+            string date = reports.GetTime() ?? "";
+
+            return $"{mainURL}\\{GetTodayDate()}\\{date}-{ConfigurationManager.AppSettings["browser"]}.html";
         }
 
-        public static string getFolderInDirectory()
+        public static string GetFolderInDirectory()
         {
             string workingDirectory = Environment.CurrentDirectory;
-            string parentDirectory = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
-            string outputFolderPath = parentDirectory + "\\Output";
-            return outputFolderPath;
+            string? parentDirectory = Directory.GetParent(workingDirectory)?.Parent?.Parent?.FullName;
+
+            return parentDirectory + "\\Output";
         }
     }
 }

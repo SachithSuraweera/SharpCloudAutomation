@@ -6,16 +6,18 @@ namespace SharpCloudAutomation.Tests.LoginTestCase
     public class LoginValidation : Base
     {
         [Test]
-        public void loginToTheSystem()
+        public void LoginToTheSystem()
         {
-            LoginPage loginPage = new LoginPage(GetDriver());
+            LoginPage loginPage = new(GetDriver());
             GetDriver().Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(100);
 
-            Assert.IsTrue(loginPage.getGoBtn().Displayed);
-            loginPage.getUserName().SendKeys(GetJsonData().ExtractInstanceDataJson("username"));
-            loginPage.getPassword().SendKeys(GetJsonData().ExtractInstanceDataJson("password"));
-            ErrorLogs errLog = new ErrorLogs(GetDriver());
-            errLog.AddBorwserLogs();
+            Assert.That(loginPage.GoButton.Displayed, Is.True);
+
+            loginPage.UsernameText.SendKeys(GetJsonData().ExtractInstanceDataJson("username"));
+            loginPage.PasswordText.SendKeys(GetJsonData().ExtractInstanceDataJson("password"));
+
+            ErrorLogs errLog = new(GetDriver());
+            errLog.AddBrowserLogs();
         }
     }
 }
