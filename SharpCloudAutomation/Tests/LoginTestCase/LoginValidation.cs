@@ -15,6 +15,7 @@ namespace SharpCloudAutomation.Tests.LoginTestCase
 
             loginPage.UsernameText.SendKeys(GetJsonData().ExtractInstanceDataJson("username"));
             loginPage.PasswordText.SendKeys(GetJsonData().ExtractInstanceDataJson("password"));
+            loginPage.GoButton.Click();
 
             ErrorLogs errLog = new(GetDriver());
             errLog.AddBrowserLogs();
