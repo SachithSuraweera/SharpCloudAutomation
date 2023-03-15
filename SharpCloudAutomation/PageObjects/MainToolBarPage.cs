@@ -17,7 +17,7 @@ namespace SharpCloudAutomation.PageObjects
         public IList<IWebElement> UndoDropdown { get; set; }        
 
         [FindsBy(How = How.XPath, Using = ("//span[@aria-label='Undo menu' and @role='button']"))]
-        public IWebElement UndoDropdownIcon { get; set; }     
+        public IWebElement UndoDropdownIcon { get; set; }
 
         [FindsBy(How = How.XPath, Using = ("//div[@tooltip='Story Setup']"))]
         public IWebElement StoryIcon { get; set; }
