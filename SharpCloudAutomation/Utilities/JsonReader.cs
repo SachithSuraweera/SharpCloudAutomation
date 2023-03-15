@@ -31,5 +31,11 @@ namespace SharpCloudAutomation.Utilities
             string BlankStoryJsonString = File.ReadAllText(_startupPath + "\\TestData\\TestData_LighthouseBaseValuesWithUserLevels.json");
             return JsonConvert.DeserializeObject<List<LightHouseBaseValue>>(BlankStoryJsonString);
         }
+
+        public List<UserLevelsValue> GetUsersList()
+        {
+            string UserLevelStoryJsonString = File.ReadAllText(_startupPath + "\\TestData\\TestData_UserLevels.json");
+            return JsonConvert.DeserializeObject<List<UserLevelsValue>>(UserLevelStoryJsonString);
+        }
     }
 }
