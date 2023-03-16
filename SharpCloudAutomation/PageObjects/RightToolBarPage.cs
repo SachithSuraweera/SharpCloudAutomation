@@ -34,5 +34,26 @@ namespace SharpCloudAutomation.PageObjects
 
         [FindsBy(How = How.CssSelector, Using = ("#side-view-button"))]
         public IWebElement SideViewButton { get; set; }
+
+        [FindsBy(How = How.XPath, Using = ("//button[.=' Open text editor ']"))]
+        public IWebElement SideViewGuideButton { get; set; }
+
+        [FindsBy(How = How.XPath, Using = ("//div[@id='feed-button']//div[@class='flexbox-center flexbox-direction-column']"))]
+        public IWebElement CommentsButton { get; set; }
+
+        [FindsBy(How = How.XPath, Using = ("//div[@id='story-feed-comment-box']"))]
+        public IWebElement AddCommentsTextBox { get; set; }
+
+        [FindsBy(How = How.XPath, Using = ("//button[@id='story-feed-comment-button']"))]
+        public IWebElement AddCommentsTextButton { get; set; }
+
+        [FindsBy(How = How.XPath, Using = ("//p[@class='info-text']"))]
+        public IWebElement CommentedText { get; set; }
+
+        [FindsBy(How = How.CssSelector, Using = (".feed-item.ng-star-inserted"))]
+        public IWebElement commentTextBox { get; set; }
+
+        [FindsBy(How = How.XPath, Using = ("//p[@aria-label='Delete comment']"))]
+        public IWebElement DeleteComment { get; set; }
     }
 }
