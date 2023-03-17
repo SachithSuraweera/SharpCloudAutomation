@@ -13,51 +13,13 @@ namespace SharpCloudAutomation.Utilities
         public string StorySharePermission { get; set; }
 
         public RightSideToolbarPermissions RightSideToolbarPermissions { get; set; }
-
-        public RightSideToolbarPermissions SideViewEmptyVisitbility { get; set; }
-
-        public RightSideToolbarPermissions SideViewEmptyExpand { get; set; }
-
-        public RightSideToolbarPermissions SideViewEmptyCanEdit { get; set; }
-
-        public RightSideToolbarPermissions SideViewGuideVisibility { get; set; }
-
-        public RightSideToolbarPermissions SideViewGuideExpand { get; set; }
-
-        public RightSideToolbarPermissions SideViewGuideCanEdit { get; set; }
-
-        public RightSideToolbarPermissions SideViewFormVisibility { get; set; }
-
-        public RightSideToolbarPermissions SideViewFormExpand { get; set; }
-
-        public RightSideToolbarPermissions SideViewFormCanUse { get; set; }
-
-        public RightSideToolbarPermissions CommentsVisibility { get; set; }
-
-        public RightSideToolbarPermissions CommentsCanEditComment { get; set; }
-
-        public RightSideToolbarPermissions EditVisibility { get; set; }
-
-        public RightSideToolbarPermissions EditCanEdit { get; set; }
-
-        public RightSideToolbarPermissions WidgetsVisibility { get; set; }
-
-        public RightSideToolbarPermissions WidgetsCanEdit { get; set; }
-
-        public RightSideToolbarPermissions FormsVisibility { get; set; }
-
-        public RightSideToolbarPermissions FormsCanUse { get; set; }
-
-        public RightSideToolbarPermissions ActivityCanUse { get; set; }
-
-
     }
 
     public class RightSideToolbarPermissions
     {
         public bool RightSideToolBarVisiblility { get; set; }
 
-        public bool SideViewEmptyVisibility { get; set; }
+        public bool SideViewEmptyVisitbility { get; set; }
 
         public bool SideViewEmptyExpand { get; set; }
 

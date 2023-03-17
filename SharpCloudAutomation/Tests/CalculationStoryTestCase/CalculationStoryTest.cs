@@ -33,7 +33,7 @@ namespace SharpCloudAutomation.Tests.CalculationStoryTestCase
                 view.Click();
                 wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.InvisibilityOfElementLocated(By.ClassName("loader")));
 
-                Thread.Sleep(1000);
+                SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(3));
 
                 string roadMap = calculatedStoryPage.RoadMapName.Text;
                 string viewName = calculatedStoryPage.ViewName.Text;
@@ -42,6 +42,7 @@ namespace SharpCloudAutomation.Tests.CalculationStoryTestCase
                 {
                     wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td[" + calculatedStoryPage.TableColumns.Count + "]")));
                     string nameColumn;
+
                     try
                     {
                         nameColumn = GetDriver().FindElement(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td[1]")).Text;
@@ -50,8 +51,10 @@ namespace SharpCloudAutomation.Tests.CalculationStoryTestCase
                     {
                         nameColumn = GetDriver().FindElement(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td[1]")).Text;
                     }
+
                     wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td[" + calculatedStoryPage.TableColumns.Count + "]")));
                     string resultColumn;
+
                     try
                     {
                         resultColumn = GetDriver().FindElement(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td[" + calculatedStoryPage.TableColumns.Count + "]")).Text;
@@ -60,6 +63,7 @@ namespace SharpCloudAutomation.Tests.CalculationStoryTestCase
                     {
                         resultColumn = GetDriver().FindElement(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td[" + calculatedStoryPage.TableColumns.Count + "]")).Text;
                     }
+
                     if (resultColumn == "FAIL" || resultColumn == "Fail")
                     {
                         TestContext.Progress.WriteLine(viewName);

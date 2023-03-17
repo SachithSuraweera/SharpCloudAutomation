@@ -25,7 +25,7 @@ namespace SharpCloudAutomation.Utilities
                     Directory.CreateDirectory(todaysFolder);
                 }
 
-                _date = String.Format("{0}_{1:yyyy_MM_dd_HH_mm}", "index", DateTime.Now);
+                _date = $"index_{DateTime.Now:yyyy_MM_dd_HH_mm}";
 
                 string reportPath = $"{todaysFolder}//{_date}-{browserName}.html";
                 var htmlReporter = new ExtentV3HtmlReporter(reportPath);
