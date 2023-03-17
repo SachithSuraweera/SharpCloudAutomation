@@ -17,6 +17,7 @@ namespace SharpCloudAutomation.Tests.LighthouseTestCase
 
             var softAssert = new SoftAssert();
             var scenarios = new JsonReader().GetScenarios();
+            GetDriver().Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
             WebDriverWait wait = new(GetDriver(), TimeSpan.FromSeconds(60));
 
             foreach (var sc in scenarios)
@@ -34,10 +35,11 @@ namespace SharpCloudAutomation.Tests.LighthouseTestCase
 
                     LoginPage loginPage = new(GetDriver());
                     loginPage.ValidLogin(GetJsonData().ExtractInstanceDataJson("username") ?? "", GetJsonData().ExtractInstanceDataJson("password") ?? "");
-                    wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.InvisibilityOfElementLocated(By.ClassName("loader")));
+                    wait.Until(driver => ((IJavaScriptExecutor)driver).ExecuteScript("return document.readyState").Equals("complete"));
+                    SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
                 }
-                Thread.Sleep(5000);
                 GetDriver().Navigate().GoToUrl(sc.StoryUrl);
+                GetDriver().Navigate().Refresh();
                 lighthouseActualValues = new LighthouseActualValues(sc.StoryUrl ?? "");
 
                 ExtentTest performanceNode = CreateNode("Lighthouse performance values :" + sc.Scenario);
@@ -54,6 +56,7 @@ namespace SharpCloudAutomation.Tests.LighthouseTestCase
             LighthouseActualValues lighthouseActualValues;
 
             SoftAssert softAssert = new();
+            GetDriver().Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
             WebDriverWait wait = new(GetDriver(), TimeSpan.FromSeconds(60));
 
             var scenarios = new JsonReader().GetScenarios();
@@ -72,10 +75,10 @@ namespace SharpCloudAutomation.Tests.LighthouseTestCase
                     }
                     LoginPage loginPage = new(GetDriver());
                     loginPage.ValidLogin(GetJsonData().ExtractInstanceDataJson("username") ?? "", GetJsonData().ExtractInstanceDataJson("password") ?? "");
-                    wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.InvisibilityOfElementLocated(By.ClassName("loader")));
+                    SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
                 }
-                Thread.Sleep(5000);
                 GetDriver().Navigate().GoToUrl(sc.StoryUrl);
+                GetDriver().Navigate().Refresh();
                 lighthouseActualValues = new LighthouseActualValues(sc.StoryUrl ?? "");
                 ExtentTest accessibilityNode = CreateNode("Lighthouse accessibility values : " + sc.Scenario);
                 accessibilityNode.Log(Status.Info, "Lighthouse Base value : " + sc.Accessibility);
@@ -91,6 +94,7 @@ namespace SharpCloudAutomation.Tests.LighthouseTestCase
             LighthouseActualValues lighthouseActualValues;
 
             SoftAssert softAssert = new();
+            GetDriver().Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
             WebDriverWait wait = new(GetDriver(), TimeSpan.FromSeconds(60));
 
             var scenarios = new JsonReader().GetScenarios();
@@ -110,10 +114,10 @@ namespace SharpCloudAutomation.Tests.LighthouseTestCase
 
                     LoginPage loginPage = new(GetDriver());
                     loginPage.ValidLogin(GetJsonData().ExtractInstanceDataJson("username") ?? "", GetJsonData().ExtractInstanceDataJson("password") ?? "");
-                    wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.InvisibilityOfElementLocated(By.ClassName("loader")));
+                    SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
                 }
-                Thread.Sleep(5000);
                 GetDriver().Navigate().GoToUrl(sc.StoryUrl);
+                GetDriver().Navigate().Refresh();
                 lighthouseActualValues = new LighthouseActualValues(sc.StoryUrl ?? "");
                 ExtentTest seoNode = CreateNode("Lighthouse seo values : " + sc.Scenario);
                 seoNode.Log(Status.Info, "Lighthouse Base value : " + sc.Seo);
