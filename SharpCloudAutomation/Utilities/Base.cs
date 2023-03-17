@@ -48,7 +48,7 @@ namespace SharpCloudAutomation.Utilities
             if (env == null)
                 env = ConfigurationManager.AppSettings["env"] ?? "AutoInstance";
 
-            test.Value = reports.Setup().CreateTest(TestContext.CurrentContext.Test.Name);
+            test.Value = reports.Setup().CreateTest(TestContext.CurrentContext.Test.MethodName);
 
             browser = ConfigurationManager.AppSettings["browser"] ?? "";
             InitializeBrowser(browser);

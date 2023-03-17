@@ -6,7 +6,7 @@
     "storySharePermission": "Owner",
     "mainToolBarPermissions": {
       "mainToolbarvisibility": true,
-      "undoVisibility ": true,
+      "undoVisibility": true,
       "undoSubMenu": true,
       "redoSubMenu": true,
       "restoreStorySubMenu": true,
@@ -62,7 +62,7 @@
     "storySharePermission": "Co-Owner",
     "mainToolBarPermissions": {
       "mainToolbarvisibility": true,
-      "undoVisibility ": true,
+      "undoVisibility": true,
       "undoSubMenu": true,
       "redoSubMenu": true,
       "restoreStorySubMenu": true,
@@ -118,7 +118,7 @@
     "storySharePermission": "Admin",
     "mainToolBarPermissions": {
       "mainToolbarvisibility": true,
-      "undoVisibility ": true,
+      "undoVisibility": true,
       "undoSubMenu": true,
       "redoSubMenu": true,
       "restoreStorySubMenu": true,
@@ -174,7 +174,7 @@
     "storySharePermission": "Editor",
     "mainToolBarPermissions": {
       "mainToolbarvisibility": true,
-      "undoVisibility ": true,
+      "undoVisibility": true,
       "undoSubMenu": true,
       "redoSubMenu": true,
       "restoreStorySubMenu": false,
@@ -230,7 +230,7 @@
     "storySharePermission": "Viewer",
     "mainToolBarPermissions": {
       "mainToolbarvisibility": true,
-      "undoVisibility ": false,
+      "undoVisibility": false,
       "undoSubMenu": false,
       "redoSubMenu": false,
       "restoreStorySubMenu": false,
@@ -286,7 +286,7 @@
     "storySharePermission": "Individual Viewer",
     "mainToolBarPermissions": {
       "mainToolbarvisibility": true,
-      "undoVisibility ": false,
+      "undoVisibility": false,
       "undoSubMenu": false,
       "redoSubMenu": false,
       "restoreStorySubMenu": false,
@@ -342,7 +342,7 @@
     "storySharePermission": "Directory Viewer",
     "mainToolBarPermissions": {
       "mainToolbarvisibility": false,
-      "undoVisibility ": false,
+      "undoVisibility": false,
       "undoSubMenu": false,
       "redoSubMenu": false,
       "restoreStorySubMenu": false,
@@ -398,7 +398,7 @@
     "storySharePermission": "Anonymous",
     "mainToolBarPermissions": {
       "mainToolbarvisibility": false,
-      "undoVisibility ": false,
+      "undoVisibility": false,
       "undoSubMenu": false,
       "redoSubMenu": false,
       "restoreStorySubMenu": false,

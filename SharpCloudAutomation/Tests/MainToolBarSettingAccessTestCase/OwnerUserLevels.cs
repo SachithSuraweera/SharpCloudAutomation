@@ -1,24 +1,22 @@
-﻿using AventStack.ExtentReports;
+﻿using AngleSharp.Common;
+using AventStack.ExtentReports;
+using BrowserStack;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 using SharpCloudAutomation.PageObjects;
 using SharpCloudAutomation.Utilities;
-using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
+using System;
 
 
 namespace SharpCloudAutomation.Tests.MainToolBarSettingAccessTestCase
 {
     public class OwnerUserLevels : Base
     {
-        [Test]
-        [TestCaseSource(nameof(GetTestData))]
-        public void CompareMainToolBarFeatures(string username, string password, string storyUrl, string storySharePermission)
+        public void LoginTosystem(string username, string password, string storyUrl)
         {
             MainToolBarPage mtoolBarPage = new(GetDriver());
             LoginPage loginPage = new(GetDriver());
-            GetDriver().Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(100);
 
             Assert.That(loginPage.GoButton.Displayed, Is.True);
             loginPage.UsernameText.SendKeys(username);
@@ -26,191 +24,134 @@ namespace SharpCloudAutomation.Tests.MainToolBarSettingAccessTestCase
             loginPage.GoButton.Click();
             Thread.Sleep(5000);
             GetDriver().Navigate().GoToUrl(storyUrl);
+        }
+        public bool Exists(By by)
+        {
+            if (GetDriver().FindElements(by).Count != 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        [Test]
+        [TestCaseSource(nameof(GetTestData))]
+        public void CompareMainToolBarFeatures(string username, string password, string storyUrl, string storySharePermission, bool mainToolbarvisibility, bool UndoVisibility, bool UndoSubMenu, bool RedoSubMenu, bool RestoreStorySubMenu, bool StoryVisibility, bool SetupSubMenu, bool ManagePresentationsSubMenu, bool ManageFormsSubMenu, bool DownloadStorySubMenu, bool DataVisibility, bool EditDataSubMenu, bool DataConnectorsSubMenu, bool ViewVisibility, bool ResetViewVisibility, bool SaveViewVisibility, bool ViewSetupSubMenu, bool FiltersSubMenu, bool AddNewSubMenu, bool SaveAsNewSubMenu, bool RelationshipsVisibility, bool ShowSubMenu, bool CreateOrEditSubMenu, bool MoreOptionsSubMenu, bool UnlockVisibility, bool SearchVisibility, bool FullScreenVisibility)
+        {
+            MainToolBarPage mtoolBarPage = new(GetDriver());
+            LoginPage loginPage = new(GetDriver());
+            LoginTosystem(username, password, storyUrl);
+
             ExtentTest createNode = CreateNode(storySharePermission + " Level Main Tool Bar Features");
-            WebDriverWait wait = new WebDriverWait(GetDriver(), TimeSpan.FromSeconds(50));
-            wait.Until(ExpectedConditions.ElementExists(By.XPath("//div[@id='storyToolbar']")));
+            WebDriverWait wait = new WebDriverWait(GetDriver(), TimeSpan.FromSeconds(50));            
 
-            if (mtoolBarPage.MtoolBar.Displayed)
+            bool isMainToolBarDisplayed = Exists(By.XPath("//div[@id='storyToolbar']"));
+            WriteToReport(mainToolbarvisibility, isMainToolBarDisplayed, ":Main Tool Bar {0} visible", storySharePermission, createNode);
+
+            SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
+            bool isUndoIconDisplayed = Exists(By.XPath("//div[@id='undoDropdown']"));           
+            if (isUndoIconDisplayed)
             {
-                createNode.Log(Status.Info, "Maintool Bar Element is Visible");
-            }
-            else
-            {
-                createNode.Log(Status.Info, "Maintool Bar Element is not Visible");
-            }
-            //Undo Visibility
-            if (mtoolBarPage.UndoIcon.Displayed)
-            {
-                createNode.Log(Status.Info, "Undo Element is Visible");
+                WriteToReport(UndoVisibility, isUndoIconDisplayed, ":Undo Element {0} visible", storySharePermission, createNode);
                 mtoolBarPage.UndoDropdownIcon.Click();
-
-                int elementsCount = mtoolBarPage.UndoDropdown.Count;
-                String[] uSubMenu = { "undo (CTRL+Z)", "redo (CTRL+Y)", "Restore Story" };
-                for (int i = 1; i <= elementsCount; i++)
+                WriteToReport(UndoSubMenu, mtoolBarPage.UndoSubMenu.Displayed, ":Undo Sub Menu {0} visible", storySharePermission, createNode);
+                WriteToReport(RedoSubMenu, mtoolBarPage.RedoSubMenu.Displayed, ":Redo Sub Menu {0} visible", storySharePermission, createNode);
+                bool isRestoreSubMenuDisplayed = Exists(By.XPath("//div[@id='dropdownMenu' and @outsideifnot='dropdownMenu, undoDropdown']//li[contains(text(),'Restore Story')]"));
                 {
-                    if (i == 3)
-                    {
-                        IWebElement subUndo = GetDriver().FindElement(By.XPath("//div[@id='dropdownMenu' and @outsideifnot='dropdownMenu, undoDropdown']//fieldset/li"));
-                        String subText = subUndo.Text;
-                        if (uSubMenu[i - 1] == subText)
-                        {
-                            createNode.Log(Status.Info, subText + " Element is Visible");
-                        }
-                    }
-                    else
-                    {
-                        IWebElement subUndo = GetDriver().FindElement(By.XPath("//div[@id='dropdownMenu' and @outsideifnot='dropdownMenu, undoDropdown']//li[" + i + "]"));
-                        String subText = subUndo.Text;
-                        if (uSubMenu[i - 1] == subText)
-                        {
-                            createNode.Log(Status.Info, subText + " Element is Visible");
-                        }
-                    }
+                    WriteToReport(RestoreStorySubMenu, isRestoreSubMenuDisplayed, ":Restore Story sub menu {0} visible", storySharePermission, createNode);
                 }
             }
-            else
-            {
-                createNode.Log(Status.Info, "Undo Element is not Visible");
-            }
 
-            //Story visibility
-            if (mtoolBarPage.StoryIcon.Displayed)
+            SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
+            bool isStoryIconDisplayed = Exists(By.XPath("//div[@tooltip='Story Setup']"));
+            if (isStoryIconDisplayed)
             {
-                createNode.Log(Status.Info, "Story Element is Visible");
+                WriteToReport(StoryVisibility, isStoryIconDisplayed, ":Story Element {0} visible", storySharePermission, createNode);
                 mtoolBarPage.StoryDropIcon.Click();
-
-                int storyelementsCount = mtoolBarPage.StoryDropdown.Count;
-                string[] storySubMenu = { "Setup", "Manage Presentations", "Manage Forms", "Download Story" };
-                for (int i = 1; i <= storyelementsCount; i++)
-                {
-                    string storyName = storySubMenu[i - 1];
-                    IWebElement subStory = GetDriver().FindElement(By.XPath("//div[@id='dropdownMenu' and @outsideifnot='dropdownMenu, storySetupDropdown']//fieldset/li[text()='" + storyName + "']"));
-                    bool textPresent = mtoolBarPage.StoryDropdown.Contains(subStory);
-
-                    if (textPresent == true)
-                    {
-                        createNode.Log(Status.Info, storyName + " Element is Visible");
-                    }
-                }
+                WriteToReport(SetupSubMenu, mtoolBarPage.SetupSubMenu.Displayed, ":Setup Sub Menu {0} visible", storySharePermission, createNode);
+                WriteToReport(ManagePresentationsSubMenu, mtoolBarPage.ManagePresentationSubMenu.Displayed, ":Manage Presentations Sub Menu {0} visible", storySharePermission, createNode);
+                WriteToReport(ManageFormsSubMenu, mtoolBarPage.ManageFormsSubMenu.Displayed, ":Manage Forms sub menu {0} visible", storySharePermission, createNode);
+                WriteToReport(DownloadStorySubMenu, mtoolBarPage.DownloadStorySubMenu.Displayed, ":Download Story sub menu {0} visible", storySharePermission, createNode);
             }
-            else
+
+            SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
+            bool isDataIconDisplayed = Exists(By.XPath("//div[@tooltip='Data Setup']"));
+            if (isDataIconDisplayed)
             {
-                createNode.Log(Status.Info, "Story Element is not Visible");
-            }
-            
-            //Data Visibility
-            if (mtoolBarPage.DataLabel.Displayed)
-            {
-                createNode.Log(Status.Info, "Data Element is Visible");
+                WriteToReport(DataVisibility, isDataIconDisplayed, ":Data Element {0} visible", storySharePermission, createNode);
                 mtoolBarPage.DataDropDownIcon.Click();
+                WriteToReport(EditDataSubMenu, mtoolBarPage.EditDataSubMenu.Displayed, ":Edit Data Sub Menu {0} visible", storySharePermission, createNode);
+                WriteToReport(DataConnectorsSubMenu, mtoolBarPage.DataSourcesSubMenu.Displayed, ":Data Connectors Sub Menu {0} visible", storySharePermission, createNode);
+            }
 
-                int dataelementsCount = mtoolBarPage.DataDropdown.Count;
-                String[] dataSubMenu = { "Edit Data", "Data Sources" };
-                for (int i = 1; i <= dataelementsCount; i++)
-                {
-                    IWebElement subData = GetDriver().FindElement(By.XPath("//div[@id='dropdownMenu' and @outsideifnot='dropdownMenu, dataSetupDropdown']//li['" + dataSubMenu[i - 1] + "']"));
-                    bool textPresent = mtoolBarPage.DataDropdown.Contains(subData);
+            SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
+            bool isViewDisplayed = Exists(By.XPath("//span[text()='View']"));
+            if (isViewDisplayed)
+            {
+                WriteToReport(ViewVisibility, isViewDisplayed, ":View Element {0} visible", storySharePermission, createNode);
+            }
 
-                    if (textPresent == true)
-                    {
-                        createNode.Log(Status.Info, dataSubMenu[i - 1] + " Element is Visible");
-                    }
-                }
-            }
-            else
+            SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
+            bool isResetDisplayed = Exists(By.XPath("//button[text()='Reset View']"));
+            if (isResetDisplayed)
             {
-                createNode.Log(Status.Info, "Data Element is not Visible");
+                WriteToReport(ResetViewVisibility, isResetDisplayed, ":Reset View Element {0} visible", storySharePermission, createNode);
             }
-            
-            //View Visibility
-            if (mtoolBarPage.ViewIcon.Displayed)
+
+            SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
+            bool isSaveDisplayed = Exists(By.XPath("//span[@aria-label='View setup menu']"));
+            if (isSaveDisplayed)
             {
-                createNode.Log(Status.Info, "View Element is Visible");
-            }
-            else
-            {
-                createNode.Log(Status.Info, "View Element is not Visible");
-            }
-            if (mtoolBarPage.ResetIcon.Displayed)
-            {
-                createNode.Log(Status.Info, "Reset View Element is Visible");
-            }
-            else
-            {
-                createNode.Log(Status.Info, "Reset View Element is not Visible");
-            }
-            if (mtoolBarPage.SaveLabel.Displayed)
-            {
-                createNode.Log(Status.Info, "Save View Element is Visible");
+                WriteToReport(SaveViewVisibility, isSaveDisplayed, ":Save View Element {0} visible", storySharePermission, createNode);
                 mtoolBarPage.SaveDropDownIcon.Click();
-                
-                int viewSetUpelementsCount = mtoolBarPage.ViewSetupDropdown.Count;
-                String[] viewSetUpSubMenu = { "Setup", "Filters", "Add new", "Save as new" };
-                for (int i = 1; i <= viewSetUpelementsCount; i++)
-                {
-                    IWebElement subView = GetDriver().FindElement(By.XPath("//div[@id='dropdownMenu' and @outsideifnot='dropdownMenu, viewSetupDropdown']//li[" + i + "]"));
-                    String subText = subView.Text;
-                    if (viewSetUpSubMenu[i - 1] == subText)
-                    {
-                        createNode.Log(Status.Info, subText + " Element is Visible");
-                    }
-                }
+                WriteToReport(ViewSetupSubMenu, mtoolBarPage.ViewSetUpSubMenu.Displayed, ":View Setup Sub Menu {0} visible", storySharePermission, createNode);
+                WriteToReport(FiltersSubMenu, mtoolBarPage.FiltersSubMenu.Displayed, ":Filters Sub Menu {0} visible", storySharePermission, createNode);
+                WriteToReport(AddNewSubMenu, mtoolBarPage.AddNewSubMenu.Displayed, ":Add New Sub Menu {0} visible", storySharePermission, createNode);
+                WriteToReport(SaveAsNewSubMenu, mtoolBarPage.SaveAsNewSubMenu.Displayed, ":Save As New Sub Menu {0} visible", storySharePermission, createNode);
             }
-            else
-            {
-                createNode.Log(Status.Info, "Save View Element is not Visible");
-            }
-            
-            //Relationships Visibility
-            if (mtoolBarPage.RelationshipIcon.Displayed)
-            {
-                createNode.Log(Status.Info, "Relationship Element is Visible");
-                mtoolBarPage.RelationshipDropDownIcon.Click();
 
-                int relationshipelementsCount = mtoolBarPage.RelationshipDropDown.Count;
-                String[] relationshipSubMenu = { "Show", "Create/Edit", " More options..." };
-                for (int i = 1; i <= relationshipelementsCount; i++)
+            SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
+            bool isRelationshipDisplayed = Exists(By.XPath("//div[@id='relationshipsToggle']"));
+            bool isCreateSubMenupDisplayed = Exists(By.XPath("//div[@id='dropdownMenu' and @outsideifnot='dropdownMenu, relationshipsToggle']//li/label[contains(text(),'Create/Edit')]"));
+            if (isRelationshipDisplayed)
+            {
+                WriteToReport(RelationshipsVisibility, isRelationshipDisplayed, ":Relationship Element {0} visible", storySharePermission, createNode);
+                mtoolBarPage.RelationshipDropDownIcon.Click();
+                WriteToReport(ShowSubMenu, mtoolBarPage.ShowSubMenu.Displayed, ":Show Sub Menu {0} visible", storySharePermission, createNode);
+                if (isCreateSubMenupDisplayed)
                 {
-                    IWebElement subRelationship = GetDriver().FindElement(By.XPath("//div[@id='dropdownMenu' and @outsideifnot='dropdownMenu, relationshipsToggle']//li[" + i + "]"));
-                    String subText = subRelationship.Text;
-                    if (relationshipSubMenu[i - 1] == subText)
-                    {
-                        createNode.Log(Status.Info, subText + " Element is Visible");
-                    }
+                    WriteToReport(CreateOrEditSubMenu, isCreateSubMenupDisplayed, ":Create/Edit Sub Menu {0} visible", storySharePermission, createNode);
+                    WriteToReport(MoreOptionsSubMenu, mtoolBarPage.MoreOptionsSubMenu.Displayed, ":More Options Sub Menu {0} visible", storySharePermission, createNode);
                 }
             }
-            else
+
+            bool isUnlockDisplayed = Exists(By.XPath("//span[text()='Unlock']"));
+            if (isUnlockDisplayed)
             {
-                createNode.Log(Status.Info, "Relationship Element is not Visible");
+                WriteToReport(UnlockVisibility, isUnlockDisplayed, ":Unlock Element {0} visible", storySharePermission, createNode);
             }
-            
-            //Unlock - visibility
-            if (mtoolBarPage.UnlockIcon.Displayed)
+
+            bool isSearchDisplayed = Exists(By.XPath("//img[@alt='Search']"));
+            if (isSearchDisplayed)
             {
-                createNode.Log(Status.Info, "Unlock Element is Visible");
+                WriteToReport(SearchVisibility, isSearchDisplayed, ":Search Element {0} visible", storySharePermission, createNode);
             }
-            else
+
+            bool isFScreenDisplayed = Exists(By.XPath("//img[@alt='Fullscreen story button']"));
+            if (isFScreenDisplayed)
             {
-                createNode.Log(Status.Info, "Unlock Element is not Visible");
+                WriteToReport(FullScreenVisibility, isFScreenDisplayed, ":Full Screen Element {0} visible", storySharePermission, createNode);
             }
-            //Search - visibility
-            if (mtoolBarPage.SearchIcon.Displayed)
-            {
-                createNode.Log(Status.Info, "Search Element is Visible");
-            }
-            else
-            {
-                createNode.Log(Status.Info, "Search Element is not Visible");
-            }
-            //Full screen - visibility
-            if (mtoolBarPage.FullScreenIcon.Displayed)
-            {
-                createNode.Log(Status.Info, "Full Screen Element is Visible");
-            }
-            else
-            {
-                createNode.Log(Status.Info, "Full Screen Element is not Visible");
-            }
+        }
+
+        private void WriteToReport(bool expected, bool actual, string message, string role, ExtentTest node)
+        {
+            var record = string.Format(message, actual ? "is" : "is not");
+            var status = actual == expected ? Status.Pass : Status.Fail;
+
+            node.Log(status, $"{role} {record}");
         }
 
         public static IEnumerable<TestCaseData> GetTestData()
@@ -219,7 +160,7 @@ namespace SharpCloudAutomation.Tests.MainToolBarSettingAccessTestCase
 
             foreach (var sc in userlist)
             {
-                yield return new TestCaseData(sc.Username, sc.Password, sc.StoryUrl, sc.StorySharePermission);
+                yield return new TestCaseData(sc.Username, sc.Password, sc.StoryUrl, sc.StorySharePermission, sc.MainToolBarPermissions.MainToolbarvisibility, sc.MainToolBarPermissions.UndoVisibility, sc.MainToolBarPermissions.UndoSubMenu, sc.MainToolBarPermissions.RedoSubMenu, sc.MainToolBarPermissions.RestoreStorySubMenu, sc.MainToolBarPermissions.StoryVisibility, sc.MainToolBarPermissions.SetupSubMenu, sc.MainToolBarPermissions.ManagePresentationsSubMenu, sc.MainToolBarPermissions.ManageFormsSubMenu, sc.MainToolBarPermissions.DownloadStorySubMenu, sc.MainToolBarPermissions.DataVisibility, sc.MainToolBarPermissions.EditDataSubMenu, sc.MainToolBarPermissions.DataConnectorsSubMenu, sc.MainToolBarPermissions.ViewVisibility, sc.MainToolBarPermissions.ResetViewVisibility, sc.MainToolBarPermissions.SaveViewVisibility, sc.MainToolBarPermissions.ViewSetupSubMenu, sc.MainToolBarPermissions.FiltersSubMenu, sc.MainToolBarPermissions.AddNewSubMenu, sc.MainToolBarPermissions.SaveAsNewSubMenu, sc.MainToolBarPermissions.RelationshipsVisibility, sc.MainToolBarPermissions.ShowSubMenu, sc.MainToolBarPermissions.CreateOrEditSubMenu, sc.MainToolBarPermissions.MoreOptionsSubMenu, sc.MainToolBarPermissions.UnlockVisibility, sc.MainToolBarPermissions.SearchVisibility, sc.MainToolBarPermissions.FullScreenVisibility);
             }
         }
     }
