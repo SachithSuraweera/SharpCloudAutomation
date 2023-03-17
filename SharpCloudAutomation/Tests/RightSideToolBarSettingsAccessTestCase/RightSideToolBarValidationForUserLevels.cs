@@ -1,5 +1,4 @@
 ﻿using AventStack.ExtentReports;
-using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.Extensions;
@@ -35,7 +34,6 @@ namespace SharpCloudAutomation.Tests.RightSideToolBarSettingsAccessTestCase
         {
             RightToolBarPage rToolBarPage = new(GetDriver());
             var userlist = new JsonReader().GetUsersList();
-
             
                 LoginWithRedirect(username, password, storyUrl);
 
@@ -45,7 +43,6 @@ namespace SharpCloudAutomation.Tests.RightSideToolBarSettingsAccessTestCase
                 WriteToReport(rightSideToolBarVisiblility, rToolBarPage.RToolBar.Displayed, ":RightSide Tool Bar {0} visible", storySharePermission, createNode);
 
                 rToolBarPage.SignOut();
-
         }
 
         private static void WriteToReport(bool expected, bool actual, string message, string role, ExtentTest node)
@@ -116,8 +113,7 @@ namespace SharpCloudAutomation.Tests.RightSideToolBarSettingsAccessTestCase
                 else
                 {
                     WriteToReport(sideViewGuideCanEdit, isSideViewGuideButtonDisplayed, ":Side View empty can edit {0} visible", storySharePermission, createNode);
-                    WriteToReport(sideViewGuideVisibility, rToolBarPage.SideViewExpandText.Displayed, ":Side View Guide {0} visible", storySharePermission, createNode);
-                        
+                    WriteToReport(sideViewGuideVisibility, rToolBarPage.SideViewExpandText.Displayed, ":Side View Guide {0} visible", storySharePermission, createNode);                        
                 }
 
                 if (isSideViewGuideButtonDisplayed)
@@ -133,6 +129,7 @@ namespace SharpCloudAutomation.Tests.RightSideToolBarSettingsAccessTestCase
 
                         rToolBarPage.SideViewGuideExpandAddTextArea.SendKeys("Test");
                         SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(3));
+
                         if (rToolBarPage.SideViewGuideExpandReadText.Text == "Test")
                             WriteToReport(sideViewGuideCanEdit, rToolBarPage.SideViewGuideExpandReadText.Displayed, ":Side View Guide can edit {0} visible", storySharePermission, createNode);
                     
@@ -144,6 +141,7 @@ namespace SharpCloudAutomation.Tests.RightSideToolBarSettingsAccessTestCase
                         SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(3));
                         rToolBarPage.SideViewButton.Click();   
                     }
+
                     SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(3));
                     rToolBarPage.SideViewGuideExpandDeleteButton.Click();
                     SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(3));
@@ -205,11 +203,9 @@ namespace SharpCloudAutomation.Tests.RightSideToolBarSettingsAccessTestCase
                     WriteToReport(sideViewFormVisibility, isSideViewManageFormsButtonDisaplayed, ":Side View Form {0} visible", storySharePermission, createNode);
                     WriteToReport(sideViewFormExpand, isSideViewManageFormsButtonDisaplayed, ":Side View Form expand {0} visible", storySharePermission, createNode);
                     WriteToReport(sideViewFormCanUse, isSideViewManageFormsButtonDisaplayed, ":Side View form {0} editable", storySharePermission, createNode);
-                }
-                    
+                }                    
             }
-            rToolBarPage.SignOut();
-            
+            rToolBarPage.SignOut();            
         }
 
         [Test]
@@ -261,8 +257,7 @@ namespace SharpCloudAutomation.Tests.RightSideToolBarSettingsAccessTestCase
                 SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
                 rToolBarPage.CommentsButton.Click();
             }
-            rToolBarPage.SignOut();
-            
+            rToolBarPage.SignOut();           
         }
 
         [Test]
@@ -271,7 +266,6 @@ namespace SharpCloudAutomation.Tests.RightSideToolBarSettingsAccessTestCase
         {
             RightToolBarPage rToolBarPage = new(GetDriver());
             var userlist = new JsonReader().GetUsersListWithoutEditor();
-
 
             WebDriverWait wait = new(GetDriver(), TimeSpan.FromSeconds(60));
             LoginWithRedirect(username, password, storyUrl);
@@ -334,8 +328,7 @@ namespace SharpCloudAutomation.Tests.RightSideToolBarSettingsAccessTestCase
                 rToolBarPage.FormsDeleteButton.Click();
                 SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
             }
-            rToolBarPage.SignOut();
-            
+            rToolBarPage.SignOut();            
         }
 
         [Test]
@@ -394,8 +387,7 @@ namespace SharpCloudAutomation.Tests.RightSideToolBarSettingsAccessTestCase
                 rToolBarPage.WidgetsDeleteButton.Click();
                 rToolBarPage.WidgetsButton.Click();
             }
-            rToolBarPage.SignOut();
-            
+            rToolBarPage.SignOut();            
         }
 
         [Test]
@@ -441,8 +433,7 @@ namespace SharpCloudAutomation.Tests.RightSideToolBarSettingsAccessTestCase
                 SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(10));
             }
 
-            rToolBarPage.SignOut();
-            
+            rToolBarPage.SignOut();            
         }
 
         [Test]
@@ -470,9 +461,9 @@ namespace SharpCloudAutomation.Tests.RightSideToolBarSettingsAccessTestCase
 
             WriteToReport(activityCanUse, isActivityButtonVisible, ":Activity Button {0} visible", storySharePermission, createNode);
 
-            rToolBarPage.SignOut();
-            
+            rToolBarPage.SignOut();            
         }
+
         public static IEnumerable<TestCaseData> GetTestData()
         {
             var userlist = new JsonReader().GetUsersList();

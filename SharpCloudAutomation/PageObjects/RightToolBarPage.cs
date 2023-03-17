@@ -1,7 +1,6 @@
 ﻿using OpenQA.Selenium;
 using SeleniumExtras.PageObjects;
 
-
 namespace SharpCloudAutomation.PageObjects
 {
     public class RightToolBarPage
@@ -18,7 +17,6 @@ namespace SharpCloudAutomation.PageObjects
         public IWebElement SideViewVisibility { get; set; }
 
         [FindsBy(How = How.CssSelector, Using = ("#side-view-header-content-type-text"))]
-
         public IWebElement SideViewExpandText { get; set; }
 
         [FindsBy(How = How.CssSelector, Using = ("#side-view-button"))]
@@ -150,6 +148,7 @@ namespace SharpCloudAutomation.PageObjects
         public void SignOut()
         {
             bool isUserProfileVisible = true;
+
             try
             {
                 isUserProfileVisible = UserProfile.Displayed;
@@ -158,12 +157,12 @@ namespace SharpCloudAutomation.PageObjects
             {
                 isUserProfileVisible = false;
             }
+
             if (isUserProfileVisible == true)
             {
                 UserProfile.Click();
                 UserLogout.Click();
             }
         }
-
     }
 }

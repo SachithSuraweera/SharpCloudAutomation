@@ -1,6 +1,5 @@
 ﻿using AventStack.ExtentReports;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
 using NUnit.Framework.Interfaces;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
