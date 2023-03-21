@@ -14,9 +14,6 @@ namespace SharpCloudAutomation.PageObjects
         [FindsBy(How = How.XPath, Using = ("//div[@id='dropdownMenu' and @outsideifnot='dropdownMenu, undoDropdown']//li[contains(text(),'redo (CTRL+Y)')]"))]
         public IWebElement RedoSubMenu { get; set; }
 
-        [FindsBy(How = How.XPath, Using = ("//div[@id='dropdownMenu' and @outsideifnot='dropdownMenu, undoDropdown']//li[contains(text(),'Restore Story')]"))]
-        public IWebElement RestoreSubMenu { get; set; }
-
         [FindsBy(How = How.XPath, Using = ("//span[@aria-label='Undo menu' and @role='button']"))]
         public IWebElement UndoDropdownIcon { get; set; }
 
