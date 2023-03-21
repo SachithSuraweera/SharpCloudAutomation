@@ -30,9 +30,9 @@ namespace SharpCloudAutomation.Tests.RightSideToolBarSettingsAccessTestCase
 
         [Test]
         [TestCaseSource(nameof(GetTestData))]
-        public void CompareRightSideToolBar(string username, string password, string storyUrl, string storySharePermission, bool rightSideToolBarVisiblility, bool sideViewEmptyVisitbility, bool sideViewEmptyExpand, bool sideViewEmptyCanEdit, bool sideViewGuideVisibility, bool sideViewGuideExpand, bool sideViewGuideCanEdit, bool sideViewFormVisibility, bool sideViewFormExpand, bool sideViewFormCanUse, bool commentsVisibility, bool commentsCanEditComment, bool editVisibility, bool editCanEdit, bool widgetsVisibility, bool widgetsCanEdit, bool formsVisibility, bool formsCanUse, bool activityCanUse)
+        public void VerifyRightSideToolBar(string username, string password, string storyUrl, string storySharePermission, bool rightSideToolBarVisiblility, bool sideViewEmptyVisitbility, bool sideViewEmptyExpand, bool sideViewEmptyCanEdit, bool sideViewGuideVisibility, bool sideViewGuideExpand, bool sideViewGuideCanEdit, bool sideViewFormVisibility, bool sideViewFormExpand, bool sideViewFormCanUse, bool commentsVisibility, bool commentsCanEditComment, bool editVisibility, bool editCanEdit, bool widgetsVisibility, bool widgetsCanEdit, bool formsVisibility, bool formsCanUse, bool activityCanUse)
         {
-            RightToolBarPage rToolBarPage = new(GetDriver());
+            RightToolBarPage rightToolBarPage = new(GetDriver());
             var userlist = new JsonReader().GetUsersList();
             
                 LoginWithRedirect(username, password, storyUrl);
@@ -40,9 +40,9 @@ namespace SharpCloudAutomation.Tests.RightSideToolBarSettingsAccessTestCase
                 ExtentTest createNode = CreateNode(storySharePermission+": Right Side Tool Bar visibility");
                 SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
 
-                WriteToReport(rightSideToolBarVisiblility, rToolBarPage.RToolBar.Displayed, ":RightSide Tool Bar {0} visible", storySharePermission, createNode);
+                WriteToReport(rightSideToolBarVisiblility, rightToolBarPage.RToolBar.Displayed, ":RightSide Tool Bar {0} visible", storySharePermission, createNode);
 
-                rToolBarPage.SignOut();
+                rightToolBarPage.SignOut();
         }
 
         private static void WriteToReport(bool expected, bool actual, string message, string role, ExtentTest node)
@@ -55,9 +55,9 @@ namespace SharpCloudAutomation.Tests.RightSideToolBarSettingsAccessTestCase
 
         [Test]
         [TestCaseSource(nameof(GetTestData))]
-        public void CompareSideViewFeatures(string username, string password, string storyUrl, string storySharePermission, bool rightSideToolBarVisiblility, bool sideViewEmptyVisitbility, bool sideViewEmptyExpand, bool sideViewEmptyCanEdit, bool sideViewGuideVisibility, bool sideViewGuideExpand, bool sideViewGuideCanEdit, bool sideViewFormVisibility, bool sideViewFormExpand, bool sideViewFormCanUse, bool commentsVisibility, bool commentsCanEditComment, bool editVisibility, bool editCanEdit, bool widgetsVisibility, bool widgetsCanEdit, bool formsVisibility, bool formsCanUse, bool activityCanUse)
+        public void VerifySideViewFeatures(string username, string password, string storyUrl, string storySharePermission, bool rightSideToolBarVisiblility, bool sideViewEmptyVisitbility, bool sideViewEmptyExpand, bool sideViewEmptyCanEdit, bool sideViewGuideVisibility, bool sideViewGuideExpand, bool sideViewGuideCanEdit, bool sideViewFormVisibility, bool sideViewFormExpand, bool sideViewFormCanUse, bool commentsVisibility, bool commentsCanEditComment, bool editVisibility, bool editCanEdit, bool widgetsVisibility, bool widgetsCanEdit, bool formsVisibility, bool formsCanUse, bool activityCanUse)
         {
-            RightToolBarPage rToolBarPage = new(GetDriver());
+            RightToolBarPage rightToolBarPage = new(GetDriver());
             var userlist = new JsonReader().GetUsersList();
 
             WebDriverWait wait = new(GetDriver(), TimeSpan.FromSeconds(60));
@@ -68,7 +68,7 @@ namespace SharpCloudAutomation.Tests.RightSideToolBarSettingsAccessTestCase
 
             try
             {
-                isSideViewEmptyVisible = rToolBarPage.SideViewVisibility.Displayed;
+                isSideViewEmptyVisible = rightToolBarPage.SideViewVisibility.Displayed;
             }
             catch (NoSuchElementException)
             {
@@ -79,16 +79,16 @@ namespace SharpCloudAutomation.Tests.RightSideToolBarSettingsAccessTestCase
 
             if (isSideViewEmptyVisible) 
             {
-                wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(rToolBarPage.SideViewButton));
+                wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(rightToolBarPage.SideViewButton));
                 SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
-                rToolBarPage.SideViewButton.Click();
+                rightToolBarPage.SideViewButton.Click();
                 wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath("//img[@aria-label='Close side view']")));
 
                 bool isSideViewGuideButtonDisplayed = true;
 
                 try
                 {
-                    isSideViewGuideButtonDisplayed = rToolBarPage.SideViewGuideButton.Displayed;
+                    isSideViewGuideButtonDisplayed = rightToolBarPage.SideViewGuideButton.Displayed;
                 }
                 catch(NoSuchElementException e)
                 {
@@ -99,53 +99,53 @@ namespace SharpCloudAutomation.Tests.RightSideToolBarSettingsAccessTestCase
                     
                 try
                 {
-                    isSideViewManageFormsButtonDisaplayed = rToolBarPage.SideViewManageFormsButton.Displayed;
+                    isSideViewManageFormsButtonDisaplayed = rightToolBarPage.SideViewManageFormsButton.Displayed;
                 }
                 catch(NoSuchElementException e)
                 {
                     isSideViewManageFormsButtonDisaplayed =false;
                 }
 
-                WriteToReport(sideViewEmptyExpand, rToolBarPage.SideViewExpandText.Displayed, ":Side View Expand {0} visible",storySharePermission, createNode);
+                WriteToReport(sideViewEmptyExpand, rightToolBarPage.SideViewExpandText.Displayed, ":Side View Expand {0} visible",storySharePermission, createNode);
 
                 if (isSideViewGuideButtonDisplayed || isSideViewManageFormsButtonDisaplayed || (isSideViewGuideButtonDisplayed && isSideViewManageFormsButtonDisaplayed))
                     WriteToReport(sideViewGuideCanEdit, isSideViewGuideButtonDisplayed, ":Side View empty can edit {0} visible", storySharePermission, createNode);
                 else
                 {
                     WriteToReport(sideViewGuideCanEdit, isSideViewGuideButtonDisplayed, ":Side View empty can edit {0} visible", storySharePermission, createNode);
-                    WriteToReport(sideViewGuideVisibility, rToolBarPage.SideViewExpandText.Displayed, ":Side View Guide {0} visible", storySharePermission, createNode);                        
+                    WriteToReport(sideViewGuideVisibility, rightToolBarPage.SideViewExpandText.Displayed, ":Side View Guide {0} visible", storySharePermission, createNode);                        
                 }
 
                 if (isSideViewGuideButtonDisplayed)
                 {
-                    WriteToReport(sideViewGuideVisibility, rToolBarPage.SideViewExpandText.Displayed, ":Side View Guide {0} visible", storySharePermission, createNode);
+                    WriteToReport(sideViewGuideVisibility, rightToolBarPage.SideViewExpandText.Displayed, ":Side View Guide {0} visible", storySharePermission, createNode);
 
-                    rToolBarPage.SideViewGuideButton.Click();
-                    GetDriver().SwitchTo().Frame(rToolBarPage.IFrame);
+                    rightToolBarPage.SideViewGuideButton.Click();
+                    GetDriver().SwitchTo().Frame(rightToolBarPage.IFrame);
 
-                    if (rToolBarPage.SideViewGuideExpandArea.Displayed)
+                    if (rightToolBarPage.SideViewGuideExpandArea.Displayed)
                     {
-                        WriteToReport(sideViewGuideExpand, rToolBarPage.SideViewGuideExpandArea.Displayed, ":Side View Guide expand {0} visible", storySharePermission, createNode);
+                        WriteToReport(sideViewGuideExpand, rightToolBarPage.SideViewGuideExpandArea.Displayed, ":Side View Guide expand {0} visible", storySharePermission, createNode);
 
-                        rToolBarPage.SideViewGuideExpandAddTextArea.SendKeys("Test");
+                        rightToolBarPage.SideViewGuideExpandAddTextArea.SendKeys("Test");
                         SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(3));
 
-                        if (rToolBarPage.SideViewGuideExpandReadText.Text == "Test")
-                            WriteToReport(sideViewGuideCanEdit, rToolBarPage.SideViewGuideExpandReadText.Displayed, ":Side View Guide can edit {0} visible", storySharePermission, createNode);
+                        if (rightToolBarPage.SideViewGuideExpandReadText.Text == "Test")
+                            WriteToReport(sideViewGuideCanEdit, rightToolBarPage.SideViewGuideExpandReadText.Displayed, ":Side View Guide can edit {0} visible", storySharePermission, createNode);
                     
                         GetDriver().SwitchTo().DefaultContent();
                         GetDriver().ExecuteJavaScript("arguments[0].click();", GetDriver().FindElement(By.XPath("//div[@class='cdk-overlay-backdrop sc-modal-backdrop cdk-overlay-backdrop-showing']")));
                         GetDriver().SwitchTo().DefaultContent();
                         SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(3));
-                        rToolBarPage.SideViewButton.Click();
+                        rightToolBarPage.SideViewButton.Click();
                         SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(3));
-                        rToolBarPage.SideViewButton.Click();   
+                        rightToolBarPage.SideViewButton.Click();   
                     }
 
                     SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(3));
-                    rToolBarPage.SideViewGuideExpandDeleteButton.Click();
+                    rightToolBarPage.SideViewGuideExpandDeleteButton.Click();
                     SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(3));
-                    rToolBarPage.SideViewCloseViewButton.Click();
+                    rightToolBarPage.SideViewCloseViewButton.Click();
                 }
                 else
                 {
@@ -158,15 +158,15 @@ namespace SharpCloudAutomation.Tests.RightSideToolBarSettingsAccessTestCase
                     WriteToReport(sideViewFormVisibility, isSideViewManageFormsButtonDisaplayed, ":Side View Form {0} visible", storySharePermission, createNode);
 
                     SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(3));
-                    rToolBarPage.SideViewButton.Click();
+                    rightToolBarPage.SideViewButton.Click();
 
-                    rToolBarPage.SideViewFormDropDown.Click();
+                    rightToolBarPage.SideViewFormDropDown.Click();
                     SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(3));
                     Actions actions = new(GetDriver());
-                    actions.MoveToElement(rToolBarPage.SideViewFormDropDown);
+                    actions.MoveToElement(rightToolBarPage.SideViewFormDropDown);
                     actions.Perform();
 
-                    SelectElement se = new(rToolBarPage.SideViewFormDropDown);
+                    SelectElement se = new(rightToolBarPage.SideViewFormDropDown);
 
                     try
                     {
@@ -179,21 +179,21 @@ namespace SharpCloudAutomation.Tests.RightSideToolBarSettingsAccessTestCase
 
                     wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//textarea[@id='Name']")));
 
-                    if(rToolBarPage.FormsNameTextBox.Displayed)
+                    if(rightToolBarPage.FormsNameTextBox.Displayed)
                     {
-                        WriteToReport(sideViewFormExpand, rToolBarPage.FormsNameTextBox.Displayed, ":Side View Form expand {0} visible", storySharePermission, createNode);
+                        WriteToReport(sideViewFormExpand, rightToolBarPage.FormsNameTextBox.Displayed, ":Side View Form expand {0} visible", storySharePermission, createNode);
 
-                        rToolBarPage.FormsNameTextBox.SendKeys("Test Automation");
-                        rToolBarPage.FormsDescriptionTextBox.SendKeys("Test Description");
-                        rToolBarPage.FormsSubmitButton.Click();
-                        rToolBarPage.SideViewFormDeleteButton.Click();
-                        rToolBarPage.SideViewCloseViewButton.Click();
+                        rightToolBarPage.FormsNameTextBox.SendKeys("Test Automation");
+                        rightToolBarPage.FormsDescriptionTextBox.SendKeys("Test Description");
+                        rightToolBarPage.FormsSubmitButton.Click();
+                        rightToolBarPage.SideViewFormDeleteButton.Click();
+                        rightToolBarPage.SideViewCloseViewButton.Click();
                         SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(10));
-                        WriteToReport(sideViewFormCanUse, rToolBarPage.CreatedForm.Displayed, ":Side View form {0} editable", storySharePermission, createNode);
+                        WriteToReport(sideViewFormCanUse, rightToolBarPage.CreatedForm.Displayed, ":Side View form {0} editable", storySharePermission, createNode);
 
-                        rToolBarPage.CreatedForm.Click();
+                        rightToolBarPage.CreatedForm.Click();
                         SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(3));
-                        rToolBarPage.FormsDeleteButton.Click();
+                        rightToolBarPage.FormsDeleteButton.Click();
                         SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
                     }
 
@@ -205,14 +205,14 @@ namespace SharpCloudAutomation.Tests.RightSideToolBarSettingsAccessTestCase
                     WriteToReport(sideViewFormCanUse, isSideViewManageFormsButtonDisaplayed, ":Side View form {0} editable", storySharePermission, createNode);
                 }                    
             }
-            rToolBarPage.SignOut();            
+            rightToolBarPage.SignOut();            
         }
 
         [Test]
         [TestCaseSource(nameof(GetTestData))]
-        public void ComapreCommentsFeatures(string username, string password, string storyUrl, string storySharePermission, bool rightSideToolBarVisiblility, bool sideViewEmptyVisitbility, bool sideViewEmptyExpand, bool sideViewEmptyCanEdit, bool sideViewGuideVisibility, bool sideViewGuideExpand, bool sideViewGuideCanEdit, bool sideViewFormVisibility, bool sideViewFormExpand, bool sideViewFormCanUse, bool commentsVisibility, bool commentsCanEditComment, bool editVisibility, bool editCanEdit, bool widgetsVisibility, bool widgetsCanEdit, bool formsVisibility, bool formsCanUse, bool activityCanUse)
+        public void VerifyCommentsFeatures(string username, string password, string storyUrl, string storySharePermission, bool rightSideToolBarVisiblility, bool sideViewEmptyVisitbility, bool sideViewEmptyExpand, bool sideViewEmptyCanEdit, bool sideViewGuideVisibility, bool sideViewGuideExpand, bool sideViewGuideCanEdit, bool sideViewFormVisibility, bool sideViewFormExpand, bool sideViewFormCanUse, bool commentsVisibility, bool commentsCanEditComment, bool editVisibility, bool editCanEdit, bool widgetsVisibility, bool widgetsCanEdit, bool formsVisibility, bool formsCanUse, bool activityCanUse)
         {
-            RightToolBarPage rToolBarPage = new(GetDriver());
+            RightToolBarPage rightToolBarPage = new(GetDriver());
             var userlist = new JsonReader().GetUsersList();
 
             WebDriverWait wait = new(GetDriver(), TimeSpan.FromSeconds(60));
@@ -225,7 +225,7 @@ namespace SharpCloudAutomation.Tests.RightSideToolBarSettingsAccessTestCase
 
             try
             {
-                isCommentsButtonVisible = rToolBarPage.CommentsButton.Displayed;
+                isCommentsButtonVisible = rightToolBarPage.CommentsButton.Displayed;
             }
             catch (NoSuchElementException)
             {
@@ -235,36 +235,36 @@ namespace SharpCloudAutomation.Tests.RightSideToolBarSettingsAccessTestCase
             WriteToReport(commentsVisibility, isCommentsButtonVisible, ":Comments {0} visible", storySharePermission, createNode);
             if (isCommentsButtonVisible)
             {
-                rToolBarPage.CommentsButton.Click();
+                rightToolBarPage.CommentsButton.Click();
                 wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//div[@id='story-feed-comment-box']")));
-                rToolBarPage.AddCommentsTextBox.SendKeys("Test Comment");
-                rToolBarPage.AddCommentsTextButton.Click();
-                rToolBarPage.CommentsButton.Click();
+                rightToolBarPage.AddCommentsTextBox.SendKeys("Test Comment");
+                rightToolBarPage.AddCommentsTextButton.Click();
+                rightToolBarPage.CommentsButton.Click();
                 SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
-                rToolBarPage.CommentsButton.Click();
+                rightToolBarPage.CommentsButton.Click();
 
-                if (rToolBarPage.CommentedText.Text == "Test Comment")
+                if (rightToolBarPage.CommentedText.Text == "Test Comment")
                     createNode.Log(Status.Pass, storySharePermission + " :Comments can edit");
                 else
                     createNode.Log(Status.Fail, storySharePermission + " :Comments cannot edit");
 
                 SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
                 Actions actions = new(GetDriver());
-                rToolBarPage.commentTextBox.Click();
-                actions.MoveToElement(rToolBarPage.DeleteComment);
-                wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(rToolBarPage.DeleteComment));
+                rightToolBarPage.commentTextBox.Click();
+                actions.MoveToElement(rightToolBarPage.DeleteComment);
+                wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(rightToolBarPage.DeleteComment));
                 actions.Click().Build().Perform();
                 SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
-                rToolBarPage.CommentsButton.Click();
+                rightToolBarPage.CommentsButton.Click();
             }
-            rToolBarPage.SignOut();           
+            rightToolBarPage.SignOut();           
         }
 
         [Test]
         [TestCaseSource(nameof(GetTestData))]
-        public void CompareEditFeatures(string username, string password, string storyUrl, string storySharePermission, bool rightSideToolBarVisiblility, bool sideViewEmptyVisitbility, bool sideViewEmptyExpand, bool sideViewEmptyCanEdit, bool sideViewGuideVisibility, bool sideViewGuideExpand, bool sideViewGuideCanEdit, bool sideViewFormVisibility, bool sideViewFormExpand, bool sideViewFormCanUse, bool commentsVisibility, bool commentsCanEditComment, bool editVisibility, bool editCanEdit, bool widgetsVisibility, bool widgetsCanEdit, bool formsVisibility, bool formsCanUse, bool activityCanUse)
+        public void VerifyEditFeatures(string username, string password, string storyUrl, string storySharePermission, bool rightSideToolBarVisiblility, bool sideViewEmptyVisitbility, bool sideViewEmptyExpand, bool sideViewEmptyCanEdit, bool sideViewGuideVisibility, bool sideViewGuideExpand, bool sideViewGuideCanEdit, bool sideViewFormVisibility, bool sideViewFormExpand, bool sideViewFormCanUse, bool commentsVisibility, bool commentsCanEditComment, bool editVisibility, bool editCanEdit, bool widgetsVisibility, bool widgetsCanEdit, bool formsVisibility, bool formsCanUse, bool activityCanUse)
         {
-            RightToolBarPage rToolBarPage = new(GetDriver());
+            RightToolBarPage rightToolBarPage = new(GetDriver());
             var userlist = new JsonReader().GetUsersListWithoutEditor();
 
             WebDriverWait wait = new(GetDriver(), TimeSpan.FromSeconds(60));
@@ -276,7 +276,7 @@ namespace SharpCloudAutomation.Tests.RightSideToolBarSettingsAccessTestCase
 
             try
             {
-                isEditButtonVisible = rToolBarPage.EditButton.Displayed;
+                isEditButtonVisible = rightToolBarPage.EditButton.Displayed;
             }
             catch (NoSuchElementException)
             {
@@ -287,55 +287,55 @@ namespace SharpCloudAutomation.Tests.RightSideToolBarSettingsAccessTestCase
 
             if (isEditButtonVisible)
             {
-                rToolBarPage.EditButton.Click();
+                rightToolBarPage.EditButton.Click();
                 SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
-                rToolBarPage.EditCreateNewItemButton.Click();
+                rightToolBarPage.EditCreateNewItemButton.Click();
                 SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
-                rToolBarPage.EditItemNameTexBox.Clear();
-                rToolBarPage.EditItemNameTexBox.SendKeys("Test Automation");
-                rToolBarPage.EditItemDescriptionTextBox.SendKeys("Test Description");
-                rToolBarPage.EditITemDuplicateButton.Click();
+                rightToolBarPage.EditItemNameTexBox.Clear();
+                rightToolBarPage.EditItemNameTexBox.SendKeys("Test Automation");
+                rightToolBarPage.EditItemDescriptionTextBox.SendKeys("Test Description");
+                rightToolBarPage.EditITemDuplicateButton.Click();
                 SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(3));
                 bool isDeleteButtonOrUnpublishButtonDisplayed = false;
 
                 try
                 {
-                    isDeleteButtonOrUnpublishButtonDisplayed = rToolBarPage.EditItemDeleteButton.Displayed;
+                    isDeleteButtonOrUnpublishButtonDisplayed = rightToolBarPage.EditItemDeleteButton.Displayed;
                 }
                 catch(NoSuchElementException) 
                 {
-                    isDeleteButtonOrUnpublishButtonDisplayed = rToolBarPage.EditItemUnPublishButton.Displayed;
+                    isDeleteButtonOrUnpublishButtonDisplayed = rightToolBarPage.EditItemUnPublishButton.Displayed;
                 }
 
-                if (rToolBarPage.EditItemOpenButtton.Displayed && rToolBarPage.EditITemDuplicateButton.Displayed && (isDeleteButtonOrUnpublishButtonDisplayed))
+                if (rightToolBarPage.EditItemOpenButtton.Displayed && rightToolBarPage.EditITemDuplicateButton.Displayed && (isDeleteButtonOrUnpublishButtonDisplayed))
                     WriteToReport(editCanEdit, isEditButtonVisible, ":Edit Button can edit {0} visible", storySharePermission, createNode);
                     
                 try
                 {
-                    rToolBarPage.EditItemDeleteButton.Click();
+                    rightToolBarPage.EditItemDeleteButton.Click();
                 }
                 catch(NoSuchElementException)
                 {
-                    rToolBarPage.EditItemUnPublishButton.Click();
+                    rightToolBarPage.EditItemUnPublishButton.Click();
                 }
 
                 SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
-                rToolBarPage.EditButton.Click();
+                rightToolBarPage.EditButton.Click();
                 GetDriver().Navigate().Refresh();
                 SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
-                rToolBarPage.CreatedEditItem.Click();
+                rightToolBarPage.CreatedEditItem.Click();
                 SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(3));
-                rToolBarPage.FormsDeleteButton.Click();
+                rightToolBarPage.FormsDeleteButton.Click();
                 SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
             }
-            rToolBarPage.SignOut();            
+            rightToolBarPage.SignOut();            
         }
 
         [Test]
         [TestCaseSource(nameof(GetTestData))]
-        public void CompareWidgetsVisibility(string username, string password, string storyUrl, string storySharePermission, bool rightSideToolBarVisiblility, bool sideViewEmptyVisitbility, bool sideViewEmptyExpand, bool sideViewEmptyCanEdit, bool sideViewGuideVisibility, bool sideViewGuideExpand, bool sideViewGuideCanEdit, bool sideViewFormVisibility, bool sideViewFormExpand, bool sideViewFormCanUse, bool commentsVisibility, bool commentsCanEditComment, bool editVisibility, bool editCanEdit, bool widgetsVisibility, bool widgetsCanEdit, bool formsVisibility, bool formsCanUse, bool activityCanUse)
+        public void VerifyWidgetsVisibility(string username, string password, string storyUrl, string storySharePermission, bool rightSideToolBarVisiblility, bool sideViewEmptyVisitbility, bool sideViewEmptyExpand, bool sideViewEmptyCanEdit, bool sideViewGuideVisibility, bool sideViewGuideExpand, bool sideViewGuideCanEdit, bool sideViewFormVisibility, bool sideViewFormExpand, bool sideViewFormCanUse, bool commentsVisibility, bool commentsCanEditComment, bool editVisibility, bool editCanEdit, bool widgetsVisibility, bool widgetsCanEdit, bool formsVisibility, bool formsCanUse, bool activityCanUse)
         {
-            RightToolBarPage rToolBarPage = new(GetDriver());
+            RightToolBarPage rightToolBarPage = new(GetDriver());
             var userlist = new JsonReader().GetUsersList();
 
             WebDriverWait wait = new(GetDriver(), TimeSpan.FromSeconds(60));
@@ -347,7 +347,7 @@ namespace SharpCloudAutomation.Tests.RightSideToolBarSettingsAccessTestCase
 
             try
             {
-                isWidgetsButtonVisible = rToolBarPage.WidgetsButton.Displayed;
+                isWidgetsButtonVisible = rightToolBarPage.WidgetsButton.Displayed;
             }
             catch (NoSuchElementException)
             {
@@ -358,43 +358,43 @@ namespace SharpCloudAutomation.Tests.RightSideToolBarSettingsAccessTestCase
 
             if (isWidgetsButtonVisible) 
             {
-                rToolBarPage.WidgetsButton.Click();
+                rightToolBarPage.WidgetsButton.Click();
                 wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath("//button[normalize-space()='New Widget']")));
                 SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
-                rToolBarPage.WidgetNewWidgetButton.Click();
-                rToolBarPage.WidgetsAdvancedOptionsArrow.Click();
+                rightToolBarPage.WidgetNewWidgetButton.Click();
+                rightToolBarPage.WidgetsAdvancedOptionsArrow.Click();
 
                 Actions actions = new(GetDriver());
-                actions.MoveToElement(rToolBarPage.WidgetsLinkToViewButton);
+                actions.MoveToElement(rightToolBarPage.WidgetsLinkToViewButton);
 
-                rToolBarPage.WidgetsLinkToViewButton.Click();
-                rToolBarPage.WidgetsSelectViewPopUpView2.Click();
-                rToolBarPage.WidgetsSelectViewPopupOKButton.Click();
+                rightToolBarPage.WidgetsLinkToViewButton.Click();
+                rightToolBarPage.WidgetsSelectViewPopUpView2.Click();
+                rightToolBarPage.WidgetsSelectViewPopupOKButton.Click();
                 SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
-                rToolBarPage.WidgetsButton.Click();
+                rightToolBarPage.WidgetsButton.Click();
                 SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
-                rToolBarPage.WidgetsCreatedItem.Click();
+                rightToolBarPage.WidgetsCreatedItem.Click();
                 SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
-                rToolBarPage.View1.Click();
+                rightToolBarPage.View1.Click();
                 SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
 
-                if (rToolBarPage.WidgetsCreatedItem.Displayed)
-                    WriteToReport(widgetsCanEdit, rToolBarPage.WidgetsCreatedItem.Displayed, ": Widget Button can edit {0} visible", storySharePermission, createNode);
+                if (rightToolBarPage.WidgetsCreatedItem.Displayed)
+                    WriteToReport(widgetsCanEdit, rightToolBarPage.WidgetsCreatedItem.Displayed, ": Widget Button can edit {0} visible", storySharePermission, createNode);
                     
-                rToolBarPage.WidgetsButton.Click();
-                rToolBarPage.WidgetsCreatedItem.Click();
+                rightToolBarPage.WidgetsButton.Click();
+                rightToolBarPage.WidgetsCreatedItem.Click();
                 SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(3));
-                rToolBarPage.WidgetsDeleteButton.Click();
-                rToolBarPage.WidgetsButton.Click();
+                rightToolBarPage.WidgetsDeleteButton.Click();
+                rightToolBarPage.WidgetsButton.Click();
             }
-            rToolBarPage.SignOut();            
+            rightToolBarPage.SignOut();            
         }
 
         [Test]
         [TestCaseSource(nameof(GetTestData))]
-        public void CompareFormsFeatures(string username, string password, string storyUrl, string storySharePermission, bool rightSideToolBarVisiblility, bool sideViewEmptyVisitbility, bool sideViewEmptyExpand, bool sideViewEmptyCanEdit, bool sideViewGuideVisibility, bool sideViewGuideExpand, bool sideViewGuideCanEdit, bool sideViewFormVisibility, bool sideViewFormExpand, bool sideViewFormCanUse, bool commentsVisibility, bool commentsCanEditComment, bool editVisibility, bool editCanEdit, bool widgetsVisibility, bool widgetsCanEdit, bool formsVisibility, bool formsCanUse, bool activityCanUse)
+        public void VerifyFormsFeatures(string username, string password, string storyUrl, string storySharePermission, bool rightSideToolBarVisiblility, bool sideViewEmptyVisitbility, bool sideViewEmptyExpand, bool sideViewEmptyCanEdit, bool sideViewGuideVisibility, bool sideViewGuideExpand, bool sideViewGuideCanEdit, bool sideViewFormVisibility, bool sideViewFormExpand, bool sideViewFormCanUse, bool commentsVisibility, bool commentsCanEditComment, bool editVisibility, bool editCanEdit, bool widgetsVisibility, bool widgetsCanEdit, bool formsVisibility, bool formsCanUse, bool activityCanUse)
         {
-            RightToolBarPage rToolBarPage = new(GetDriver());
+            RightToolBarPage rightToolBarPage = new(GetDriver());
             var userlist = new JsonReader().GetUsersListWithoutEditor();
 
             WebDriverWait wait = new(GetDriver(), TimeSpan.FromSeconds(60));
@@ -406,7 +406,7 @@ namespace SharpCloudAutomation.Tests.RightSideToolBarSettingsAccessTestCase
 
             try
             {
-                isFormsButtonVisible = rToolBarPage.FormsButton.Displayed;
+                isFormsButtonVisible = rightToolBarPage.FormsButton.Displayed;
             }
             catch (NoSuchElementException)
             {
@@ -417,30 +417,30 @@ namespace SharpCloudAutomation.Tests.RightSideToolBarSettingsAccessTestCase
 
             if (isFormsButtonVisible)
             {
-                rToolBarPage.FormsButton.Click();
+                rightToolBarPage.FormsButton.Click();
                 SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(10));
                 wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//textarea[@id='Name']")));
-                rToolBarPage.FormsNameTextBox.SendKeys("Test Automation");
-                rToolBarPage.FormsDescriptionTextBox.SendKeys("Test Description");
-                rToolBarPage.FormsSubmitButton.Click();
-                rToolBarPage.FormsButton.Click();
+                rightToolBarPage.FormsNameTextBox.SendKeys("Test Automation");
+                rightToolBarPage.FormsDescriptionTextBox.SendKeys("Test Description");
+                rightToolBarPage.FormsSubmitButton.Click();
+                rightToolBarPage.FormsButton.Click();
                 SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(10));
-                WriteToReport(formsCanUse, rToolBarPage.CreatedForm.Displayed, ":Forms Button {0} editable", storySharePermission, createNode);
+                WriteToReport(formsCanUse, rightToolBarPage.CreatedForm.Displayed, ":Forms Button {0} editable", storySharePermission, createNode);
 
-                rToolBarPage.CreatedForm.Click();
+                rightToolBarPage.CreatedForm.Click();
                 SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(3));
-                rToolBarPage.FormsDeleteButton.Click();
+                rightToolBarPage.FormsDeleteButton.Click();
                 SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(10));
             }
 
-            rToolBarPage.SignOut();            
+            rightToolBarPage.SignOut();            
         }
 
         [Test]
         [TestCaseSource(nameof(GetTestData))]
-        public void CompareActivityFeatures(string username, string password, string storyUrl, string storySharePermission, bool rightSideToolBarVisiblility, bool sideViewEmptyVisitbility, bool sideViewEmptyExpand, bool sideViewEmptyCanEdit, bool sideViewGuideVisibility, bool sideViewGuideExpand, bool sideViewGuideCanEdit, bool sideViewFormVisibility, bool sideViewFormExpand, bool sideViewFormCanUse, bool commentsVisibility, bool commentsCanEditComment, bool editVisibility, bool editCanEdit, bool widgetsVisibility, bool widgetsCanEdit, bool formsVisibility, bool formsCanUse, bool activityCanUse)
+        public void VerifyActivityFeatures(string username, string password, string storyUrl, string storySharePermission, bool rightSideToolBarVisiblility, bool sideViewEmptyVisitbility, bool sideViewEmptyExpand, bool sideViewEmptyCanEdit, bool sideViewGuideVisibility, bool sideViewGuideExpand, bool sideViewGuideCanEdit, bool sideViewFormVisibility, bool sideViewFormExpand, bool sideViewFormCanUse, bool commentsVisibility, bool commentsCanEditComment, bool editVisibility, bool editCanEdit, bool widgetsVisibility, bool widgetsCanEdit, bool formsVisibility, bool formsCanUse, bool activityCanUse)
         {
-            RightToolBarPage rToolBarPage = new(GetDriver());
+            RightToolBarPage rightToolBarPage = new(GetDriver());
             var userlist = new JsonReader().GetUsersList();
 
             WebDriverWait wait = new(GetDriver(), TimeSpan.FromSeconds(60));
@@ -452,7 +452,7 @@ namespace SharpCloudAutomation.Tests.RightSideToolBarSettingsAccessTestCase
 
             try
             {
-                isActivityButtonVisible = rToolBarPage.FormsButton.Displayed;
+                isActivityButtonVisible = rightToolBarPage.FormsButton.Displayed;
             }
             catch (NoSuchElementException)
             {
@@ -461,7 +461,7 @@ namespace SharpCloudAutomation.Tests.RightSideToolBarSettingsAccessTestCase
 
             WriteToReport(activityCanUse, isActivityButtonVisible, ":Activity Button {0} visible", storySharePermission, createNode);
 
-            rToolBarPage.SignOut();            
+            rightToolBarPage.SignOut();            
         }
 
         public static IEnumerable<TestCaseData> GetTestData()
