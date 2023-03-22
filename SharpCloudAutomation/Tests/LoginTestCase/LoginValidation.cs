@@ -1,4 +1,7 @@
-﻿using SharpCloudAutomation.PageObjects;
+﻿using AventStack.ExtentReports.Gherkin.Model;
+using AventStack.ExtentReports;
+using ImageMagick;
+using SharpCloudAutomation.PageObjects;
 using SharpCloudAutomation.Utilities;
 
 namespace SharpCloudAutomation.Tests.LoginTestCase
@@ -12,9 +15,9 @@ namespace SharpCloudAutomation.Tests.LoginTestCase
             GetDriver().Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(100);
 
             Assert.That(loginPage.GoButton.Displayed, Is.True);
-
             loginPage.UsernameText.SendKeys(GetJsonData().ExtractInstanceDataJson("username"));
             loginPage.PasswordText.SendKeys(GetJsonData().ExtractInstanceDataJson("password"));
+            CheckImageDifferences(System.Reflection.MethodBase.GetCurrentMethod().Name);
             loginPage.GoButton.Click();
 
             ErrorLogs errLog = new(GetDriver());

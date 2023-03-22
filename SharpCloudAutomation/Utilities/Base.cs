@@ -1,4 +1,5 @@
 ﻿using AventStack.ExtentReports;
+using ImageMagick;
 using Microsoft.Extensions.Configuration;
 using NUnit.Framework.Interfaces;
 using OpenQA.Selenium;
@@ -19,6 +20,7 @@ namespace SharpCloudAutomation.Utilities
         public static string env;
         public static string browser = ConfigurationManager.AppSettings["browser"];
         public static string isHeadless = ConfigurationManager.AppSettings["headless"];
+        string screenshotFolder;
 
         public static ThreadLocal<ExtentTest> test = new();       
         public static IJavaScriptExecutor js;
@@ -74,7 +76,14 @@ namespace SharpCloudAutomation.Utilities
             }
 
             AddConfiguarions();
+            string _workingDirectory = Environment.CurrentDirectory;
+            string? parentDirectory = Directory.GetParent(_workingDirectory)?.Parent?.Parent?.FullName;
+            screenshotFolder = (parentDirectory + "//Screenshots//");
 
+            if (!Directory.Exists(screenshotFolder))
+            {
+                Directory.CreateDirectory(screenshotFolder);
+            }
         }
 
         public void InitializeBrowser(string browserName)
@@ -188,6 +197,56 @@ namespace SharpCloudAutomation.Utilities
             }
             GetDriver().Quit();
             reports.EndReport();
+        }
+
+        public void GetScreenShot(string testName)
+        {
+            Screenshot screenshot = ((ITakesScreenshot)GetDriver()).GetScreenshot();
+            
+            screenshot.SaveAsFile(screenshotFolder + testName+".png", ScreenshotImageFormat.Png);
+        }
+
+        public void CompareImages(MagickImage image1, MagickImage image2, string differenceImagePath)
+        {
+            using (image1)
+            {
+                using (image2)
+                {
+                    using (var imgDiff = new MagickImage())
+                    {
+                        double diff = image1.Compare(image2, new ErrorMetric(), imgDiff);
+                        imgDiff.Write(differenceImagePath);
+                    }
+                }
+            }
+        }
+
+        public void CheckImageDifferences(string methodName)
+        {
+            string? parentDirectory = Directory.GetParent(Environment.CurrentDirectory)?.Parent?.Parent?.FullName;
+            string path = (parentDirectory + "//Screenshots//");
+
+            if (File.Exists(path + methodName + "_expected.png"))
+            {
+                GetScreenShot(methodName + "_actual");
+            }
+            else
+            {
+                GetScreenShot(methodName + "_expected");
+            }
+
+            var image1 = new MagickImage(path + methodName+ "_expected.png");
+
+            try
+            {
+                var image2 = new MagickImage(path + methodName + "_actual.png");
+                string LoginValidationDifference = path + methodName + "_difference.png";
+                CompareImages(image1, image2, LoginValidationDifference);
+            }
+            catch (MagickBlobErrorException) 
+            {
+                TestContext.Progress.WriteLine(methodName + "_actual.png is not created yet");
+            }
         }
 
         public void AddConfiguarions()
