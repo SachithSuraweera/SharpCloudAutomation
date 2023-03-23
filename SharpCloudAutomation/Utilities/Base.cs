@@ -212,10 +212,12 @@ namespace SharpCloudAutomation.Utilities
             {
                 using (image2)
                 {
-                    using (var imgDiff = new MagickImage())
+                    using (var imageDifference = new MagickImage())
                     {
-                        double diff = image1.Compare(image2, new ErrorMetric(), imgDiff);
-                        imgDiff.Write(differenceImagePath);
+                        double difference = image1.Compare(image2, new ErrorMetric(), imageDifference);
+
+                        if(difference > 0 )
+                            imageDifference.Write(differenceImagePath);
                     }
                 }
             }
@@ -227,13 +229,9 @@ namespace SharpCloudAutomation.Utilities
             string path = (parentDirectory + "//Screenshots//");
 
             if (File.Exists(path + methodName + "_expected.png"))
-            {
                 GetScreenShot(methodName + "_actual");
-            }
             else
-            {
                 GetScreenShot(methodName + "_expected");
-            }
 
             var image1 = new MagickImage(path + methodName+ "_expected.png");
 
