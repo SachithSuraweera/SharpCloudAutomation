@@ -231,8 +231,13 @@ namespace SharpCloudAutomation.Utilities
                     using (var imageDifference = new MagickImage())
                     {
                         double difference = expectedImage.Compare(actualImage, new ErrorMetric(), imageDifference);
-                        if (difference > 0)
+                        
+                        if (difference < 0.9)
+                        {
+                            ExtentTest imageDiviation = CreateNode("Image Diviations");
+                            imageDiviation.Log(Status.Info, methodName + "_difference.png");
                             imageDifference.Write(differenceImagePath);
+                        }
                     }
                 }
             }
