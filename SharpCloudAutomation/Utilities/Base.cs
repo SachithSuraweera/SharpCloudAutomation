@@ -21,6 +21,8 @@ namespace SharpCloudAutomation.Utilities
         public static string browser = ConfigurationManager.AppSettings["browser"];
         public static string isHeadless = ConfigurationManager.AppSettings["headless"];
         string screenshotFolder;
+        string expectedImageFolder;
+        string actualImageFolder;
 
         public static ThreadLocal<ExtentTest> test = new();       
         public static IJavaScriptExecutor js;
@@ -76,13 +78,20 @@ namespace SharpCloudAutomation.Utilities
             }
 
             AddConfiguarions();
-            string _workingDirectory = Environment.CurrentDirectory;
-            string? parentDirectory = Directory.GetParent(_workingDirectory)?.Parent?.Parent?.FullName;
+            string? parentDirectory = Directory.GetParent(Environment.CurrentDirectory)?.Parent?.Parent?.FullName;
             screenshotFolder = (parentDirectory + "//Screenshots//");
 
-            if (!Directory.Exists(screenshotFolder))
+            Directory.CreateDirectory(screenshotFolder);
+
+            expectedImageFolder = (screenshotFolder + "//Expected//");
+            Directory.CreateDirectory(expectedImageFolder);
+
+            string todaysDate = DateTime.Now.ToString("yyyy-MM-dd");
+            actualImageFolder = (screenshotFolder +"//"+ todaysDate + "//");
+
+            if (!Directory.Exists(actualImageFolder))
             {
-                Directory.CreateDirectory(screenshotFolder);
+                Directory.CreateDirectory(actualImageFolder);
             }
         }
 
@@ -199,24 +208,30 @@ namespace SharpCloudAutomation.Utilities
             reports.EndReport();
         }
 
-        public void GetScreenShot(string testName)
+        public void GetScreenShotExpected(string testImageName)
         {
             Screenshot screenshot = ((ITakesScreenshot)GetDriver()).GetScreenshot();
             
-            screenshot.SaveAsFile(screenshotFolder + testName+".png", ScreenshotImageFormat.Png);
+            screenshot.SaveAsFile(expectedImageFolder + testImageName+".png", ScreenshotImageFormat.Png);
         }
 
-        public void CompareImages(MagickImage image1, MagickImage image2, string differenceImagePath)
+        public void GetScreenShotActual(string testImageName)
         {
-            using (image1)
+            Screenshot screenshot = ((ITakesScreenshot)GetDriver()).GetScreenshot();
+
+            screenshot.SaveAsFile(actualImageFolder + testImageName + ".png", ScreenshotImageFormat.Png);
+        }
+
+        public void CompareImages(MagickImage expectedImage, MagickImage actualImage, string differenceImagePath, string methodName)
+        {
+            using (expectedImage)
             {
-                using (image2)
+                using (actualImage)
                 {
                     using (var imageDifference = new MagickImage())
                     {
-                        double difference = image1.Compare(image2, new ErrorMetric(), imageDifference);
-
-                        if(difference > 0 )
+                        double difference = expectedImage.Compare(actualImage, new ErrorMetric(), imageDifference);
+                        if (difference > 0)
                             imageDifference.Write(differenceImagePath);
                     }
                 }
@@ -225,21 +240,18 @@ namespace SharpCloudAutomation.Utilities
 
         public void CheckImageDifferences(string methodName)
         {
-            string? parentDirectory = Directory.GetParent(Environment.CurrentDirectory)?.Parent?.Parent?.FullName;
-            string path = (parentDirectory + "//Screenshots//");
-
-            if (File.Exists(path + methodName + "_expected.png"))
-                GetScreenShot(methodName + "_actual");
+            if (File.Exists(expectedImageFolder + methodName + "_expected.png"))
+                GetScreenShotActual(methodName + "_actual");
             else
-                GetScreenShot(methodName + "_expected");
+                GetScreenShotExpected(methodName + "_expected");
 
-            var image1 = new MagickImage(path + methodName+ "_expected.png");
+            var expectedImage = new MagickImage(expectedImageFolder + methodName+ "_expected.png");
 
             try
             {
-                var image2 = new MagickImage(path + methodName + "_actual.png");
-                string LoginValidationDifference = path + methodName + "_difference.png";
-                CompareImages(image1, image2, LoginValidationDifference);
+                var actualImage = new MagickImage(actualImageFolder + methodName + "_actual.png");
+                string imageDiviation = actualImageFolder + methodName + "_difference.png";
+                CompareImages(expectedImage, actualImage, imageDiviation, methodName);
             }
             catch (MagickBlobErrorException) 
             {
