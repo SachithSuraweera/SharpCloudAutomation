@@ -13,8 +13,8 @@ namespace SharpCloudAutomation.Tests.MainToolBarSettingAccessTestCase
             LoginPage loginPage = new(GetDriver());
 
             Assert.That(loginPage.GoButton.Displayed, Is.True);
-            
-            if (username != "")
+
+            if (username != "" && password != "")
             {
                 loginPage.UsernameText.SendKeys(username);
                 loginPage.PasswordText.SendKeys(password);
@@ -44,30 +44,32 @@ namespace SharpCloudAutomation.Tests.MainToolBarSettingAccessTestCase
             LoginWithRedirect(username, password, storyUrl);
 
             ExtentTest createNode = CreateNode(storySharePermission + " Level Main Tool Bar Features");
-            WebDriverWait wait = new WebDriverWait(GetDriver(), TimeSpan.FromSeconds(50));            
-
-            bool isMainToolBarDisplayed = ElementExists(By.XPath("//div[@id='storyToolbar']"));
-            WriteToReport(mainToolbarvisibility, isMainToolBarDisplayed, ":Main Tool Bar {0} visible", storySharePermission, createNode);
+            WebDriverWait wait = new WebDriverWait(GetDriver(), TimeSpan.FromSeconds(50));
 
             SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
-            bool isUndoIconDisplayed = ElementExists(By.XPath("//div[@id='undoDropdown']"));           
-            if (isUndoIconDisplayed)
+            bool MainToolBarPrsent = ElementExists(By.XPath("//div[contains(@class,'hide-for-presentation transitioning min-width') and @id='storyToolbar']"));
+            WriteToReport(mainToolbarvisibility, MainToolBarPrsent, ":Main Tool Bar {0} visible", storySharePermission, createNode);
+
+            SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
+            bool undoIconPresent = ElementExists(By.XPath("//div[@id='undoDropdown']"));
+            WriteToReport(UndoVisibility, undoIconPresent, ":Undo Element {0} visible", storySharePermission, createNode);
+            if (undoIconPresent)
             {
-                WriteToReport(UndoVisibility, isUndoIconDisplayed, ":Undo Element {0} visible", storySharePermission, createNode);
                 maintoolBarPage.UndoDropdownIcon.Click();
                 WriteToReport(UndoSubMenu, maintoolBarPage.UndoSubMenu.Displayed, ":Undo Sub Menu {0} visible", storySharePermission, createNode);
                 WriteToReport(RedoSubMenu, maintoolBarPage.RedoSubMenu.Displayed, ":Redo Sub Menu {0} visible", storySharePermission, createNode);
-                bool isRestoreSubMenuDisplayed = ElementExists(By.XPath("//div[@id='dropdownMenu' and @outsideifnot='dropdownMenu, undoDropdown']//li[contains(text(),'Restore Story')]"));
+                bool RestoreSubMenuPresent = ElementExists(By.XPath("//div[@id='dropdownMenu' and @outsideifnot='dropdownMenu, undoDropdown']//li[contains(text(),'Restore Story')]"));
                 {
-                    WriteToReport(RestoreStorySubMenu, isRestoreSubMenuDisplayed, ":Restore Story sub menu {0} visible", storySharePermission, createNode);
+                    WriteToReport(RestoreStorySubMenu, RestoreSubMenuPresent, ":Restore Story sub menu {0} visible", storySharePermission, createNode);
                 }
             }
 
             SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
-            bool isStoryIconDisplayed = ElementExists(By.XPath("//div[@tooltip='Story Setup']"));
-            if (isStoryIconDisplayed)
+            bool storyIconPresent = ElementExists(By.XPath("//div[@tooltip='Story Setup']"));
+
+            WriteToReport(StoryVisibility, storyIconPresent, ":Story Element {0} visible", storySharePermission, createNode);
+            if (storyIconPresent)
             {
-                WriteToReport(StoryVisibility, isStoryIconDisplayed, ":Story Element {0} visible", storySharePermission, createNode);
                 maintoolBarPage.StoryDropIcon.Click();
                 WriteToReport(SetupSubMenu, maintoolBarPage.SetupSubMenu.Displayed, ":Setup Sub Menu {0} visible", storySharePermission, createNode);
                 WriteToReport(ManagePresentationsSubMenu, maintoolBarPage.ManagePresentationSubMenu.Displayed, ":Manage Presentations Sub Menu {0} visible", storySharePermission, createNode);
@@ -76,34 +78,34 @@ namespace SharpCloudAutomation.Tests.MainToolBarSettingAccessTestCase
             }
 
             SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
-            bool isDataIconDisplayed = ElementExists(By.XPath("//div[@tooltip='Data Setup']"));
-            if (isDataIconDisplayed)
+            bool dataIconPresent = ElementExists(By.XPath("//div[@tooltip='Data Setup']"));
+            WriteToReport(DataVisibility, dataIconPresent, ":Data Element {0} visible", storySharePermission, createNode);
+            if (dataIconPresent)
             {
-                WriteToReport(DataVisibility, isDataIconDisplayed, ":Data Element {0} visible", storySharePermission, createNode);
                 maintoolBarPage.DataDropDownIcon.Click();
                 WriteToReport(EditDataSubMenu, maintoolBarPage.EditDataSubMenu.Displayed, ":Edit Data Sub Menu {0} visible", storySharePermission, createNode);
                 WriteToReport(DataConnectorsSubMenu, maintoolBarPage.DataSourcesSubMenu.Displayed, ":Data Connectors Sub Menu {0} visible", storySharePermission, createNode);
             }
 
             SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
-            bool isViewDisplayed = ElementExists(By.XPath("//span[text()='View']"));
-            if (isViewDisplayed)
+            bool viewPresent = ElementExists(By.XPath("//span[text()='View']"));
+            if (viewPresent)
             {
-                WriteToReport(ViewVisibility, isViewDisplayed, ":View Element {0} visible", storySharePermission, createNode);
+                WriteToReport(ViewVisibility, viewPresent, ":View Element {0} visible", storySharePermission, createNode);
             }
 
             SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
-            bool isResetDisplayed = ElementExists(By.XPath("//button[text()='Reset View']"));
-            if (isResetDisplayed)
+            bool resetPresent = ElementExists(By.XPath("//button[text()='Reset View']"));
+            if (resetPresent)
             {
-                WriteToReport(ResetViewVisibility, isResetDisplayed, ":Reset View Element {0} visible", storySharePermission, createNode);
+                WriteToReport(ResetViewVisibility, resetPresent, ":Reset View Element {0} visible", storySharePermission, createNode);
             }
 
             SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
-            bool isSaveDisplayed = ElementExists(By.XPath("//span[@aria-label='View setup menu']"));
-            if (isSaveDisplayed)
+            bool savePresent = ElementExists(By.XPath("//span[@aria-label='View setup menu']"));
+            if (savePresent)
             {
-                WriteToReport(SaveViewVisibility, isSaveDisplayed, ":Save View Element {0} visible", storySharePermission, createNode);
+                WriteToReport(SaveViewVisibility, savePresent, ":Save View Element {0} visible", storySharePermission, createNode);
                 maintoolBarPage.SaveDropDownIcon.Click();
                 WriteToReport(ViewSetupSubMenu, maintoolBarPage.ViewSetUpSubMenu.Displayed, ":View Setup Sub Menu {0} visible", storySharePermission, createNode);
                 WriteToReport(FiltersSubMenu, maintoolBarPage.FiltersSubMenu.Displayed, ":Filters Sub Menu {0} visible", storySharePermission, createNode);
@@ -112,37 +114,29 @@ namespace SharpCloudAutomation.Tests.MainToolBarSettingAccessTestCase
             }
 
             SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
-            bool isRelationshipDisplayed = ElementExists(By.XPath("//div[@id='relationshipsToggle']"));
-            bool isCreateSubMenupDisplayed = ElementExists(By.XPath("//div[@id='dropdownMenu' and @outsideifnot='dropdownMenu, relationshipsToggle']//li/label[contains(text(),'Create/Edit')]"));
-            if (isRelationshipDisplayed)
+            bool relationshipPresent = ElementExists(By.XPath("//div[@id='storyToolbar' and contains(@class,'hide-for-presentation transitioning min-width')]//div[@id='relationshipsToggle']"));
+            bool createSubMenupPresent = ElementExists(By.XPath("//div[@id='dropdownMenu' and @outsideifnot='dropdownMenu, relationshipsToggle']//li/label[contains(text(),'Create/Edit')]"));
+            if (relationshipPresent)
             {
-                WriteToReport(RelationshipsVisibility, isRelationshipDisplayed, ":Relationship Element {0} visible", storySharePermission, createNode);
+                WriteToReport(RelationshipsVisibility, relationshipPresent, ":Relationship Element {0} visible", storySharePermission, createNode);
                 maintoolBarPage.RelationshipDropDownIcon.Click();
                 WriteToReport(ShowSubMenu, maintoolBarPage.ShowSubMenu.Displayed, ":Show Sub Menu {0} visible", storySharePermission, createNode);
-                if (isCreateSubMenupDisplayed)
+                if (createSubMenupPresent)
                 {
-                    WriteToReport(CreateOrEditSubMenu, isCreateSubMenupDisplayed, ":Create/Edit Sub Menu {0} visible", storySharePermission, createNode);
+                    WriteToReport(CreateOrEditSubMenu, createSubMenupPresent, ":Create/Edit Sub Menu {0} visible", storySharePermission, createNode);
                     WriteToReport(MoreOptionsSubMenu, maintoolBarPage.MoreOptionsSubMenu.Displayed, ":More Options Sub Menu {0} visible", storySharePermission, createNode);
                 }
             }
 
-            bool isUnlockDisplayed = ElementExists(By.XPath("//span[text()='Unlock']"));
-            if (isUnlockDisplayed)
-            {
-                WriteToReport(UnlockVisibility, isUnlockDisplayed, ":Unlock Element {0} visible", storySharePermission, createNode);
-            }
+            bool unlockPresent = ElementExists(By.XPath("//span[text()='Unlock']"));
+            WriteToReport(UnlockVisibility, unlockPresent, ":Unlock Element {0} visible", storySharePermission, createNode);
 
-            bool isSearchDisplayed = ElementExists(By.XPath("//img[@alt='Search']"));
-            if (isSearchDisplayed)
-            {
-                WriteToReport(SearchVisibility, isSearchDisplayed, ":Search Element {0} visible", storySharePermission, createNode);
-            }
+            bool searchPresent = ElementExists(By.XPath("//img[@alt='Search']"));
+            WriteToReport(SearchVisibility, searchPresent, ":Search Element {0} visible", storySharePermission, createNode);
 
-            bool isFScreenDisplayed = ElementExists(By.XPath("//img[@alt='Fullscreen story button']"));
-            if (isFScreenDisplayed)
-            {
-                WriteToReport(FullScreenVisibility, isFScreenDisplayed, ":Full Screen Element {0} visible", storySharePermission, createNode);
-            }
+            bool fullScreenPrsent = ElementExists(By.XPath("//div[@id='storyToolbar' and contains(@class,'hide-for-presentation transitioning min-width')]//img[@alt='Fullscreen story button']"));
+            WriteToReport(FullScreenVisibility, fullScreenPrsent, ":Full Screen Element {0} visible", storySharePermission, createNode);
+
         }
 
         private void WriteToReport(bool expected, bool actual, string message, string role, ExtentTest node)

@@ -11,11 +11,15 @@
   <ItemGroup>
     <PackageReference Include="Azure.Storage.Blobs" Version="12.15.0" />
     <PackageReference Include="BrowserStackLocal" Version="2.3.0" />
+    <PackageReference Include="Dapper" Version="2.0.123" />
     <PackageReference Include="DotNetSeleniumExtras.PageObjects" Version="3.11.0" />
     <PackageReference Include="DotNetSeleniumExtras.PageObjects.Core" Version="4.3.0" />
     <PackageReference Include="DotNetSeleniumExtras.WaitHelpers" Version="3.11.0" />
+    <PackageReference Include="ExcelDataReader" Version="3.6.0" />
+    <PackageReference Include="ExcelDataReader.DataSet" Version="3.6.0" />
     <PackageReference Include="ExtentReports" Version="4.1.0" />
     <PackageReference Include="Mailjet.Api" Version="3.0.0" />
+    <PackageReference Include="Microsoft.CrmSdk.CoreAssemblies" Version="9.0.2.48" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.3.2" />
     <PackageReference Include="NUnit" Version="3.13.3" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
@@ -26,12 +30,17 @@
     <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="110.0.5481.3000" />
     <PackageReference Include="SoftAssertion" Version="1.0.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
+    <PackageReference Include="System.Data.OleDb" Version="7.0.0" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="7.0.0" />
     <PackageReference Include="WebDriverManager" Version="2.16.2" />
   </ItemGroup>
 	
 	<ItemGroup>
 	<None Update="appsettings.json">
 	  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	</None>
+	<None Update="TestData\Login_Data.xlsx">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	</None>
 	<None Update="TestData\TestData_Instance.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

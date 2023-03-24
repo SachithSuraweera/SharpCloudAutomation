@@ -82,7 +82,7 @@ namespace SharpCloudAutomation.Tests.CalculationStoryTestCase
             ExtentTest storyNode = CreateNode("Calculation Related failed stories");
             for (int i = 0; i < arrayList.Count; i++)
             {
-                storyNode.Log(Status.Info, arrayList[i].ToString());
+                storyNode.Log(Status.Fail, arrayList[i].ToString());
             }
         }
 

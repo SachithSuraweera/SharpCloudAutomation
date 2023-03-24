@@ -64,59 +64,59 @@ namespace SharpCloudAutomation.Tests.RightSideToolBarSettingsAccessTestCase
             LoginWithRedirect(username,password,storyUrl);
             ExtentTest createNode = CreateNode(storySharePermission + ": SideView Bar Features");
             SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
-            bool isSideViewEmptyVisible = true;
+            bool sideViewEmptyVisible = true;
 
             try
             {
-                isSideViewEmptyVisible = rightToolBarPage.SideViewVisibility.Displayed;
+                sideViewEmptyVisible = rightToolBarPage.SideViewVisibility.Displayed;
             }
             catch (NoSuchElementException)
             {
-                isSideViewEmptyVisible = false;
+                sideViewEmptyVisible = false;
             }
 
-            WriteToReport(sideViewEmptyVisitbility, isSideViewEmptyVisible, ":Side View Button {0} visible", storySharePermission, createNode);
+            WriteToReport(sideViewEmptyVisitbility, sideViewEmptyVisible, ":Side View Button {0} visible", storySharePermission, createNode);
 
-            if (isSideViewEmptyVisible) 
+            if (sideViewEmptyVisible) 
             {
                 wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(rightToolBarPage.SideViewButton));
                 SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
                 rightToolBarPage.SideViewButton.Click();
                 wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath("//img[@aria-label='Close side view']")));
 
-                bool isSideViewGuideButtonDisplayed = true;
+                bool sideViewGuideButtonPresent = true;
 
                 try
                 {
-                    isSideViewGuideButtonDisplayed = rightToolBarPage.SideViewGuideButton.Displayed;
+                    sideViewGuideButtonPresent = rightToolBarPage.SideViewGuideButton.Displayed;
                 }
-                catch(NoSuchElementException e)
+                catch (NoSuchElementException)
                 {
-                    isSideViewGuideButtonDisplayed = false;
+                    sideViewGuideButtonPresent = false;
                 }
 
-                bool isSideViewManageFormsButtonDisaplayed = true;
+                bool sideViewManageFormsButtonPresent = true;
                     
                 try
                 {
-                    isSideViewManageFormsButtonDisaplayed = rightToolBarPage.SideViewManageFormsButton.Displayed;
+                    sideViewManageFormsButtonPresent = rightToolBarPage.SideViewManageFormsButton.Displayed;
                 }
-                catch(NoSuchElementException e)
+                catch (NoSuchElementException)
                 {
-                    isSideViewManageFormsButtonDisaplayed =false;
+                    sideViewManageFormsButtonPresent = false;
                 }
 
                 WriteToReport(sideViewEmptyExpand, rightToolBarPage.SideViewExpandText.Displayed, ":Side View Expand {0} visible",storySharePermission, createNode);
 
-                if (isSideViewGuideButtonDisplayed || isSideViewManageFormsButtonDisaplayed || (isSideViewGuideButtonDisplayed && isSideViewManageFormsButtonDisaplayed))
-                    WriteToReport(sideViewGuideCanEdit, isSideViewGuideButtonDisplayed, ":Side View empty can edit {0} visible", storySharePermission, createNode);
+                if (sideViewGuideButtonPresent || sideViewManageFormsButtonPresent || (sideViewGuideButtonPresent && sideViewManageFormsButtonPresent))
+                    WriteToReport(sideViewGuideCanEdit, sideViewGuideButtonPresent, ":Side View empty can edit {0} visible", storySharePermission, createNode);
                 else
                 {
-                    WriteToReport(sideViewGuideCanEdit, isSideViewGuideButtonDisplayed, ":Side View empty can edit {0} visible", storySharePermission, createNode);
+                    WriteToReport(sideViewGuideCanEdit, sideViewGuideButtonPresent, ":Side View empty can edit {0} visible", storySharePermission, createNode);
                     WriteToReport(sideViewGuideVisibility, rightToolBarPage.SideViewExpandText.Displayed, ":Side View Guide {0} visible", storySharePermission, createNode);                        
                 }
 
-                if (isSideViewGuideButtonDisplayed)
+                if (sideViewGuideButtonPresent)
                 {
                     WriteToReport(sideViewGuideVisibility, rightToolBarPage.SideViewExpandText.Displayed, ":Side View Guide {0} visible", storySharePermission, createNode);
 
@@ -149,13 +149,13 @@ namespace SharpCloudAutomation.Tests.RightSideToolBarSettingsAccessTestCase
                 }
                 else
                 {
-                    WriteToReport(sideViewGuideExpand, isSideViewGuideButtonDisplayed, ":Side View Guide expand {0} visible", storySharePermission, createNode);
-                    WriteToReport(sideViewGuideCanEdit, isSideViewGuideButtonDisplayed, ":Side View Guide can edit {0} visible", storySharePermission, createNode);
+                    WriteToReport(sideViewGuideExpand, sideViewGuideButtonPresent, ":Side View Guide expand {0} visible", storySharePermission, createNode);
+                    WriteToReport(sideViewGuideCanEdit, sideViewGuideButtonPresent, ":Side View Guide can edit {0} visible", storySharePermission, createNode);
                 }
 
-                if(isSideViewManageFormsButtonDisaplayed)
+                if(sideViewManageFormsButtonPresent)
                 {
-                    WriteToReport(sideViewFormVisibility, isSideViewManageFormsButtonDisaplayed, ":Side View Form {0} visible", storySharePermission, createNode);
+                    WriteToReport(sideViewFormVisibility, sideViewManageFormsButtonPresent, ":Side View Form {0} visible", storySharePermission, createNode);
 
                     SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(3));
                     rightToolBarPage.SideViewButton.Click();
@@ -200,9 +200,9 @@ namespace SharpCloudAutomation.Tests.RightSideToolBarSettingsAccessTestCase
                 }
                 else 
                 {
-                    WriteToReport(sideViewFormVisibility, isSideViewManageFormsButtonDisaplayed, ":Side View Form {0} visible", storySharePermission, createNode);
-                    WriteToReport(sideViewFormExpand, isSideViewManageFormsButtonDisaplayed, ":Side View Form expand {0} visible", storySharePermission, createNode);
-                    WriteToReport(sideViewFormCanUse, isSideViewManageFormsButtonDisaplayed, ":Side View form {0} editable", storySharePermission, createNode);
+                    WriteToReport(sideViewFormVisibility, sideViewManageFormsButtonPresent, ":Side View Form {0} visible", storySharePermission, createNode);
+                    WriteToReport(sideViewFormExpand, sideViewManageFormsButtonPresent, ":Side View Form expand {0} visible", storySharePermission, createNode);
+                    WriteToReport(sideViewFormCanUse, sideViewManageFormsButtonPresent, ":Side View form {0} editable", storySharePermission, createNode);
                 }                    
             }
             rightToolBarPage.SignOut();            
@@ -221,19 +221,19 @@ namespace SharpCloudAutomation.Tests.RightSideToolBarSettingsAccessTestCase
             ExtentTest createNode = CreateNode(storySharePermission + ": Right Side Tool Bar visibility");
             SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
 
-            bool isCommentsButtonVisible = true;
+            bool commentsButtonVisible = true;
 
             try
             {
-                isCommentsButtonVisible = rightToolBarPage.CommentsButton.Displayed;
+                commentsButtonVisible = rightToolBarPage.CommentsButton.Displayed;
             }
             catch (NoSuchElementException)
             {
-                isCommentsButtonVisible = false;
+                commentsButtonVisible = false;
             }
 
-            WriteToReport(commentsVisibility, isCommentsButtonVisible, ":Comments {0} visible", storySharePermission, createNode);
-            if (isCommentsButtonVisible)
+            WriteToReport(commentsVisibility, commentsButtonVisible, ":Comments {0} visible", storySharePermission, createNode);
+            if (commentsButtonVisible)
             {
                 rightToolBarPage.CommentsButton.Click();
                 wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//div[@id='story-feed-comment-box']")));
@@ -272,20 +272,20 @@ namespace SharpCloudAutomation.Tests.RightSideToolBarSettingsAccessTestCase
             ExtentTest createNode = CreateNode(storySharePermission + ": Edit features");
             SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
 
-            bool isEditButtonVisible = true;
+            bool editButtonVisible = true;
 
             try
             {
-                isEditButtonVisible = rightToolBarPage.EditButton.Displayed;
+                editButtonVisible = rightToolBarPage.EditButton.Displayed;
             }
             catch (NoSuchElementException)
             {
-                isEditButtonVisible = false;
+                editButtonVisible = false;
             }
 
-            WriteToReport(editVisibility, isEditButtonVisible, ":Edit Button {0} visible", storySharePermission, createNode);
+            WriteToReport(editVisibility, editButtonVisible, ":Edit Button {0} visible", storySharePermission, createNode);
 
-            if (isEditButtonVisible)
+            if (editButtonVisible)
             {
                 rightToolBarPage.EditButton.Click();
                 SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
@@ -308,7 +308,7 @@ namespace SharpCloudAutomation.Tests.RightSideToolBarSettingsAccessTestCase
                 }
 
                 if (rightToolBarPage.EditItemOpenButtton.Displayed && rightToolBarPage.EditITemDuplicateButton.Displayed && (isDeleteButtonOrUnpublishButtonDisplayed))
-                    WriteToReport(editCanEdit, isEditButtonVisible, ":Edit Button can edit {0} visible", storySharePermission, createNode);
+                    WriteToReport(editCanEdit, editButtonVisible, ":Edit Button can edit {0} visible", storySharePermission, createNode);
                     
                 try
                 {
@@ -343,20 +343,20 @@ namespace SharpCloudAutomation.Tests.RightSideToolBarSettingsAccessTestCase
             ExtentTest createNode = CreateNode(storySharePermission + ": Widget features");
             SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
 
-            bool isWidgetsButtonVisible = true;
+            bool widgetsButtonVisible = true;
 
             try
             {
-                isWidgetsButtonVisible = rightToolBarPage.WidgetsButton.Displayed;
+                widgetsButtonVisible = rightToolBarPage.WidgetsButton.Displayed;
             }
             catch (NoSuchElementException)
             {
-                isWidgetsButtonVisible = false;
+                widgetsButtonVisible = false;
             }
 
-            WriteToReport(widgetsVisibility, isWidgetsButtonVisible, ": Widget Button {0} visible", storySharePermission, createNode);
+            WriteToReport(widgetsVisibility, widgetsButtonVisible, ": Widget Button {0} visible", storySharePermission, createNode);
 
-            if (isWidgetsButtonVisible) 
+            if (widgetsButtonVisible) 
             {
                 rightToolBarPage.WidgetsButton.Click();
                 wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(By.XPath("//button[normalize-space()='New Widget']")));
@@ -402,20 +402,20 @@ namespace SharpCloudAutomation.Tests.RightSideToolBarSettingsAccessTestCase
             ExtentTest createNode = CreateNode(storySharePermission + ": Forms features");
             SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
 
-            bool isFormsButtonVisible = true;
+            bool formsButtonVisible = true;
 
             try
             {
-                isFormsButtonVisible = rightToolBarPage.FormsButton.Displayed;
+                formsButtonVisible = rightToolBarPage.FormsButton.Displayed;
             }
             catch (NoSuchElementException)
             {
-                isFormsButtonVisible = false;
+                formsButtonVisible = false;
             }
 
-            WriteToReport(formsVisibility, isFormsButtonVisible, ":Forms Button {0} visible", storySharePermission, createNode);
+            WriteToReport(formsVisibility, formsButtonVisible, ":Forms Button {0} visible", storySharePermission, createNode);
 
-            if (isFormsButtonVisible)
+            if (formsButtonVisible)
             {
                 rightToolBarPage.FormsButton.Click();
                 SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(10));
@@ -448,18 +448,18 @@ namespace SharpCloudAutomation.Tests.RightSideToolBarSettingsAccessTestCase
             ExtentTest createNode = CreateNode(storySharePermission + ": Activity features");
             SpinWait.SpinUntil(() => false, TimeSpan.FromSeconds(6));
 
-            bool isActivityButtonVisible = true;
+            bool activityButtonVisible = true;
 
             try
             {
-                isActivityButtonVisible = rightToolBarPage.FormsButton.Displayed;
+                activityButtonVisible = rightToolBarPage.FormsButton.Displayed;
             }
             catch (NoSuchElementException)
             {
-                isActivityButtonVisible = false;
+                activityButtonVisible = false;
             }
 
-            WriteToReport(activityCanUse, isActivityButtonVisible, ":Activity Button {0} visible", storySharePermission, createNode);
+            WriteToReport(activityCanUse, activityButtonVisible, ":Activity Button {0} visible", storySharePermission, createNode);
 
             rightToolBarPage.SignOut();            
         }
