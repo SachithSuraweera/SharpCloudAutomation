@@ -28,8 +28,8 @@ stages:
       - job: "Build"
         displayName: "Build job"
         continueOnError: true
-        pool:
-          vmImage: windows-latest
+        pool: SharpCloud-Agent
+          # vmImage: windows-latest
 
         variables:
           - group: SharpCloud-test-automation
@@ -102,8 +102,8 @@ stages:
     dependsOn: Build
     jobs:
       - deployment: Deploy
-        pool:
-          vmImage: windows-latest
+        pool: SharpCloud-Agent
+          # vmImage: windows-latest
         environment: SharpCloud-Test_Env
         variables:
         - group: SharpCloud-test-automation
