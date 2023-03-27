@@ -23,6 +23,8 @@ namespace SharpCloudAutomation.Utilities
         string screenshotFolder;
         string expectedImageFolder;
         string actualImageFolder;
+        public static string todaysDate;
+        public static string currentTime;
 
         public static ThreadLocal<ExtentTest> test = new();       
         public static IJavaScriptExecutor js;
@@ -86,8 +88,9 @@ namespace SharpCloudAutomation.Utilities
             expectedImageFolder = (screenshotFolder + "//Expected//");
             Directory.CreateDirectory(expectedImageFolder);
 
-            string todaysDate = DateTime.Now.ToString("yyyy-MM-dd");
-            actualImageFolder = (screenshotFolder +"//"+ todaysDate + "//");
+            todaysDate = DateTime.Now.ToString("yyyy-MM-dd");
+            currentTime = DateTime.Now.ToString("HH");
+            actualImageFolder = (screenshotFolder +"//"+ todaysDate + "//" + currentTime + "//");
 
             if (!Directory.Exists(actualImageFolder))
             {
@@ -213,6 +216,9 @@ namespace SharpCloudAutomation.Utilities
             Screenshot screenshot = ((ITakesScreenshot)GetDriver()).GetScreenshot();
             
             screenshot.SaveAsFile(expectedImageFolder + testImageName+".png", ScreenshotImageFormat.Png);
+
+            Blobs blobs = new();
+            blobs.UploadScreenshotBlob($"{expectedImageFolder}\\{testImageName}.png", $"testreports/drop/SharpCloudAutomation/Screenshots/Expected", testImageName + ".png");
         }
 
         public void GetScreenShotActual(string testImageName)
@@ -220,6 +226,9 @@ namespace SharpCloudAutomation.Utilities
             Screenshot screenshot = ((ITakesScreenshot)GetDriver()).GetScreenshot();
 
             screenshot.SaveAsFile(actualImageFolder + testImageName + ".png", ScreenshotImageFormat.Png);
+
+            Blobs blobs = new();
+            blobs.UploadScreenshotBlob($"{actualImageFolder}\\{testImageName}.png", $"testreports/drop/SharpCloudAutomation/Screenshots/{todaysDate}/{currentTime}", testImageName + ".png");
         }
 
         public void CompareImages(MagickImage expectedImage, MagickImage actualImage, string differenceImagePath, string methodName)
@@ -237,6 +246,13 @@ namespace SharpCloudAutomation.Utilities
                             ExtentTest imageDiviation = CreateNode("Image Diviations");
                             imageDiviation.Log(Status.Info, methodName + "_difference.png");
                             imageDifference.Write(differenceImagePath);
+
+                            Blobs blobs = new();
+                            blobs.UploadScreenshotBlob($"{actualImageFolder}\\{methodName}_difference.png", $"testreports/drop/SharpCloudAutomation/Screenshots/{todaysDate}/{currentTime}", methodName + "_difference.png");
+
+                            string? mainURL = ConfigurationManager.AppSettings["Blob_Screenshot_URL"];
+                            string? screenshotURL = $"{mainURL}{todaysDate}/{currentTime}/{methodName}_difference.png";
+                            imageDiviation.Log(Status.Info, $"Image Link: <a href='{screenshotURL}'>Click here </a>");
                         }
                     }
                 }

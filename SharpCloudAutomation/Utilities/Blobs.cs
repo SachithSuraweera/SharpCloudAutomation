@@ -28,6 +28,13 @@ namespace SharpCloudAutomation.Utilities
             blobClient.Upload(filePath, true);
         }
 
+        public void UploadScreenshotBlob(string filepath, string blobContainerName, string blobName)
+        {
+            string filePath = filepath;
+            string? connectionString = Config.BlobConnectionString;
+            BlobClient blobClient = new(connectionString: connectionString, blobContainerName: blobContainerName, blobName: blobName);
+            blobClient.Upload(filePath, true);
+        }
         public static string GetURL()
         {
             Reports reports = new();
