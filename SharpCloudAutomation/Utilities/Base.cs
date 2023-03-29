@@ -23,8 +23,8 @@ namespace SharpCloudAutomation.Utilities
         string screenshotFolder;
         string expectedImageFolder;
         string actualImageFolder;
-        public static string todaysDate;
-        public static string currentTime;
+        string todaysDate;
+        string currentTime;
 
         public static ThreadLocal<ExtentTest> test = new();       
         public static IJavaScriptExecutor js;
