@@ -1,13 +1,16 @@
 ﻿using AventStack.ExtentReports;
+using Microsoft.Extensions.Options;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Remote;
 using System.Configuration;
 
 namespace SharpCloudAutomation.Utilities
 {
     public class ErrorLogs : Base
     {
-        private readonly IWebDriver _driver;
+        private  IWebDriver _driver;
 
         public ErrorLogs(IWebDriver driver)
         {
@@ -36,7 +39,7 @@ namespace SharpCloudAutomation.Utilities
                 }
             }
             else if (driverName.Contains("Chrome"))
-            {
+            {               
                 ILogs logs = _driver.Manage().Logs;
                 var logEntries = logs.GetLog(LogType.Browser);
                 if (logEntries.Count != 0)
