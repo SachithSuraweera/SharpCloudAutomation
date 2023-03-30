@@ -4,6 +4,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System.Collections;
 using AventStack.ExtentReports;
+using System.Text.RegularExpressions;
 
 namespace SharpCloudAutomation.Tests.CalculationStoryTestCase
 {
@@ -37,7 +38,10 @@ namespace SharpCloudAutomation.Tests.CalculationStoryTestCase
 
                 string roadMap = calculatedStoryPage.RoadMapName.Text;
                 string viewName = calculatedStoryPage.ViewName.Text;
-
+                string viewNameForMethod = Regex.Replace(viewName, "/","",RegexOptions.Compiled);
+                viewNameForMethod = viewNameForMethod.Replace('"', ' ').Trim();
+                string imageComparisonName = System.Reflection.MethodBase.GetCurrentMethod().Name + roadMap + viewNameForMethod;
+                CheckImageDifferences(imageComparisonName);
                 for (int i = 1; i <= calculatedStoryPage.TableRows.Count; i++)
                 {
                     wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.XPath("//table[@id='table-view']/tbody/tr[" + i + "]/td[" + calculatedStoryPage.TableColumns.Count + "]")));

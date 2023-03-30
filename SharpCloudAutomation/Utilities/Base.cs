@@ -1,4 +1,5 @@
 ﻿using AventStack.ExtentReports;
+using ImageMagick;
 using Microsoft.Extensions.Configuration;
 using NUnit.Framework.Interfaces;
 using OpenQA.Selenium;
@@ -19,6 +20,11 @@ namespace SharpCloudAutomation.Utilities
         public static string env;
         public static string browser = ConfigurationManager.AppSettings["browser"];
         public static string isHeadless = ConfigurationManager.AppSettings["headless"];
+        string screenshotFolder;
+        string expectedImageFolder;
+        string actualImageFolder;
+        string todaysDate;
+        string currentTime;
 
         public static ThreadLocal<ExtentTest> test = new();       
         public static IJavaScriptExecutor js;
@@ -75,6 +81,21 @@ namespace SharpCloudAutomation.Utilities
 
             AddConfiguarions();
 
+            string? parentDirectory = Directory.GetParent(Environment.CurrentDirectory)?.Parent?.Parent?.FullName;
+            screenshotFolder = (parentDirectory + "//Screenshots//");
+
+            Directory.CreateDirectory(screenshotFolder);
+
+            expectedImageFolder = (screenshotFolder + "//Expected//");
+            Directory.CreateDirectory(expectedImageFolder);
+
+            todaysDate = DateTime.Now.ToString("yyyy-MM-dd");
+            currentTime = DateTime.Now.ToString("HH");
+            actualImageFolder = (screenshotFolder +"//"+ todaysDate + "//" + currentTime + "//");
+
+            if (!Directory.Exists(actualImageFolder))
+                Directory.CreateDirectory(actualImageFolder);
+            
         }
 
         public void InitializeBrowser(string browserName)
@@ -193,6 +214,67 @@ namespace SharpCloudAutomation.Utilities
             }
             GetDriver().Quit();
             reports.EndReport();
+        }
+
+        public void GetScreenShotExpected(string testImageName)
+        {
+            Screenshot screenshot = ((ITakesScreenshot)GetDriver()).GetScreenshot();
+            
+            screenshot.SaveAsFile(expectedImageFolder + testImageName+".png", ScreenshotImageFormat.Png);
+
+            new Blobs().UploadScreenshotBlob($"{expectedImageFolder}\\{testImageName}.png", $"testreports/drop/SharpCloudAutomation/Screenshots/Expected", testImageName + ".png");
+        }
+
+        public void GetScreenShotActual(string testImageName)
+        {
+            Screenshot screenshot = ((ITakesScreenshot)GetDriver()).GetScreenshot();
+
+            screenshot.SaveAsFile(actualImageFolder + testImageName + ".png", ScreenshotImageFormat.Png);
+
+            
+            new Blobs().UploadScreenshotBlob($"{actualImageFolder}\\{testImageName}.png", $"testreports/drop/SharpCloudAutomation/Screenshots/{todaysDate}/{currentTime}", testImageName + ".png");
+        }
+
+        public void CompareImages(MagickImage expectedImage, MagickImage actualImage, string differenceImagePath, string methodName)
+        {
+
+            using var imageDifference = new MagickImage();
+                    
+            double difference = expectedImage.Compare(actualImage, new ErrorMetric(), imageDifference);
+                        
+            if (difference < 0.9)
+            {
+                ExtentTest imageDiviation = CreateNode("Image Diviations");
+                imageDiviation.Log(Status.Info, methodName + "_difference.png");
+                imageDifference.Write(differenceImagePath);
+
+                new Blobs().UploadScreenshotBlob($"{actualImageFolder}\\{methodName}_difference.png", $"testreports/drop/SharpCloudAutomation/Screenshots/{todaysDate}/{currentTime}", methodName + "_difference.png");
+
+                string? mainURL = ConfigurationManager.AppSettings["Blob_Screenshot_URL"];
+                string? screenshotURL = $"{mainURL}{todaysDate}/{currentTime}/{methodName}_difference.png";
+                imageDiviation.Log(Status.Info, $"Image Link: <a href='{screenshotURL}'>Click here </a>");
+            }    
+        }
+
+        public void CheckImageDifferences(string methodName)
+        {
+            if (File.Exists(expectedImageFolder + methodName + "_expected.png"))
+                GetScreenShotActual(methodName + "_actual");
+            else
+                GetScreenShotExpected(methodName + "_expected");
+
+            using var expectedImage = new MagickImage(expectedImageFolder + methodName+ "_expected.png");
+
+            try
+            {
+                using var actualImage = new MagickImage(actualImageFolder + methodName + "_actual.png");
+                string imageDiviation = actualImageFolder + methodName + "_difference.png";
+                CompareImages(expectedImage, actualImage, imageDiviation, methodName);
+            }
+            catch (MagickBlobErrorException) 
+            {
+                TestContext.Progress.WriteLine(methodName + "_actual.png is not created yet");
+            }
         }
 
         public void AddConfiguarions()
