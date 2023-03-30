@@ -1,7 +1,4 @@
-﻿using AventStack.ExtentReports.Gherkin.Model;
-using AventStack.ExtentReports;
-using ImageMagick;
-using SharpCloudAutomation.PageObjects;
+﻿using SharpCloudAutomation.PageObjects;
 using SharpCloudAutomation.Utilities;
 
 namespace SharpCloudAutomation.Tests.LoginTestCase

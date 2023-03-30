@@ -80,6 +80,7 @@ namespace SharpCloudAutomation.Utilities
             }
 
             AddConfiguarions();
+
             string? parentDirectory = Directory.GetParent(Environment.CurrentDirectory)?.Parent?.Parent?.FullName;
             screenshotFolder = (parentDirectory + "//Screenshots//");
 
@@ -93,9 +94,8 @@ namespace SharpCloudAutomation.Utilities
             actualImageFolder = (screenshotFolder +"//"+ todaysDate + "//" + currentTime + "//");
 
             if (!Directory.Exists(actualImageFolder))
-            {
                 Directory.CreateDirectory(actualImageFolder);
-            }
+            
         }
 
         public void InitializeBrowser(string browserName)
@@ -217,8 +217,7 @@ namespace SharpCloudAutomation.Utilities
             
             screenshot.SaveAsFile(expectedImageFolder + testImageName+".png", ScreenshotImageFormat.Png);
 
-            Blobs blobs = new();
-            blobs.UploadScreenshotBlob($"{expectedImageFolder}\\{testImageName}.png", $"testreports/drop/SharpCloudAutomation/Screenshots/Expected", testImageName + ".png");
+            new Blobs().UploadScreenshotBlob($"{expectedImageFolder}\\{testImageName}.png", $"testreports/drop/SharpCloudAutomation/Screenshots/Expected", testImageName + ".png");
         }
 
         public void GetScreenShotActual(string testImageName)
@@ -227,36 +226,29 @@ namespace SharpCloudAutomation.Utilities
 
             screenshot.SaveAsFile(actualImageFolder + testImageName + ".png", ScreenshotImageFormat.Png);
 
-            Blobs blobs = new();
-            blobs.UploadScreenshotBlob($"{actualImageFolder}\\{testImageName}.png", $"testreports/drop/SharpCloudAutomation/Screenshots/{todaysDate}/{currentTime}", testImageName + ".png");
+            
+            new Blobs().UploadScreenshotBlob($"{actualImageFolder}\\{testImageName}.png", $"testreports/drop/SharpCloudAutomation/Screenshots/{todaysDate}/{currentTime}", testImageName + ".png");
         }
 
         public void CompareImages(MagickImage expectedImage, MagickImage actualImage, string differenceImagePath, string methodName)
         {
-            using (expectedImage)
-            {
-                using (actualImage)
-                {
-                    using (var imageDifference = new MagickImage())
-                    {
-                        double difference = expectedImage.Compare(actualImage, new ErrorMetric(), imageDifference);
+
+            using var imageDifference = new MagickImage();
+                    
+            double difference = expectedImage.Compare(actualImage, new ErrorMetric(), imageDifference);
                         
-                        if (difference < 0.9)
-                        {
-                            ExtentTest imageDiviation = CreateNode("Image Diviations");
-                            imageDiviation.Log(Status.Info, methodName + "_difference.png");
-                            imageDifference.Write(differenceImagePath);
+            if (difference < 0.9)
+            {
+                ExtentTest imageDiviation = CreateNode("Image Diviations");
+                imageDiviation.Log(Status.Info, methodName + "_difference.png");
+                imageDifference.Write(differenceImagePath);
 
-                            Blobs blobs = new();
-                            blobs.UploadScreenshotBlob($"{actualImageFolder}\\{methodName}_difference.png", $"testreports/drop/SharpCloudAutomation/Screenshots/{todaysDate}/{currentTime}", methodName + "_difference.png");
+                new Blobs().UploadScreenshotBlob($"{actualImageFolder}\\{methodName}_difference.png", $"testreports/drop/SharpCloudAutomation/Screenshots/{todaysDate}/{currentTime}", methodName + "_difference.png");
 
-                            string? mainURL = ConfigurationManager.AppSettings["Blob_Screenshot_URL"];
-                            string? screenshotURL = $"{mainURL}{todaysDate}/{currentTime}/{methodName}_difference.png";
-                            imageDiviation.Log(Status.Info, $"Image Link: <a href='{screenshotURL}'>Click here </a>");
-                        }
-                    }
-                }
-            }
+                string? mainURL = ConfigurationManager.AppSettings["Blob_Screenshot_URL"];
+                string? screenshotURL = $"{mainURL}{todaysDate}/{currentTime}/{methodName}_difference.png";
+                imageDiviation.Log(Status.Info, $"Image Link: <a href='{screenshotURL}'>Click here </a>");
+            }    
         }
 
         public void CheckImageDifferences(string methodName)
@@ -266,11 +258,11 @@ namespace SharpCloudAutomation.Utilities
             else
                 GetScreenShotExpected(methodName + "_expected");
 
-            var expectedImage = new MagickImage(expectedImageFolder + methodName+ "_expected.png");
+            using var expectedImage = new MagickImage(expectedImageFolder + methodName+ "_expected.png");
 
             try
             {
-                var actualImage = new MagickImage(actualImageFolder + methodName + "_actual.png");
+                using var actualImage = new MagickImage(actualImageFolder + methodName + "_actual.png");
                 string imageDiviation = actualImageFolder + methodName + "_difference.png";
                 CompareImages(expectedImage, actualImage, imageDiviation, methodName);
             }
