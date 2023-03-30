@@ -10,18 +10,15 @@ namespace SharpCloudAutomation.Tests.LoginTestCase
         [TestCaseSource(nameof(GetTestData))]
         public void LoginToTheSystem(int rowNumber, string userColumnName, string passwordColumnName)
         {
-            string _workingDirectory = Environment.CurrentDirectory;
-            string _startupPath = Directory.GetParent(_workingDirectory).Parent.Parent.FullName;
-            string fileName = _startupPath + "\\TestData\\Login_Data.xlsx";
-            
-            ExcelData.PopulateInCollection(fileName);
+            var dataReader = new Utilities.ExcelDataReader();
+            dataReader.PopulateInCollection();
 
             LoginPage loginPage = new(GetDriver());
             GetDriver().Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(100);
 
             Assert.That(loginPage.GoButton.Displayed, Is.True);
-            loginPage.UsernameText.SendKeys(ExcelData.ReadData(rowNumber, userColumnName));
-            loginPage.PasswordText.SendKeys(ExcelData.ReadData(rowNumber, passwordColumnName));
+            loginPage.UsernameText.SendKeys(dataReader.ReadData(rowNumber, userColumnName));
+            loginPage.PasswordText.SendKeys(dataReader.ReadData(rowNumber, passwordColumnName));
             loginPage.GoButton.Click();
         }
 

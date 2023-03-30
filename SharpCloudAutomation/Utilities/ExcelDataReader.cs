@@ -4,13 +4,17 @@ using ExcelDataReader;
 
 namespace SharpCloudAutomation.Utilities
 {
-    public class ExcelData
+    public class ExcelDataReader
     {
-        private static List<DataCollection> dataCollection = new List<DataCollection>();
+        private List<DataCollection> dataCollection = new List<DataCollection>();
 
-        public static void PopulateInCollection(string Excelfilename)
+        public void PopulateInCollection()
         {
-            DataTable table = ExcelToDataTable(Excelfilename);
+            string _workingDirectory = Environment.CurrentDirectory;
+            string _startupPath = Directory.GetParent(_workingDirectory).Parent.Parent.FullName;
+            string fileName = _startupPath + "\\TestData\\Login_Data.xlsx";
+
+            DataTable table = ExcelToDataTable(fileName);
             for (int row = 1; row <= table.Rows.Count; row++)
             {
                 for (int col = 0; col < table.Columns.Count; col++)
@@ -27,7 +31,7 @@ namespace SharpCloudAutomation.Utilities
             }
         }
 
-        public static DataTable ExcelToDataTable(string Excelfilename)
+        public DataTable ExcelToDataTable(string Excelfilename)
         {
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);       
 
@@ -55,7 +59,7 @@ namespace SharpCloudAutomation.Utilities
             return dataTable;
         }
 
-        public static string ReadData(int rowNumber, string ColumnName)
+        public string ReadData(int rowNumber, string ColumnName)
         {
             try
             {
