@@ -122,6 +122,8 @@ namespace SharpCloudAutomation.Utilities
                     {
                         new WebDriverManager.DriverManager().SetUpDriver(new ChromeConfig());
                         ChromeOptions options = new();
+                        options.SetLoggingPreference(LogType.Browser, LogLevel.All);
+                       
                         if (isHeadless == "Yes")
                         {
                             options.AddArgument("--headless");
@@ -190,6 +192,9 @@ namespace SharpCloudAutomation.Utilities
         [TearDown]
         public void AfterTest()
         {
+            ErrorLogs errLog = new(GetDriver());
+            errLog.AddBrowserLogs();
+
             DateTime time = DateTime.Now;
             String fileName = "Screenshot_" + time.ToString("h_mm_ss") + ".png";
 

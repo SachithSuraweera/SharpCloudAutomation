@@ -16,7 +16,6 @@ namespace SharpCloudAutomation.Tests.LoginTestCase
             loginPage.PasswordText.SendKeys(GetJsonData().ExtractInstanceDataJson("password"));
             CheckImageDifferences(System.Reflection.MethodBase.GetCurrentMethod().Name);
             loginPage.GoButton.Click();
-
             ErrorLogs errLog = new(GetDriver());
             errLog.AddBrowserLogs();
         }
